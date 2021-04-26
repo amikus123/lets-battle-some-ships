@@ -26,7 +26,18 @@ class Ship {
     return hull;
   }
 
+  receiveHit(hitPosition:number){
+    this.getPoint(hitPosition)!.isHit = true;
+  }
 
+  getPoint(posistion:number){
+    for (const point of this.hull ){
+      if(point.posistion == posistion){
+        return point
+      }
+    }
+  }
+  
 }
 export default Ship;
 //

@@ -22,6 +22,17 @@ var Ship = /** @class */ (function () {
         }
         return hull;
     };
+    Ship.prototype.receiveHit = function (hitPosition) {
+        this.getPoint(hitPosition).isHit = true;
+    };
+    Ship.prototype.getPoint = function (posistion) {
+        for (var _i = 0, _a = this.hull; _i < _a.length; _i++) {
+            var point = _a[_i];
+            if (point.posistion == posistion) {
+                return point;
+            }
+        }
+    };
     return Ship;
 }());
 exports.default = Ship;
