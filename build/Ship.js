@@ -26,10 +26,10 @@ var Ship = /** @class */ (function () {
     Ship.prototype.createLength = function (startPosistion, endPosistion) {
         if ((endPosistion - startPosistion) < 10) {
             //horizotnal
-            return endPosistion - startPosistion;
+            return endPosistion - startPosistion + 1;
         }
         else {
-            return (endPosistion - startPosistion) / 10;
+            return (endPosistion - startPosistion) / 10 + 1;
         }
     };
     Ship.prototype.receiveHit = function (hitPosition) {
@@ -48,10 +48,10 @@ var Ship = /** @class */ (function () {
         for (var _i = 0, _a = this.hull; _i < _a.length; _i++) {
             var point = _a[_i];
             if (!point.isHit) {
-                return true;
+                return false;
             }
-            return false;
         }
+        return true;
     };
     return Ship;
 }());

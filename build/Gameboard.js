@@ -7,6 +7,7 @@ var Ship_1 = __importDefault(require("./Ship"));
 var Gameboard = /** @class */ (function () {
     function Gameboard() {
         this.boardSquares = this.createPoints();
+        this.ships = [];
     }
     Gameboard.prototype.createPoints = function () {
         var boardSquares = [];
@@ -17,6 +18,7 @@ var Gameboard = /** @class */ (function () {
     };
     Gameboard.prototype.placeShip = function (startPosistion, endPosistion) {
         var createdShip = new Ship_1.default(startPosistion, endPosistion);
+        this.ships.push(createdShip);
         // horizontal
         if (endPosistion - startPosistion < 10) {
             for (var i = startPosistion; i <= endPosistion; i++) {
@@ -36,6 +38,18 @@ var Gameboard = /** @class */ (function () {
             this.boardSquares[posistion].isHit = true;
             (_a = this.boardSquares[posistion].ship) === null || _a === void 0 ? void 0 : _a.receiveHit(posistion);
         }
+        else {
+            // miss
+        }
+    };
+    Gameboard.prototype.checkIfAllSunk = function () {
+        for (var _i = 0, _a = this.ships; _i < _a.length; _i++) {
+            var ship = _a[_i];
+            if (!ship.isSunk()) {
+                return false;
+            }
+        }
+        return true;
     };
     return Gameboard;
 }());

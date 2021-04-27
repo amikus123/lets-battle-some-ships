@@ -29,15 +29,16 @@ class Ship {
   createLength(startPosistion: number, endPosistion: number) {
     if ((endPosistion - startPosistion) < 10) {
       //horizotnal
-      return endPosistion - startPosistion;
+      return endPosistion - startPosistion +1;
     } else {
-      return (endPosistion - startPosistion) / 10;
+      return (endPosistion - startPosistion) / 10 +1;
     }
   }
 
   receiveHit(hitPosition: number) {
     this.getPoint(hitPosition)!.isHit = true
   }
+  
   // METHODS
   getPoint(posistion: number) {
     for (const point of this.hull) {
@@ -49,10 +50,10 @@ class Ship {
   isSunk() {
     for (const point of this.hull) {
       if (!point.isHit) {
-        return true;
+        return false;
       }
-      return false;
     }
+    return true;
   }
 }
 export default Ship;
