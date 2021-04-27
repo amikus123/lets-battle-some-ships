@@ -8,7 +8,7 @@ class Ship {
   constructor(startPosistion: number, endPosistion: number) {
     // we can determine the
     this.length = this.createLength(startPosistion, endPosistion);
-    this.hull = this.createHull(length, startPosistion, endPosistion);
+    this.hull = this.createHull(this.length, startPosistion, endPosistion);
   }
   // CONSTRUCTOR FUNCTIONS
   createHull(length: number, startPosistion: number, endPosistion: number) {
@@ -27,7 +27,7 @@ class Ship {
     return hull;
   }
   createLength(startPosistion: number, endPosistion: number) {
-    if (endPosistion - startPosistion < 10) {
+    if ((endPosistion - startPosistion) < 10) {
       //horizotnal
       return endPosistion - startPosistion;
     } else {
@@ -36,7 +36,7 @@ class Ship {
   }
 
   receiveHit(hitPosition: number) {
-    this.getPoint(hitPosition)!.isHit = true;
+    this.getPoint(hitPosition)!.isHit = true
   }
   // METHODS
   getPoint(posistion: number) {
