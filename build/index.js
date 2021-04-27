@@ -8,12 +8,18 @@ var human = new Player_1.default(false);
 var computer = new Player_1.default(true);
 var humanBoard = document.getElementById("human--board");
 var computerBoard = document.getElementById("computer--board");
-var addOneHundredDivs = function (parent) {
+var addOneHundredDivs = function (parent, human) {
+    var suffix = "";
+    human ? suffix = "hum" : "com";
     for (var i = 0; i < 100; i++) {
-        var ;
-        new ;
+        var newDiv = document.createElement("div");
+        newDiv.className = "game-square";
+        newDiv.id = suffix + i;
+        parent.appendChild(newDiv);
     }
 };
+addOneHundredDivs(humanBoard, true);
+addOneHundredDivs(computerBoard, false);
 human.setEnemy(computer);
 computer.setEnemy(human);
 // setting ships

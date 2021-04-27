@@ -1,4 +1,4 @@
-import Gameboard from "./Gameboard";
+import Gameboard from "../Gameboard";
 
 const testedGameboard = new Gameboard();
 test("checking ships placement", () => {

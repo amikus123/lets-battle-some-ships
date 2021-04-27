@@ -1,15 +1,26 @@
 import Player from "./Player";
 
+
+
+
+
 const human = new Player(false);
 const computer = new Player(true);
 const humanBoard :HTMLElement = document.getElementById("human--board")!;
 const computerBoard :HTMLElement = document.getElementById("computer--board")!;
 
-const addOneHundredDivs = (parent:HTMLElement) =>{
+const addOneHundredDivs = (parent:HTMLElement,human:boolean) =>{
+    let suffix = ""
+    human?suffix="hum":"com";
     for(let i=0;i<100;i++){
-        const new
+        const newDiv = document.createElement("div")
+        newDiv.className = "game-square"
+        newDiv.id = suffix + i;
+        parent.appendChild(newDiv)
     }
 }
+addOneHundredDivs(humanBoard,true)
+addOneHundredDivs(computerBoard,false)
 
 human.setEnemy(computer);
 computer.setEnemy(human);

@@ -1,4 +1,4 @@
-import Player from "./Player";
+import Player from "../Player";
 
 const human = new Player(false);
 const computer = new Player(true);
