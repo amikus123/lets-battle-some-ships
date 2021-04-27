@@ -6,5 +6,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Player_1 = __importDefault(require("./Player"));
 var human = new Player_1.default(false);
 var computer = new Player_1.default(true);
+var humanBoard = document.getElementById("human--board");
+var computerBoard = document.getElementById("computer--board");
+var addOneHundredDivs = function (parent) {
+    for (var i = 0; i < 100; i++) {
+        var ;
+        new ;
+    }
+};
 human.setEnemy(computer);
 computer.setEnemy(human);
+// setting ships
+human.setShip(1, 21);
+human.setShip(3, 53);
+human.setShip(5, 9);
+human.setShip(2, 42);
+computer.setShip(1, 21);
+computer.setShip(3, 53);
+computer.setShip(5, 9);
+computer.setShip(2, 42);

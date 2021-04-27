@@ -52,4 +52,3 @@ var Ship = /** @class */ (function () {
     return Ship;
 }());
 exports.default = Ship;
-//
