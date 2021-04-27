@@ -5,11 +5,12 @@ interface point {
 class Ship {
   length: number;
   hull: point[];
-  constructor(length: number, startPosistion: number, endPosistion: number) {
+  constructor(startPosistion: number, endPosistion: number) {
     // we can determine the
+    this.length = this.createLength(startPosistion, endPosistion);
     this.hull = this.createHull(length, startPosistion, endPosistion);
-    this.length = length;
   }
+  // CONSTRUCTOR FUNCTIONS
   createHull(length: number, startPosistion: number, endPosistion: number) {
     //  eP - sP is smaller than 10? then it is horizontal
     const hull: point[] = [];
@@ -25,19 +26,34 @@ class Ship {
     }
     return hull;
   }
-
-  receiveHit(hitPosition:number){
-    this.getPoint(hitPosition)!.isHit = true;
+  createLength(startPosistion: number, endPosistion: number) {
+    if (endPosistion - startPosistion < 10) {
+      //horizotnal
+      return endPosistion - startPosistion;
+    } else {
+      return (endPosistion - startPosistion) / 10;
+    }
   }
 
-  getPoint(posistion:number){
-    for (const point of this.hull ){
-      if(point.posistion == posistion){
-        return point
+  receiveHit(hitPosition: number) {
+    this.getPoint(hitPosition)!.isHit = true;
+  }
+  // METHODS
+  getPoint(posistion: number) {
+    for (const point of this.hull) {
+      if (point.posistion == posistion) {
+        return point;
       }
     }
   }
-  
+  isSunk() {
+    for (const point of this.hull) {
+      if (!point.isHit) {
+        return true;
+      }
+      return false;
+    }
+  }
 }
 export default Ship;
 //
