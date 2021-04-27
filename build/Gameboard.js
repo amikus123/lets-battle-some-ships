@@ -4,10 +4,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Ship_1 = __importDefault(require("./Ship"));
+var shipState = /** @class */ (function () {
+    function shipState() {
+        this.afloat = [];
+        this.sunk = [];
+    }
+    shipState.prototype.addAfloat = function (position) {
+        this.afloat.push(position);
+    };
+    shipState.prototype.addSunk = function (position) {
+        this.sunk.push(position);
+        var indexOfRemoved = this.afloat.indexOf(position);
+        this.afloat.splice(indexOfRemoved, 1);
+    };
+    return shipState;
+}());
 var Gameboard = /** @class */ (function () {
     function Gameboard() {
         this.boardPositions = this.setPoints();
         this.ships = [];
+        this.shipState = new shipState();
     }
     Gameboard.prototype.setPoints = function () {
         var boardSquares = [];
@@ -23,11 +39,13 @@ var Gameboard = /** @class */ (function () {
         if (endPosistion - startPosistion < 10) {
             for (var i = startPosistion; i <= endPosistion; i++) {
                 this.boardPositions[i].ship = createdShip;
+                this.shipState.addAfloat(i);
             }
         }
         else {
             // vertical
             for (var i = startPosistion; i <= endPosistion; i += 10) {
+                this.shipState.addAfloat(i);
                 this.boardPositions[i].ship = createdShip;
             }
         }

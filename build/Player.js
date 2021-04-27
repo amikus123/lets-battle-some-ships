@@ -44,6 +44,12 @@ var Player = /** @class */ (function () {
             //
         }
     };
+    Player.prototype.getSunk = function () {
+        return this.gameboard.shipState.sunk;
+    };
+    Player.prototype.getAfloat = function () {
+        return this.gameboard.shipState.afloat;
+    };
     Player.prototype.humanAction = function () { };
     Player.prototype.computerAction = function () { };
     return Player;

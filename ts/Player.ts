@@ -41,7 +41,14 @@ class Player {
       //
     }
   }
+  public getSunk(){
+    return this.gameboard.shipState.sunk
 
+  }
+  public getAfloat(){
+    return this.gameboard.shipState.afloat
+
+  }
   private humanAction() {}
   private computerAction() {}
 }
