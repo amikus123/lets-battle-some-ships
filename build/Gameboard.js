@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Ship_1 = __importDefault(require("./Ship"));
 var Gameboard = /** @class */ (function () {
     function Gameboard() {
-        this.boardSquares = this.createPoints();
+        this.boardPositions = this.setPoints();
         this.ships = [];
     }
-    Gameboard.prototype.createPoints = function () {
+    Gameboard.prototype.setPoints = function () {
         var boardSquares = [];
         for (var i = 0; i < 100; i++) {
-            boardSquares.push({ isHit: false, posistion: i, ship: null });
+            boardSquares.push({ isHit: false, position: i, ship: null });
         }
         return boardSquares;
     };
@@ -22,27 +22,40 @@ var Gameboard = /** @class */ (function () {
         // horizontal
         if (endPosistion - startPosistion < 10) {
             for (var i = startPosistion; i <= endPosistion; i++) {
-                this.boardSquares[i].ship = createdShip;
+                this.boardPositions[i].ship = createdShip;
             }
         }
         else {
             // vertical
             for (var i = startPosistion; i <= endPosistion; i += 10) {
-                this.boardSquares[i].ship = createdShip;
+                this.boardPositions[i].ship = createdShip;
             }
         }
     };
-    Gameboard.prototype.recieveAttack = function (posistion) {
-        var _a;
-        if (this.boardSquares[posistion].ship !== null) {
-            this.boardSquares[posistion].isHit = true;
-            (_a = this.boardSquares[posistion].ship) === null || _a === void 0 ? void 0 : _a.receiveHit(posistion);
+    Gameboard.prototype.isPosistionHit = function (posistion) {
+        if (this.boardPositions[posistion].isHit) {
+            return true;
         }
         else {
-            // miss
+            return false;
         }
     };
-    Gameboard.prototype.checkIfAllSunk = function () {
+    Gameboard.prototype.getPoint = function (posistion) {
+        return this, this.boardPositions[posistion];
+    };
+    Gameboard.prototype.recieveAttack = function (posistion) {
+        var _a, _b;
+        if (this.boardPositions[posistion].ship === null) {
+            (_a = this.boardPositions[posistion].ship) === null || _a === void 0 ? void 0 : _a.receiveHit(posistion);
+            return false;
+        }
+        else {
+            this.boardPositions[posistion].isHit = true;
+            (_b = this.boardPositions[posistion].ship) === null || _b === void 0 ? void 0 : _b.receiveHit(posistion);
+            return true;
+        }
+    };
+    Gameboard.prototype.areShipsSunk = function () {
         for (var _i = 0, _a = this.ships; _i < _a.length; _i++) {
             var ship = _a[_i];
             if (!ship.isSunk()) {

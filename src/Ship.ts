@@ -6,16 +6,17 @@ class Ship {
   length: number;
   hull: point[];
   constructor(startPosistion: number, endPosistion: number) {
-    // we can determine the
-    this.length = this.createLength(startPosistion, endPosistion);
-    this.hull = this.createHull(this.length, startPosistion, endPosistion);
+    this.length = this.setLength(startPosistion, endPosistion);
+    this.hull = this.setHull(this.length, startPosistion, endPosistion);
   }
-  // CONSTRUCTOR FUNCTIONS
-  createHull(length: number, startPosistion: number, endPosistion: number) {
+  private setHull(
+    length: number,
+    startPosistion: number,
+    endPosistion: number
+  ) {
     //  eP - sP is smaller than 10? then it is horizontal
     const hull: point[] = [];
     if (endPosistion - startPosistion < 10) {
-      //horizotnal
       for (let i = 0; i < length; i++) {
         hull.push({ isHit: false, posistion: startPosistion + i });
       }
@@ -26,28 +27,27 @@ class Ship {
     }
     return hull;
   }
-  createLength(startPosistion: number, endPosistion: number) {
-    if ((endPosistion - startPosistion) < 10) {
+  private setLength(startPosistion: number, endPosistion: number) {
+    if (endPosistion - startPosistion < 10) {
       //horizotnal
-      return endPosistion - startPosistion +1;
+      return endPosistion - startPosistion + 1;
     } else {
-      return (endPosistion - startPosistion) / 10 +1;
+      return (endPosistion - startPosistion) / 10 + 1;
     }
   }
 
-  receiveHit(hitPosition: number) {
-    this.getPoint(hitPosition)!.isHit = true
+  public receiveHit(hitPosition: number) {
+    this.getPoint(hitPosition)!.isHit = true;
   }
-  
-  // METHODS
-  getPoint(posistion: number) {
+
+  public getPoint(posistion: number) {
     for (const point of this.hull) {
       if (point.posistion == posistion) {
         return point;
       }
     }
   }
-  isSunk() {
+  public isSunk() {
     for (const point of this.hull) {
       if (!point.isHit) {
         return false;

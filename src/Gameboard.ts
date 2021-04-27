@@ -1,47 +1,62 @@
 import Ship from "./Ship";
-interface boardSquare {
+interface boardPosition {
   isHit: boolean;
   ship: null | Ship;
-  posistion: number;
+  position: number;
 }
 class Gameboard {
-  boardSquares: boardSquare[];
+  boardPositions: boardPosition[];
   ships: Ship[];
   constructor() {
-    this.boardSquares = this.createPoints();
+    this.boardPositions = this.setPoints();
     this.ships = [];
   }
-  createPoints() {
-    const boardSquares: boardSquare[] = [];
+  private setPoints() {
+    const boardSquares: boardPosition[] = [];
     for (let i = 0; i < 100; i++) {
-      boardSquares.push({ isHit: false, posistion: i, ship: null });
+      boardSquares.push({ isHit: false, position: i, ship: null });
     }
     return boardSquares;
   }
-  placeShip(startPosistion: number, endPosistion: number) {
+  public placeShip(startPosistion: number, endPosistion: number) {
     const createdShip = new Ship(startPosistion, endPosistion);
     this.ships.push(createdShip)
     // horizontal
     if (endPosistion - startPosistion < 10) {
       for (let i = startPosistion; i <= endPosistion; i++) {
-        this.boardSquares[i].ship = createdShip;
+        this.boardPositions[i].ship = createdShip;
       }
     } else {
       // vertical
       for (let i = startPosistion; i <= endPosistion; i += 10) {
-        this.boardSquares[i].ship = createdShip;
+        this.boardPositions[i].ship = createdShip;
       }
     }
   }
-  recieveAttack(posistion: number) {
-    if (this.boardSquares[posistion].ship !== null){
-      this.boardSquares[posistion].isHit = true;
-      this.boardSquares[posistion].ship?.receiveHit(posistion)
+  public isPosistionHit(posistion:number):boolean{
+    if(this.boardPositions[posistion].isHit){
+      return true;
     }else{
-      // miss
+      return false;
     }
   }
-  checkIfAllSunk(){
+  public getPoint(posistion:number){
+    return this,this.boardPositions[posistion]
+  }
+
+
+  public recieveAttack(posistion: number) {
+    if (this.boardPositions[posistion].ship === null){
+      this.boardPositions[posistion].ship?.receiveHit(posistion)
+      return false;
+    }else{
+      this.boardPositions[posistion].isHit = true;
+      this.boardPositions[posistion].ship?.receiveHit(posistion)
+      return true;
+    }  
+  }
+  
+  public areShipsSunk(){
     for (const ship of this.ships){
         if(!ship.isSunk()){
           return false

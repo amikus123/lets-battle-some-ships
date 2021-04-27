@@ -2,16 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Ship = /** @class */ (function () {
     function Ship(startPosistion, endPosistion) {
-        // we can determine the
-        this.length = this.createLength(startPosistion, endPosistion);
-        this.hull = this.createHull(this.length, startPosistion, endPosistion);
+        this.length = this.setLength(startPosistion, endPosistion);
+        this.hull = this.setHull(this.length, startPosistion, endPosistion);
     }
-    // CONSTRUCTOR FUNCTIONS
-    Ship.prototype.createHull = function (length, startPosistion, endPosistion) {
+    Ship.prototype.setHull = function (length, startPosistion, endPosistion) {
         //  eP - sP is smaller than 10? then it is horizontal
         var hull = [];
         if (endPosistion - startPosistion < 10) {
-            //horizotnal
             for (var i = 0; i < length; i++) {
                 hull.push({ isHit: false, posistion: startPosistion + i });
             }
@@ -23,8 +20,8 @@ var Ship = /** @class */ (function () {
         }
         return hull;
     };
-    Ship.prototype.createLength = function (startPosistion, endPosistion) {
-        if ((endPosistion - startPosistion) < 10) {
+    Ship.prototype.setLength = function (startPosistion, endPosistion) {
+        if (endPosistion - startPosistion < 10) {
             //horizotnal
             return endPosistion - startPosistion + 1;
         }
@@ -35,7 +32,6 @@ var Ship = /** @class */ (function () {
     Ship.prototype.receiveHit = function (hitPosition) {
         this.getPoint(hitPosition).isHit = true;
     };
-    // METHODS
     Ship.prototype.getPoint = function (posistion) {
         for (var _i = 0, _a = this.hull; _i < _a.length; _i++) {
             var point = _a[_i];
