@@ -28,7 +28,7 @@ class Player {
     // ai should do something wit that info 
   }
   public choosePositionToAttack(posistion: number) {
-    if (this.enemy?.gameboard.isPosistionHit(posistion)) {
+    if (this.enemy?.gameboard.isPositionHit(posistion)) {
       this.beginAttack(posistion);
     } else {
       //

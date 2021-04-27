@@ -33,7 +33,7 @@ class Gameboard {
       }
     }
   }
-  public isPosistionHit(posistion:number):boolean{
+  public isPositionHit(posistion:number):boolean{
     if(this.boardPositions[posistion].isHit){
       return true;
     }else{

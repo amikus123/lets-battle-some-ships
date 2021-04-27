@@ -29,7 +29,7 @@ var Player = /** @class */ (function () {
     };
     Player.prototype.choosePositionToAttack = function (posistion) {
         var _a;
-        if ((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.isPosistionHit(posistion)) {
+        if ((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.isPositionHit(posistion)) {
             this.beginAttack(posistion);
         }
         else {

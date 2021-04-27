@@ -32,7 +32,7 @@ var Gameboard = /** @class */ (function () {
             }
         }
     };
-    Gameboard.prototype.isPosistionHit = function (posistion) {
+    Gameboard.prototype.isPositionHit = function (posistion) {
         if (this.boardPositions[posistion].isHit) {
             return true;
         }
