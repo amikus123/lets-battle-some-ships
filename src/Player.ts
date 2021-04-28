@@ -1,16 +1,16 @@
 import Gameboard from "./Gameboard";
 class Player {
-  isCoomputer: boolean;
+  isComputer: boolean;
   gameboard: Gameboard;
   enemy: Player | null;
   constructor(isCoomputer: boolean) {
-    this.isCoomputer = isCoomputer;
+    this.isComputer = isCoomputer;
     this.gameboard = new Gameboard();
     this.enemy = null;
   }
 
   public setShip(startPosistion: number, endPosistion: number) {
-    this.gameboard.placeShip(startPosistion, endPosistion);
+    this.gameboard.tryToPlaceShip(startPosistion, endPosistion);
   }
   public setEnemy(enemy: Player) {
     this.enemy = enemy;
@@ -23,9 +23,9 @@ class Player {
     this.gameboard.recieveAttack(posistion);
   }
 
-  private beginAttack(posistion: number) {
+  public beginAttack(posistion: number) {
     const hasHit = this.enemy?.recieveAttack(posistion);
-    // ai should do something wit that info 
+    // ai should do something wit that info   
   }
   public choosePositionToAttack(posistion: number) {
     if (this.enemy?.gameboard.isPositionHit(posistion)) {
@@ -35,7 +35,7 @@ class Player {
     }
   }
   public takeAction() {
-    if (this.isCoomputer) {
+    if (this.isComputer) {
       //
     } else {
       //
@@ -49,7 +49,7 @@ class Player {
     return this.gameboard.shipState.afloat
 
   }
-  private humanAction() {}
-  private computerAction() {}
+  private humanAction(){}
+  private computerAction(){}
 }
 export default Player;

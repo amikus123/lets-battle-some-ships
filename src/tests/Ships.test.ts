@@ -1,4 +1,4 @@
-import Ship from "../Ship.js"
+import Ship from "../Ship";
 
 const hotizontalShip = new Ship(1,3)
 const verticalShip = new Ship(3,33)

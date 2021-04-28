@@ -1,54 +1,54 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Ship = /** @class */ (function () {
-    function Ship(startPosistion, endPosistion) {
-        this.length = this.setLength(startPosistion, endPosistion);
-        this.hull = this.setHull(this.length, startPosistion, endPosistion);
+class Ship {
+    constructor(startPosition, endPosition) {
+        this.length = this.setLength(startPosition, endPosition);
+        this.hull = this.setHull(this.length, startPosition, endPosition);
+        this.startPosition = startPosition;
+        this.endPosition = endPosition;
     }
-    Ship.prototype.setHull = function (length, startPosistion, endPosistion) {
+    setHull(length, startPosition, endPosition) {
         //  eP - sP is smaller than 10? then it is horizontal
-        var hull = [];
-        if (endPosistion - startPosistion < 10) {
-            for (var i = 0; i < length; i++) {
-                hull.push({ isHit: false, posistion: startPosistion + i });
+        const hull = [];
+        if (endPosition - startPosition < 10) {
+            for (let i = 0; i < length; i++) {
+                hull.push({ isHit: false, position: startPosition + i });
             }
         }
         else {
-            for (var i = 0; i < length; i++) {
-                hull.push({ isHit: false, posistion: startPosistion + i * 10 });
+            for (let i = 0; i < length; i++) {
+                hull.push({ isHit: false, position: startPosition + i * 10 });
             }
         }
         return hull;
-    };
-    Ship.prototype.setLength = function (startPosistion, endPosistion) {
-        if (endPosistion - startPosistion < 10) {
+    }
+    setLength(startPosition, endPosition) {
+        if (endPosition - startPosition < 10) {
             //horizotnal
-            return endPosistion - startPosistion + 1;
+            return endPosition - startPosition + 1;
         }
         else {
-            return (endPosistion - startPosistion) / 10 + 1;
+            return (endPosition - startPosition) / 10 + 1;
         }
-    };
-    Ship.prototype.receiveHit = function (hitPosition) {
+    }
+    receiveHit(hitPosition) {
         this.getPoint(hitPosition).isHit = true;
-    };
-    Ship.prototype.getPoint = function (posistion) {
-        for (var _i = 0, _a = this.hull; _i < _a.length; _i++) {
-            var point = _a[_i];
-            if (point.posistion == posistion) {
+    }
+    getPoint(posistion) {
+        for (const point of this.hull) {
+            if (point.position == posistion) {
                 return point;
             }
         }
-    };
-    Ship.prototype.isSunk = function () {
-        for (var _i = 0, _a = this.hull; _i < _a.length; _i++) {
-            var point = _a[_i];
+        return this.hull[0];
+    }
+    isSunk() {
+        for (const point of this.hull) {
             if (!point.isHit) {
                 return false;
             }
         }
         return true;
-    };
-    return Ship;
-}());
+    }
+}
 exports.default = Ship;
