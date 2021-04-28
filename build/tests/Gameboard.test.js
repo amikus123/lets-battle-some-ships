@@ -28,10 +28,18 @@ test("checking sunkDetection", () => {
     expect(testedGameboard.areShipsSunk()).toBe(false);
     testedGameboard.recieveAttack(21);
     expect(testedGameboard.areShipsSunk()).toBe(true);
-    testedGameboard.tryToPlaceShip(2, 22);
+    testedGameboard.tryToPlaceShip(5, 25);
+    console.log(testedGameboard.ships[0]);
+    console.log(testedGameboard.ships[1]);
     expect(testedGameboard.areShipsSunk()).toBe(false);
-    testedGameboard.recieveAttack(2);
-    testedGameboard.recieveAttack(12);
-    testedGameboard.recieveAttack(22);
+    testedGameboard.recieveAttack(5);
+    testedGameboard.recieveAttack(15);
+    testedGameboard.recieveAttack(25);
     expect(testedGameboard.areShipsSunk()).toBe(true);
 });
+// test("checking ships placement", () => {
+//     console.log(testedGameboard,testedGameboard.getPosition(1))
+//     expect(testedGameboard.getPosition(1)).toEqual({isHit:false,ship:undefined,position:1})
+//     testedGameboard.tryToPlaceShip(1,21);
+//     const firstShip = testedGameboard.ships[0]
+// });

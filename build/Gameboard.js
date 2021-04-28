@@ -87,13 +87,21 @@ class Gameboard {
         const positions = [];
         if (position % 10 !== 9) {
             positions.push(position + 1);
-            positions.push(position - 9);
-            positions.push(position + 11);
+            if (position > 10) {
+                positions.push(position - 9);
+            }
+            if (position < 90) {
+                positions.push(position + 11);
+            }
         }
         if (position % 10 !== 0) {
             positions.push(position - 1);
-            positions.push(position - 11);
-            positions.push(position + 9);
+            if (position > 10) {
+                positions.push(position - 11);
+            }
+            if (position < 90) {
+                positions.push(position + 9);
+            }
         }
         if (position > 10) {
             positions.push(position - 10);
@@ -112,7 +120,7 @@ class Gameboard {
         }
     }
     getPosition(posistion) {
-        console.log(this.boardPositions[posistion]);
+        // console.log(this.boardPositions[posistion],"insdie",posistion)
         return this.boardPositions[posistion];
     }
     recieveAttack(posistion) {
@@ -129,6 +137,7 @@ class Gameboard {
     }
     areShipsSunk() {
         for (const ship of this.ships) {
+            // console.log(ship)
             if (!ship.isSunk()) {
                 return false;
             }
