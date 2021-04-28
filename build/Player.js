@@ -22,6 +22,9 @@ class Player {
     recieveAttack(posistion) {
         this.gameboard.recieveAttack(posistion);
     }
+    randomizeShips() {
+        this.gameboard.randomShipSetup();
+    }
     beginAttack(posistion) {
         var _a;
         const hasHit = (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);

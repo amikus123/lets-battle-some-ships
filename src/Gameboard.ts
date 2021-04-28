@@ -170,28 +170,41 @@ class Gameboard {
       if (this.randomBinary()) {
         this.randomVerticalShip();
       } else {
-        // this.randomHorizontalShip();
-        this.randomVerticalShip();
+        this.randomHorizontalShip();
+        // this.randomVerticalShip();
       }
     }
   }
   private randomVerticalShip() {
-    let x = 0
-    let randomRow =0;
+    let randomColumn =0;
     let randomStart =0;
     let randomEnd = 0;
     while(true){
-    randomRow = Math.floor(Math.random()*10)
-    // length will be 4, so max start is 6X
-    randomStart = (Math.floor(Math.random()*7) *10) + randomRow
-    randomEnd =randomStart+40;
-    x++;
-    if(this.tryToPlaceShip(randomStart,randomEnd) || x===500){
+    randomColumn = Math.floor(Math.random()*10)
+    // length will be 4, so max start is 5X
+    randomStart = (Math.floor(Math.random()*7))*10 + randomColumn
+    randomEnd =randomStart+30;
+    // console.log(randomColumn,randomStart,randomEnd)
+    if(this.tryToPlaceShip(randomStart,randomEnd)){
       break;
     }
     }
   }
-  private randomHorizontalShip() {}
+  private randomHorizontalShip() {
+    let randomRow =0;
+    let randomStart =0;
+    let randomEnd = 0;
+    while(true){
+    randomRow = Math.floor(Math.random()*10)*10
+    // length will be 4, so max start is 5X
+    randomStart = (Math.floor(Math.random()*7)) + randomRow
+    randomEnd =randomStart+3;
+    // console.log(randomRow,randomStart,randomEnd)
+    if(this.tryToPlaceShip(randomStart,randomEnd)){
+      break;
+    }
+    }
+  }
   private randomBinary() {
     let random = Math.round(Math.random());
     return random === 0 ? false : true;

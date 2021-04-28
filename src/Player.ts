@@ -22,7 +22,9 @@ class Player {
   private recieveAttack(posistion: number) {
     this.gameboard.recieveAttack(posistion);
   }
-
+  public randomizeShips(){
+    this.gameboard.randomShipSetup();
+  }
   public beginAttack(posistion: number) {
     const hasHit = this.enemy?.recieveAttack(posistion);
     // ai should do something wit that info   

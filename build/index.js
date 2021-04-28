@@ -33,14 +33,16 @@ addOneHundredDivs(computerBoard, computer);
 human.setEnemy(computer);
 computer.setEnemy(human);
 // setting ships
-human.setShip(12, 42);
-human.setShip(65, 69);
-human.setShip(81, 84);
-human.setShip(18, 38);
-computer.setShip(12, 42);
-computer.setShip(65, 69);
-computer.setShip(81, 84);
-computer.setShip(18, 38);
+// human.setShip(12, 42)
+// human.setShip(65, 69);
+// human.setShip(81, 84);
+// human.setShip(18, 38);
+// computer.setShip(12, 42)
+// computer.setShip(65, 69);
+// computer.setShip(81, 84);
+// computer.setShip(18, 38);
+human.randomizeShips();
+computer.randomizeShips();
 updateBoard(human);
 updateBoard(computer);
 // console.log(human);
