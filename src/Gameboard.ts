@@ -32,6 +32,12 @@ class Gameboard {
     this.ships = [];
     this.shipState = new activeFields();
   }
+
+  public resetGameboard() {
+    this.boardPositions = this.setPoints();
+    this.ships = [];
+    this.shipState = new activeFields();
+  }
   private setPoints() {
     const boardSquares: boardPosition[] = [];
     for (let i = 0; i < 100; i++) {
@@ -99,20 +105,19 @@ class Gameboard {
     const positions: number[] = [];
     if (position % 10 !== 9) {
       positions.push(position + 1);
-     if(position>10){
-      positions.push(position - 9);
-    }
-    if(position<90){
-      
-      positions.push(position + 11);
-     }
+      if (position > 10) {
+        positions.push(position - 9);
+      }
+      if (position < 90) {
+        positions.push(position + 11);
+      }
     }
     if (position % 10 !== 0) {
       positions.push(position - 1);
-      if(position >10){
+      if (position > 10) {
         positions.push(position - 11);
       }
-      if(position<90){
+      if (position < 90) {
         positions.push(position + 9);
       }
     }
@@ -132,7 +137,8 @@ class Gameboard {
       return false;
     }
   }
-  public getPosition(posistion: number):boardPosition {
+
+  public getPosition(posistion: number): boardPosition {
     // console.log(this.boardPositions[posistion],"insdie",posistion)
     return this.boardPositions[posistion];
   }
@@ -156,6 +162,39 @@ class Gameboard {
       }
     }
     return true;
+  }
+  public randomShipSetup() {
+    this.resetGameboard();
+    for (let i = 0; i < 4; i++) {
+      console.log(i,this.ships)
+      if (this.randomBinary()) {
+        this.randomVerticalShip();
+      } else {
+        // this.randomHorizontalShip();
+        this.randomVerticalShip();
+      }
+    }
+  }
+  private randomVerticalShip() {
+    let x = 0
+    let randomRow =0;
+    let randomStart =0;
+    let randomEnd = 0;
+    while(true){
+    randomRow = Math.floor(Math.random()*10)
+    // length will be 4, so max start is 6X
+    randomStart = (Math.floor(Math.random()*7) *10) + randomRow
+    randomEnd =randomStart+40;
+    x++;
+    if(this.tryToPlaceShip(randomStart,randomEnd) || x===500){
+      break;
+    }
+    }
+  }
+  private randomHorizontalShip() {}
+  private randomBinary() {
+    let random = Math.round(Math.random());
+    return random === 0 ? false : true;
   }
 }
 export default Gameboard;

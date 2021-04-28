@@ -19,7 +19,7 @@ const updateBoard = (player: Player) => {
   const shipsAfloat = player.getAfloat();
   let suffix = "";
   suffix = player.isComputer ? "com_" : "hum_";
-    console.log(suffix)
+  console.log(suffix)
   for (const point of shipsAfloat) {
     const afloat = document.getElementById(suffix + point)
     afloat?.classList.add("ship--afloat")

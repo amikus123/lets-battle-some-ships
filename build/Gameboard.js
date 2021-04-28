@@ -24,6 +24,11 @@ class Gameboard {
         this.ships = [];
         this.shipState = new activeFields();
     }
+    resetGameboard() {
+        this.boardPositions = this.setPoints();
+        this.ships = [];
+        this.shipState = new activeFields();
+    }
     setPoints() {
         const boardSquares = [];
         for (let i = 0; i < 100; i++) {
@@ -143,6 +148,40 @@ class Gameboard {
             }
         }
         return true;
+    }
+    randomShipSetup() {
+        this.resetGameboard();
+        for (let i = 0; i < 4; i++) {
+            console.log(i, this.ships);
+            if (this.randomBinary()) {
+                this.randomVerticalShip();
+            }
+            else {
+                // this.randomHorizontalShip();
+                this.randomVerticalShip();
+            }
+        }
+    }
+    randomVerticalShip() {
+        let x = 0;
+        let randomRow = 0;
+        let randomStart = 0;
+        let randomEnd = 0;
+        while (true) {
+            randomRow = Math.floor(Math.random() * 10);
+            // length will be 4, so max start is 6X
+            randomStart = (Math.floor(Math.random() * 7) * 10) + randomRow;
+            randomEnd = randomStart + 40;
+            x++;
+            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 500) {
+                break;
+            }
+        }
+    }
+    randomHorizontalShip() { }
+    randomBinary() {
+        let random = Math.round(Math.random());
+        return random === 0 ? false : true;
     }
 }
 exports.default = Gameboard;
