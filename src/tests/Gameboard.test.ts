@@ -69,15 +69,9 @@ test("check reset", () => {
   expect(testedGameboard.ships.length).toBe(1);
 });
 test("check random", () => {
-  testedGameboard.randomShipSetup();
-  console.log(testedGameboard.ships);
-
   testedGameboard.resetGameboard();
-  testedGameboard.randomShipSetup();
-  console.log(testedGameboard.ships);
 
-  testedGameboard.resetGameboard();
   testedGameboard.randomShipSetup();
-  console.log(testedGameboard.ships);
 
+  expect(testedGameboard.ships.length).toBe(10)
 });

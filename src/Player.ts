@@ -8,7 +8,9 @@ class Player {
     this.gameboard = new Gameboard();
     this.enemy = null;
   }
-
+  public resetGameboard(){
+    this.gameboard.resetGameboard();
+  }
   public setShip(startPosistion: number, endPosistion: number) {
     this.gameboard.tryToPlaceShip(startPosistion, endPosistion);
   }
@@ -44,11 +46,11 @@ class Player {
     }
   }
   public getSunk(){
-    return this.gameboard.shipState.sunk
+    return this.gameboard.positionsState.sunk
 
   }
   public getAfloat(){
-    return this.gameboard.shipState.afloat
+    return this.gameboard.positionsState.afloat
 
   }
   private humanAction(){}

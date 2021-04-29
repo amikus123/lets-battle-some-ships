@@ -8,6 +8,8 @@ class activeFields {
     constructor() {
         this.afloat = [];
         this.sunk = [];
+        this.placeable = this.setPlaceable();
+        this.unplaceable = [];
     }
     addAfloat(position) {
         this.afloat.push(position);
@@ -17,17 +19,29 @@ class activeFields {
         const indexOfRemoved = this.afloat.indexOf(position);
         this.afloat.splice(indexOfRemoved, 1);
     }
+    addUnplaceable(positon) {
+        this.unplaceable.push(positon);
+        this.placeable.splice(this.placeable.indexOf(positon), 1);
+    }
+    setPlaceable() {
+        const placeable = [];
+        for (let i = 0; i < 100; i++) {
+            placeable.push(i);
+        }
+        return placeable;
+    }
 }
 class Gameboard {
     constructor() {
         this.boardPositions = this.setPoints();
         this.ships = [];
-        this.shipState = new activeFields();
+        this.positionsState = new activeFields();
+        this.shipsSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
     }
     resetGameboard() {
         this.boardPositions = this.setPoints();
         this.ships = [];
-        this.shipState = new activeFields();
+        this.positionsState = new activeFields();
     }
     setPoints() {
         const boardSquares = [];
@@ -36,20 +50,20 @@ class Gameboard {
         }
         return boardSquares;
     }
-    placeShip(createdShip) {
+    finishPlacingShip(createdShip) {
         this.ships.push(createdShip);
         const startPosistion = createdShip.startPosition;
         const endPosition = createdShip.endPosition;
         if (endPosition - startPosistion < 10) {
             for (let i = startPosistion; i <= endPosition; i++) {
                 this.boardPositions[i].ship = createdShip;
-                this.shipState.addAfloat(i);
+                this.positionsState.addAfloat(i);
             }
         }
         else {
             // vertical
             for (let i = startPosistion; i <= endPosition; i += 10) {
-                this.shipState.addAfloat(i);
+                this.positionsState.addAfloat(i);
                 this.boardPositions[i].ship = createdShip;
             }
         }
@@ -58,7 +72,7 @@ class Gameboard {
         const createdShip = new Ship_1.default(startPosistion, endPosistion);
         // horizontal
         if (this.checkIfShipCanBePlaced(createdShip)) {
-            this.placeShip(createdShip);
+            this.finishPlacingShip(createdShip);
             return true;
         }
         else {
@@ -67,32 +81,32 @@ class Gameboard {
     }
     checkIfShipCanBePlaced(createdShip) {
         let canBePlaced = true;
-        const positionsToCheck = this.getPositionsToCheck(createdShip);
+        const positionsToCheck = this.getAdjacentToShip(createdShip);
         for (const position of positionsToCheck) {
-            if (this.checkPosition(position)) {
+            if (this.shipOrEmpty(position)) {
                 canBePlaced = false;
             }
         }
         return canBePlaced;
     }
-    getPositionsToCheck(createdShip) {
+    getAdjacentToShip(createdShip) {
         let positionsToCheck = [];
         for (const point of createdShip.hull) {
-            positionsToCheck = positionsToCheck.concat(this.positionsToCheck(point.position));
+            positionsToCheck = positionsToCheck.concat(this.getAdjacentToPosition(point.position));
         }
         return [...new Set(positionsToCheck)];
     }
-    checkPosition(positon) {
+    shipOrEmpty(positon) {
         if (this.getPosition(positon).ship !== undefined) {
             return true;
         }
         return false;
     }
-    positionsToCheck(position) {
+    getAdjacentToPosition(position) {
         const positions = [];
         if (position % 10 !== 9) {
             positions.push(position + 1);
-            if (position > 10) {
+            if (position > 9) {
                 positions.push(position - 9);
             }
             if (position < 90) {
@@ -101,7 +115,7 @@ class Gameboard {
         }
         if (position % 10 !== 0) {
             positions.push(position - 1);
-            if (position > 10) {
+            if (position > 9) {
                 positions.push(position - 11);
             }
             if (position < 90) {
@@ -111,9 +125,10 @@ class Gameboard {
         if (position > 10) {
             positions.push(position - 10);
         }
-        if (position < 89) {
+        if (position < 90) {
             positions.push(position + 10);
         }
+        // console.log(positions, position);
         return positions;
     }
     isPositionHit(posistion) {
@@ -125,7 +140,7 @@ class Gameboard {
         }
     }
     getPosition(posistion) {
-        // console.log(this.boardPositions[posistion],"insdie",posistion)
+        // console.log(this.boardPositions[posistion], "insdie", posistion);
         return this.boardPositions[posistion];
     }
     recieveAttack(posistion) {
@@ -151,43 +166,48 @@ class Gameboard {
     }
     randomShipSetup() {
         this.resetGameboard();
-        for (let i = 0; i < 4; i++) {
-            console.log(i, this.ships);
+        this.shipsSizes.forEach((length) => {
+            // console.log(length, this.ships);
             if (this.randomBinary()) {
-                this.randomVerticalShip();
+                this.randomVerticalShip(length);
             }
             else {
-                this.randomHorizontalShip();
+                this.randomHorizontalShip(length);
                 // this.randomVerticalShip();
             }
-        }
+        });
     }
-    randomVerticalShip() {
+    randomVerticalShip(length) {
+        let x = 0;
         let randomColumn = 0;
         let randomStart = 0;
         let randomEnd = 0;
         while (true) {
+            x++;
             randomColumn = Math.floor(Math.random() * 10);
             // length will be 4, so max start is 5X
-            randomStart = (Math.floor(Math.random() * 7)) * 10 + randomColumn;
-            randomEnd = randomStart + 30;
+            randomStart =
+                Math.floor(Math.random() * (length - 1)) * 10 + randomColumn;
+            randomEnd = randomStart + (length - 1) * 10;
             // console.log(randomColumn,randomStart,randomEnd)
-            if (this.tryToPlaceShip(randomStart, randomEnd)) {
+            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
                 break;
             }
         }
     }
-    randomHorizontalShip() {
+    randomHorizontalShip(length) {
+        let x = 0;
         let randomRow = 0;
         let randomStart = 0;
         let randomEnd = 0;
         while (true) {
+            x++;
             randomRow = Math.floor(Math.random() * 10) * 10;
             // length will be 4, so max start is 5X
-            randomStart = (Math.floor(Math.random() * 7)) + randomRow;
-            randomEnd = randomStart + 3;
+            randomStart = Math.floor(Math.random() * (length - 1)) + randomRow;
+            randomEnd = randomStart + length - 1;
             // console.log(randomRow,randomStart,randomEnd)
-            if (this.tryToPlaceShip(randomStart, randomEnd)) {
+            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
                 break;
             }
         }
