@@ -1,12 +1,11 @@
 import Ship from "./Ship";
-import BoardState from "./BoardState"
+import BoardState from "./BoardState";
 interface boardPosition {
   isHit: boolean;
   canPlace: boolean;
   ship: undefined | Ship;
   position: number;
 }
-
 
 class Gameboard {
   ships: Ship[];
@@ -34,25 +33,13 @@ class Gameboard {
 
   private finishPlacingShip(createdShip: Ship): void {
     this.ships.push(createdShip);
-    const startPosistion = createdShip.startPosition;
-    const endPosition = createdShip.endPosition;
-    if (endPosition - startPosistion < 10) {
-      for (let i = startPosistion; i <= endPosition; i++) {
-        this.boardState.setShipPositions(i, createdShip);
-      }
-    } else {
-      // vertical
-      for (let i = startPosistion; i <= endPosition; i += 10) {
-        this.boardState.setShipPositions(i, createdShip);
-      }
-    }
+    this.boardState.addShip(createdShip);
   }
 
   public tryToPlaceShip(startPosistion: number, endPosistion: number) {
     const createdShip = new Ship(startPosistion, endPosistion);
     // horizontal
-    const result = this.checkIfShipCanBePlaced(createdShip);
-    if (result.canBePlaced) {
+    if (this.boardState.checkCanBePlaced(createdShip)) {
       this.finishPlacingShip(createdShip);
       return true;
     } else {
@@ -60,61 +47,6 @@ class Gameboard {
     }
   }
 
-  private checkIfShipCanBePlaced(createdShip: Ship) {
-    let canBePlaced = true;
-    const positionsToCheck = this.getAdjacentToShip(createdShip);
-    for (const position of positionsToCheck) {
-      if (this.shipOrEmpty(position)) {
-        canBePlaced = false;
-        break;
-      }
-    }
-    return { canBePlaced: true, positionsToCheck };
-  }
-  private getAdjacentToShip(createdShip: Ship) {
-    let positionsToCheck: number[] = [];
-    for (const point of createdShip.hull) {
-      positionsToCheck = positionsToCheck.concat(
-        this.getAdjacentToPosition(point.position)
-      );
-    }
-    return [...new Set(positionsToCheck)];
-  }
-  private shipOrEmpty(positon: number): boolean {
-    if (this.getPosition(positon)!.ship !== undefined) {
-      return true;
-    }
-    return false;
-  }
-  private getAdjacentToPosition(position: number): number[] {
-    const positions: number[] = [];
-    if (position % 10 !== 9) {
-      positions.push(position + 1);
-      if (position > 9) {
-        positions.push(position - 9);
-      }
-      if (position < 90) {
-        positions.push(position + 11);
-      }
-    }
-    if (position % 10 !== 0) {
-      positions.push(position - 1);
-      if (position > 9) {
-        positions.push(position - 11);
-      }
-      if (position < 90) {
-        positions.push(position + 9);
-      }
-    }
-    if (position > 10) {
-      positions.push(position - 10);
-    }
-    if (position < 90) {
-      positions.push(position + 10);
-    }
-    // console.log(positions, position);
-    return positions;
-  }
   public isPositionHit(positon: number) {
     return this.boardState.isHit(positon);
   }

@@ -26,84 +26,18 @@ class Gameboard {
     }
     finishPlacingShip(createdShip) {
         this.ships.push(createdShip);
-        const startPosistion = createdShip.startPosition;
-        const endPosition = createdShip.endPosition;
-        if (endPosition - startPosistion < 10) {
-            for (let i = startPosistion; i <= endPosition; i++) {
-                this.boardState.setShipPositions(i, createdShip);
-            }
-        }
-        else {
-            // vertical
-            for (let i = startPosistion; i <= endPosition; i += 10) {
-                this.boardState.setShipPositions(i, createdShip);
-            }
-        }
+        this.boardState.addShip(createdShip);
     }
     tryToPlaceShip(startPosistion, endPosistion) {
         const createdShip = new Ship_1.default(startPosistion, endPosistion);
         // horizontal
-        const result = this.checkIfShipCanBePlaced(createdShip);
-        if (result.canBePlaced) {
+        if (this.boardState.checkCanBePlaced(createdShip)) {
             this.finishPlacingShip(createdShip);
             return true;
         }
         else {
             return false;
         }
-    }
-    checkIfShipCanBePlaced(createdShip) {
-        let canBePlaced = true;
-        const positionsToCheck = this.getAdjacentToShip(createdShip);
-        for (const position of positionsToCheck) {
-            if (this.shipOrEmpty(position)) {
-                canBePlaced = false;
-                break;
-            }
-        }
-        return { canBePlaced: true, positionsToCheck };
-    }
-    getAdjacentToShip(createdShip) {
-        let positionsToCheck = [];
-        for (const point of createdShip.hull) {
-            positionsToCheck = positionsToCheck.concat(this.getAdjacentToPosition(point.position));
-        }
-        return [...new Set(positionsToCheck)];
-    }
-    shipOrEmpty(positon) {
-        if (this.getPosition(positon).ship !== undefined) {
-            return true;
-        }
-        return false;
-    }
-    getAdjacentToPosition(position) {
-        const positions = [];
-        if (position % 10 !== 9) {
-            positions.push(position + 1);
-            if (position > 9) {
-                positions.push(position - 9);
-            }
-            if (position < 90) {
-                positions.push(position + 11);
-            }
-        }
-        if (position % 10 !== 0) {
-            positions.push(position - 1);
-            if (position > 9) {
-                positions.push(position - 11);
-            }
-            if (position < 90) {
-                positions.push(position + 9);
-            }
-        }
-        if (position > 10) {
-            positions.push(position - 10);
-        }
-        if (position < 90) {
-            positions.push(position + 10);
-        }
-        // console.log(positions, position);
-        return positions;
     }
     isPositionHit(positon) {
         return this.boardState.isHit(positon);

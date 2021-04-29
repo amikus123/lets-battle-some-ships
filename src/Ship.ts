@@ -35,7 +35,6 @@ class Ship {
   }
   private setAdjecentPositions(hull:point[]){
     let positionsToCheck: number[] = [];
-
       for( const point of hull){
         positionsToCheck = positionsToCheck.concat(
           this.getAdjecentToPosition(point.position)

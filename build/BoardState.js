@@ -16,15 +16,27 @@ class BoardState {
         }
         return ret;
     }
-    setShipPositions(position, ship, unplacable) {
-        if (typeof position === "number") {
-            this.positions[position].ship = ship;
+    addShip(ship) {
+        for (const point of ship.hull) {
+            this.positions[point.position].ship = ship;
+            this.afloat.push(this.positions[point.position]);
         }
-        else {
-            for (const num of position) {
-                this.positions[num].ship = ship;
-            }
+        const combinedUnplaceable = this.unplacable.concat(this.postionsFromNumbers(ship.adjecentPositions));
+        this.unplacable = [...new Set(combinedUnplaceable)];
+    }
+    numbersFromPositions(arr) {
+        const ret = [];
+        for (const num of arr) {
+            ret.push(num.position);
         }
+        return ret;
+    }
+    postionsFromNumbers(arr) {
+        const ret = [];
+        for (const num of arr) {
+            ret.push(this.positions[num]);
+        }
+        return ret;
     }
     setHit(position) {
         if (typeof position === "number") {
@@ -50,12 +62,12 @@ class BoardState {
         return this.positions[position].isHit ? true : false;
     }
     checkCanBePlaced(ship) {
-        for (const point of ship.hull) {
-            if (!this.positions[point.position].canPlace) {
+        for (const position of ship.adjecentPositions) {
+            if (!this.positions[position].canPlace) {
                 return false;
             }
+            return true;
         }
-        return true;
     }
     getSunk() { }
     getAfloat() { }
