@@ -1,8 +1,14 @@
-import BoardState from "../BoardState";
+import BoardState,{boardPosition} from "../BoardState";
 import Ship from "../Ship";
 
-test("checking ship placement", () => {
-  const hotizontalShip = new Ship(1, 3);
-  const verticalShip = new Ship(3, 33);
   
-});
+let  boardState = new BoardState;
+beforeEach(()=>{
+    boardState = new BoardState;
+})
+test("testing adding ships",()=>{
+    const horizontalShip = new Ship(22,23);
+    boardState.addShip(horizontalShip);
+    
+
+})

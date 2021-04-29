@@ -68,7 +68,6 @@ class Ship {
     if (position < 90) {
       positions.push(position + 10);
     }
-    // console.log(positions, position);
     return positions;
   }
   private setLength(startPosition: number, endPosition: number) {

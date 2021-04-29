@@ -24,7 +24,7 @@ const updateBoard = (player: Player) => {
     const afloat = document.getElementById(suffix + point)
     afloat?.classList.add("ship--afloat")
   }
-};
+  };
 addOneHundredDivs(humanBoard, human);
 addOneHundredDivs(computerBoard, computer);
 

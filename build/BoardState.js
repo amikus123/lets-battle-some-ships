@@ -19,10 +19,14 @@ class BoardState {
     addShip(ship) {
         for (const point of ship.hull) {
             this.positions[point.position].ship = ship;
-            this.afloat.push(this.positions[point.position]);
+            this.positions[point.position].canPlace = false;
+            this.afloat.push(point.position);
         }
-        const combinedUnplaceable = this.unplacable.concat(this.postionsFromNumbers(ship.adjecentPositions));
+        let combinedUnplaceable = this.unplacable.concat(ship.adjecentPositions).concat(this.afloat).concat(this.sunk);
         this.unplacable = [...new Set(combinedUnplaceable)];
+        for (const x of this.unplacable) {
+            this.positions[x].canPlace = false;
+        }
     }
     numbersFromPositions(arr) {
         const ret = [];
@@ -50,12 +54,12 @@ class BoardState {
     }
     addToHitList(position) {
         this.positions[position].isHit = true;
-        this.hit.push(this.positions[position]);
+        this.hit.push(position);
         if (this.positions[position].ship === undefined) {
-            this.miss.push(this.positions[position]);
+            this.miss.push(position);
         }
         else {
-            this.hit.push(this.positions[position]);
+            this.hit.push(position);
         }
     }
     isHit(position) {
