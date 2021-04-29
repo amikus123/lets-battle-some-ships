@@ -66,12 +66,19 @@ class BoardState {
         return this.positions[position].isHit ? true : false;
     }
     checkCanBePlaced(ship) {
-        for (const position of ship.adjecentPositions) {
-            if (!this.positions[position].canPlace) {
+        //     let x = true;
+        // for(const position of ship.adjecentPositions){
+        // if(!this.positions[position].canPlace){
+        //     x = false;
+        //     console.log(this.positions[position])
+        // }
+        // return x
+        for (const x of ship.adjecentPositions) {
+            if (this.unplacable.indexOf(x) !== -1) {
                 return false;
             }
-            return true;
         }
+        return true;
     }
     getSunk() { }
     getAfloat() { }

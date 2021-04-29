@@ -76,13 +76,21 @@ public isHit(position: number) {
 return this.positions[position].isHit ? true : false;
 }
 public checkCanBePlaced(ship:Ship){
-for(const position of ship.adjecentPositions){
-if(!this.positions[position].canPlace){
-return false
+//     let x = true;
+// for(const position of ship.adjecentPositions){
+// if(!this.positions[position].canPlace){
+//     x = false;
+//     console.log(this.positions[position])
+// }
+// return x
+for(const x of ship.adjecentPositions){
+    if(this.unplacable.indexOf(x) !== -1){
+        return false
+    }
 }
-return true;
+    return true
 }
-}
+
 
 
 getSunk() {}

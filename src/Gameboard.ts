@@ -1,6 +1,5 @@
 import Ship from "./Ship";
-import BoardState,{boardPosition} from "./BoardState";
-
+import BoardState, { boardPosition } from "./BoardState";
 
 class Gameboard {
   ships: Ship[];
@@ -9,9 +8,8 @@ class Gameboard {
   constructor() {
     this.ships = [];
     this.boardState = new BoardState();
-    this.shipsSizes = [1,2,3,4];
+    this.shipsSizes = [1, 2, 3, 4];
     // this.shipsSizes = [ 2, 1, 1, 1, 1];
-
   }
 
   public resetGameboard() {
@@ -36,6 +34,7 @@ class Gameboard {
     const createdShip = new Ship(startPosistion, endPosistion);
     // horizontal
     if (this.boardState.checkCanBePlaced(createdShip)) {
+      // console.log(createdShip)
       this.finishPlacingShip(createdShip);
       return true;
     } else {
@@ -71,8 +70,22 @@ class Gameboard {
       }
     });
   }
-  private chekIfValidRandom(){
-
+  private chekIfValidRandomRow(row: number, length: number) {
+    let max = 0;
+    const possibleStarts = [];
+    for (let i = row; i < row + 10 - length; i++) {
+      let canInsert = true;
+      for (let j = i; j < row + 10; j++) {
+        if (!this.boardState.positions[j].canPlace) {
+          canInsert = false;
+          break;
+        }
+      }
+      if (canInsert) {
+        possibleStarts.push(i);
+      }
+    }
+    console.log(possibleStarts,row,length)
   }
   private randomVerticalShip(length: number) {
     let x = 0;
@@ -84,14 +97,14 @@ class Gameboard {
       // randomColumn = Math.floor(Math.random() * 10); //0-9
       // randomStart =
       //   Math.floor(Math.random() * (length - 1)) * 10 + randomColumn;
-      // randomEnd = randomStart + (length - 1) * 10; 
+      // randomEnd = randomStart + (length - 1) * 10;
       randomColumn = Math.floor(Math.random() * 10); //0-9
       randomStart =
-        Math.floor(Math.random() * (10-length)) * 10 + randomColumn;
-      randomEnd = randomStart + (length - 1) * 10; 
-      
-      console.log(randomColumn,randomStart,randomEnd)
-      if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
+        Math.floor(Math.random() * (10 - length)) * 10 + randomColumn;
+      randomEnd = randomStart + (length - 1) * 10;
+
+      console.log(randomColumn, randomStart, randomEnd);
+      if (this.tryToPlaceShip(randomStart, randomEnd) || x == 500) {
         break;
       }
     }
@@ -108,11 +121,12 @@ class Gameboard {
       // randomStart = Math.floor(Math.random() * (length - 1)) + randomRow;
       // randomEnd = randomStart + length - 1;
       randomRow = Math.floor(Math.random() * 10) * 10;
-      randomStart = Math.floor(Math.random() * (10-length)) + randomRow;
-      randomEnd = randomStart + length-1 ;
-      console.log(randomRow,randomStart,randomEnd)
+      this.chekIfValidRandomRow(randomRow,length);
+      randomStart = Math.floor(Math.random() * (10 - length)) + randomRow;
+      randomEnd = randomStart + length - 1;
+      console.log(randomRow, randomStart, randomEnd);
 
-      if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
+      if (this.tryToPlaceShip(randomStart, randomEnd) || x == 500) {
         break;
       }
     }
