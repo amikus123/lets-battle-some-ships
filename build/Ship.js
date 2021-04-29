@@ -6,6 +6,7 @@ class Ship {
         this.hull = this.setHull(this.length, startPosition, endPosition);
         this.startPosition = startPosition;
         this.endPosition = endPosition;
+        this.adjecentPositions = this.setAdjecentPositions(this.hull);
     }
     setHull(length, startPosition, endPosition) {
         //  eP - sP is smaller than 10? then it is horizontal
@@ -21,6 +22,42 @@ class Ship {
             }
         }
         return hull;
+    }
+    setAdjecentPositions(hull) {
+        let positionsToCheck = [];
+        for (const point of hull) {
+            positionsToCheck = positionsToCheck.concat(this.getAdjecentToPosition(point.position));
+        }
+        return [...new Set(positionsToCheck)];
+    }
+    getAdjecentToPosition(position) {
+        const positions = [];
+        if (position % 10 !== 9) {
+            positions.push(position + 1);
+            if (position > 9) {
+                positions.push(position - 9);
+            }
+            if (position < 90) {
+                positions.push(position + 11);
+            }
+        }
+        if (position % 10 !== 0) {
+            positions.push(position - 1);
+            if (position > 9) {
+                positions.push(position - 11);
+            }
+            if (position < 90) {
+                positions.push(position + 9);
+            }
+        }
+        if (position > 10) {
+            positions.push(position - 10);
+        }
+        if (position < 90) {
+            positions.push(position + 10);
+        }
+        // console.log(positions, position);
+        return positions;
     }
     setLength(startPosition, endPosition) {
         if (endPosition - startPosition < 10) {
