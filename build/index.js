@@ -45,5 +45,6 @@ human.randomizeShips();
 computer.randomizeShips();
 updateBoard(human);
 updateBoard(computer);
+console.log(human.gameboard);
 // console.log(human);
 // console.log(computer);

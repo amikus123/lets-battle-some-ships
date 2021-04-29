@@ -9,8 +9,8 @@ class Gameboard {
     constructor() {
         this.ships = [];
         this.boardState = new BoardState_1.default();
-        // this.shipsSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-        this.shipsSizes = [2, 1, 1, 1, 1];
+        this.shipsSizes = [1, 2, 3, 4];
+        // this.shipsSizes = [ 2, 1, 1, 1, 1];
     }
     resetGameboard() {
         this.ships = [];
@@ -68,6 +68,8 @@ class Gameboard {
             }
         });
     }
+    chekIfValidRandom() {
+    }
     randomVerticalShip(length) {
         let x = 0;
         let randomColumn = 0;
@@ -75,11 +77,16 @@ class Gameboard {
         let randomEnd = 0;
         while (true) {
             x++;
-            randomColumn = Math.floor(Math.random() * 10);
+            // randomColumn = Math.floor(Math.random() * 10); //0-9
+            // randomStart =
+            //   Math.floor(Math.random() * (length - 1)) * 10 + randomColumn;
+            // randomEnd = randomStart + (length - 1) * 10; 
+            randomColumn = Math.floor(Math.random() * 10); //0-9
             randomStart =
-                Math.floor(Math.random() * (length - 1)) * 10 + randomColumn;
+                Math.floor(Math.random() * (10 - length)) * 10 + randomColumn;
             randomEnd = randomStart + (length - 1) * 10;
-            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 5000) {
+            console.log(randomColumn, randomStart, randomEnd);
+            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
                 break;
             }
         }
@@ -91,10 +98,14 @@ class Gameboard {
         let randomEnd = 0;
         while (true) {
             x++;
+            // randomRow = Math.floor(Math.random() * 10) * 10;
+            // randomStart = Math.floor(Math.random() * (length - 1)) + randomRow;
+            // randomEnd = randomStart + length - 1;
             randomRow = Math.floor(Math.random() * 10) * 10;
-            randomStart = Math.floor(Math.random() * (length - 1)) + randomRow;
+            randomStart = Math.floor(Math.random() * (10 - length)) + randomRow;
             randomEnd = randomStart + length - 1;
-            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 5000) {
+            console.log(randomRow, randomStart, randomEnd);
+            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
                 break;
             }
         }
