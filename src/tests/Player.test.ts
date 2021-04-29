@@ -14,12 +14,6 @@ test("cheking manual placement of ships", () => {
   human.setShip(1, 21);
   expect(human.gameboard.ships.length).toBe(1);
 });
-test("checking recieving hits", () => {
-  human.setShip(1, 21);
-  expect(human.gameboard.isPositionHit(1)).toBe(false);
-  computer.beginAttack(1);
-  expect(human.gameboard.isPositionHit(1)).toBe(true);
-});
 
 test("checking loss detection", () => {
   human.setShip(1, 21);

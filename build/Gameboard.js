@@ -4,51 +4,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Ship_1 = __importDefault(require("./Ship"));
-class activeFields {
-    constructor() {
-        this.afloat = [];
-        this.sunk = [];
-        this.placeable = this.setPlaceable();
-        this.unplaceable = [];
-    }
-    addAfloat(position) {
-        this.afloat.push(position);
-    }
-    addSunk(position) {
-        this.sunk.push(position);
-        const indexOfRemoved = this.afloat.indexOf(position);
-        this.afloat.splice(indexOfRemoved, 1);
-    }
-    addUnplaceable(positon) {
-        this.unplaceable.push(positon);
-        this.placeable.splice(this.placeable.indexOf(positon), 1);
-    }
-    setPlaceable() {
-        const placeable = [];
-        for (let i = 0; i < 100; i++) {
-            placeable.push(i);
-        }
-        return placeable;
-    }
-}
+const BoardState_1 = __importDefault(require("./BoardState"));
 class Gameboard {
     constructor() {
-        this.boardPositions = this.setPoints();
         this.ships = [];
-        this.positionsState = new activeFields();
+        this.boardState = new BoardState_1.default();
         this.shipsSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
     }
     resetGameboard() {
-        this.boardPositions = this.setPoints();
         this.ships = [];
-        this.positionsState = new activeFields();
+        this.boardState = new BoardState_1.default();
     }
-    setPoints() {
-        const boardSquares = [];
-        for (let i = 0; i < 100; i++) {
-            boardSquares.push({ isHit: false, position: i, ship: undefined });
+    areShipsSunk() {
+        for (const ship of this.ships) {
+            // console.log(ship)
+            if (!ship.isSunk()) {
+                return false;
+            }
         }
-        return boardSquares;
+        return true;
     }
     finishPlacingShip(createdShip) {
         this.ships.push(createdShip);
@@ -56,22 +30,21 @@ class Gameboard {
         const endPosition = createdShip.endPosition;
         if (endPosition - startPosistion < 10) {
             for (let i = startPosistion; i <= endPosition; i++) {
-                this.boardPositions[i].ship = createdShip;
-                this.positionsState.addAfloat(i);
+                this.boardState.setShipPositions(i, createdShip);
             }
         }
         else {
             // vertical
             for (let i = startPosistion; i <= endPosition; i += 10) {
-                this.positionsState.addAfloat(i);
-                this.boardPositions[i].ship = createdShip;
+                this.boardState.setShipPositions(i, createdShip);
             }
         }
     }
     tryToPlaceShip(startPosistion, endPosistion) {
         const createdShip = new Ship_1.default(startPosistion, endPosistion);
         // horizontal
-        if (this.checkIfShipCanBePlaced(createdShip)) {
+        const result = this.checkIfShipCanBePlaced(createdShip);
+        if (result.canBePlaced) {
             this.finishPlacingShip(createdShip);
             return true;
         }
@@ -85,9 +58,10 @@ class Gameboard {
         for (const position of positionsToCheck) {
             if (this.shipOrEmpty(position)) {
                 canBePlaced = false;
+                break;
             }
         }
-        return canBePlaced;
+        return { canBePlaced: true, positionsToCheck };
     }
     getAdjacentToShip(createdShip) {
         let positionsToCheck = [];
@@ -131,38 +105,24 @@ class Gameboard {
         // console.log(positions, position);
         return positions;
     }
-    isPositionHit(posistion) {
-        if (this.boardPositions[posistion].isHit) {
-            return true;
-        }
-        else {
-            return false;
-        }
+    isPositionHit(positon) {
+        return this.boardState.isHit(positon);
     }
     getPosition(posistion) {
         // console.log(this.boardPositions[posistion], "insdie", posistion);
-        return this.boardPositions[posistion];
+        return this.boardState.positions[posistion];
     }
     recieveAttack(posistion) {
         var _a, _b;
-        if (this.boardPositions[posistion].ship === null) {
-            (_a = this.boardPositions[posistion].ship) === null || _a === void 0 ? void 0 : _a.receiveHit(posistion);
+        if (this.getPosition(posistion).ship === null) {
+            (_a = this.getPosition(posistion).ship) === null || _a === void 0 ? void 0 : _a.receiveHit(posistion);
             return false;
         }
         else {
-            this.boardPositions[posistion].isHit = true;
-            (_b = this.boardPositions[posistion].ship) === null || _b === void 0 ? void 0 : _b.receiveHit(posistion);
+            this.getPosition(posistion).isHit = true;
+            (_b = this.getPosition(posistion).ship) === null || _b === void 0 ? void 0 : _b.receiveHit(posistion);
             return true;
         }
-    }
-    areShipsSunk() {
-        for (const ship of this.ships) {
-            // console.log(ship)
-            if (!ship.isSunk()) {
-                return false;
-            }
-        }
-        return true;
     }
     randomShipSetup() {
         this.resetGameboard();
@@ -190,7 +150,7 @@ class Gameboard {
                 Math.floor(Math.random() * (length - 1)) * 10 + randomColumn;
             randomEnd = randomStart + (length - 1) * 10;
             // console.log(randomColumn,randomStart,randomEnd)
-            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
+            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 5000) {
                 break;
             }
         }
@@ -207,7 +167,7 @@ class Gameboard {
             randomStart = Math.floor(Math.random() * (length - 1)) + randomRow;
             randomEnd = randomStart + length - 1;
             // console.log(randomRow,randomStart,randomEnd)
-            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
+            if (this.tryToPlaceShip(randomStart, randomEnd) || x === 5000) {
                 break;
             }
         }

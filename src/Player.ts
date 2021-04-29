@@ -46,11 +46,11 @@ class Player {
     }
   }
   public getSunk(){
-    return this.gameboard.positionsState.sunk
+    return this.gameboard.boardState.sunk
 
   }
   public getAfloat(){
-    return this.gameboard.positionsState.afloat
+    return this.gameboard.boardState.afloat
 
   }
   private humanAction(){}

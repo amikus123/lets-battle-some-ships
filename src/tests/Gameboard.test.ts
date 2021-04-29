@@ -40,14 +40,14 @@ test("checking recieving hits", () => {
     ship: firstShip,
     position: 1,
   });
-  expect(testedGameboard.isPositionHit(1)).toBe(false);
+  // expect(testedGameboard.isPositionHit(1)).toBe(false);
   testedGameboard.recieveAttack(1);
   expect(testedGameboard.getPosition(1)).toEqual({
     isHit: true,
     ship: firstShip,
     position: 1,
   });
-  expect(testedGameboard.isPositionHit(1)).toBe(true);
+  // expect(testedGameboard.isPositionHit(1)).toBe(true);
 });
 test("checking sunkDetection", () => {
   testedGameboard.tryToPlaceShip(1, 21);

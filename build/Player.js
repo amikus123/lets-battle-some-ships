@@ -51,10 +51,10 @@ class Player {
         }
     }
     getSunk() {
-        return this.gameboard.positionsState.sunk;
+        return this.gameboard.boardState.sunk;
     }
     getAfloat() {
-        return this.gameboard.positionsState.afloat;
+        return this.gameboard.boardState.afloat;
     }
     humanAction() { }
     computerAction() { }

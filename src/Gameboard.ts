@@ -1,66 +1,35 @@
-import Ship, { point } from "./Ship";
+import Ship from "./Ship";
+import BoardState from "./BoardState"
 interface boardPosition {
   isHit: boolean;
+  canPlace: boolean;
   ship: undefined | Ship;
   position: number;
 }
 
-class activeFields {
-  afloat: number[];
-  sunk: number[];
-  placeable: number[];
-  unplaceable: number[];
-  
-  constructor() {
-    this.afloat = [];
-    this.sunk = [];
-    this.placeable = this.setPlaceable();
-    this.unplaceable = [];
-  }
-  public addAfloat(position: number) {
-    this.afloat.push(position);
-  }
-  public addSunk(position: number) {
-    this.sunk.push(position);
-    const indexOfRemoved = this.afloat.indexOf(position);
-    this.afloat.splice(indexOfRemoved, 1);
-  }
-  public addUnplaceable(positon: number) {
-    this.unplaceable.push(positon);
-    this.placeable.splice(this.placeable.indexOf(positon), 1);
-  }
-  private setPlaceable() {
-    const placeable: number[] = [];
-    for (let i = 0; i < 100; i++) {
-      placeable.push(i);
-    }
-    return placeable;
-  }
-}
 
 class Gameboard {
-  boardPositions: boardPosition[];
   ships: Ship[];
-  positionsState: activeFields;
+  boardState: BoardState;
   shipsSizes: number[];
   constructor() {
-    this.boardPositions = this.setPoints();
     this.ships = [];
-    this.positionsState = new activeFields();
+    this.boardState = new BoardState();
     this.shipsSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
   }
 
   public resetGameboard() {
-    this.boardPositions = this.setPoints();
     this.ships = [];
-    this.positionsState = new activeFields();
+    this.boardState = new BoardState();
   }
-  private setPoints() {
-    const boardSquares: boardPosition[] = [];
-    for (let i = 0; i < 100; i++) {
-      boardSquares.push({ isHit: false, position: i, ship: undefined });
+  public areShipsSunk() {
+    for (const ship of this.ships) {
+      // console.log(ship)
+      if (!ship.isSunk()) {
+        return false;
+      }
     }
-    return boardSquares;
+    return true;
   }
 
   private finishPlacingShip(createdShip: Ship): void {
@@ -69,15 +38,12 @@ class Gameboard {
     const endPosition = createdShip.endPosition;
     if (endPosition - startPosistion < 10) {
       for (let i = startPosistion; i <= endPosition; i++) {
-        this.boardPositions[i].ship = createdShip;
-        this.positionsState.addAfloat(i);
+        this.boardState.setShipPositions(i, createdShip);
       }
     } else {
       // vertical
       for (let i = startPosistion; i <= endPosition; i += 10) {
-        this.positionsState.addAfloat(i);
-
-        this.boardPositions[i].ship = createdShip;
+        this.boardState.setShipPositions(i, createdShip);
       }
     }
   }
@@ -85,7 +51,8 @@ class Gameboard {
   public tryToPlaceShip(startPosistion: number, endPosistion: number) {
     const createdShip = new Ship(startPosistion, endPosistion);
     // horizontal
-    if (this.checkIfShipCanBePlaced(createdShip)) {
+    const result = this.checkIfShipCanBePlaced(createdShip);
+    if (result.canBePlaced) {
       this.finishPlacingShip(createdShip);
       return true;
     } else {
@@ -93,15 +60,16 @@ class Gameboard {
     }
   }
 
-  private checkIfShipCanBePlaced(createdShip: Ship): boolean {
+  private checkIfShipCanBePlaced(createdShip: Ship) {
     let canBePlaced = true;
     const positionsToCheck = this.getAdjacentToShip(createdShip);
     for (const position of positionsToCheck) {
       if (this.shipOrEmpty(position)) {
         canBePlaced = false;
+        break;
       }
     }
-    return canBePlaced;
+    return { canBePlaced: true, positionsToCheck };
   }
   private getAdjacentToShip(createdShip: Ship) {
     let positionsToCheck: number[] = [];
@@ -147,40 +115,25 @@ class Gameboard {
     // console.log(positions, position);
     return positions;
   }
-
-  public isPositionHit(posistion: number): boolean {
-    if (this.boardPositions[posistion].isHit) {
-      return true;
-    } else {
-      return false;
-    }
+  public isPositionHit(positon: number) {
+    return this.boardState.isHit(positon);
   }
-
   public getPosition(posistion: number): boardPosition {
     // console.log(this.boardPositions[posistion], "insdie", posistion);
-    return this.boardPositions[posistion];
+    return this.boardState.positions[posistion];
   }
 
   public recieveAttack(posistion: number) {
-    if (this.boardPositions[posistion].ship === null) {
-      this.boardPositions[posistion].ship?.receiveHit(posistion);
+    if (this.getPosition(posistion).ship === null) {
+      this.getPosition(posistion).ship?.receiveHit(posistion);
       return false;
     } else {
-      this.boardPositions[posistion].isHit = true;
-      this.boardPositions[posistion].ship?.receiveHit(posistion);
+      this.getPosition(posistion).isHit = true;
+      this.getPosition(posistion).ship?.receiveHit(posistion);
       return true;
     }
   }
 
-  public areShipsSunk() {
-    for (const ship of this.ships) {
-      // console.log(ship)
-      if (!ship.isSunk()) {
-        return false;
-      }
-    }
-    return true;
-  }
   public randomShipSetup() {
     this.resetGameboard();
     this.shipsSizes.forEach((length) => {
@@ -208,7 +161,7 @@ class Gameboard {
       randomEnd = randomStart + (length - 1) * 10;
       // console.log(randomColumn,randomStart,randomEnd)
 
-      if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
+      if (this.tryToPlaceShip(randomStart, randomEnd) || x === 5000) {
         break;
       }
     }
@@ -226,7 +179,7 @@ class Gameboard {
       randomStart = Math.floor(Math.random() * (length - 1)) + randomRow;
       randomEnd = randomStart + length - 1;
       // console.log(randomRow,randomStart,randomEnd)
-      if (this.tryToPlaceShip(randomStart, randomEnd) || x === 50) {
+      if (this.tryToPlaceShip(randomStart, randomEnd) || x === 5000) {
         break;
       }
     }
