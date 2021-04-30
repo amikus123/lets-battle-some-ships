@@ -38,10 +38,9 @@ computer.setEnemy(human);
 // human.setShip(18, 38);
 // computer.setShip(12, 42)
 // computer.setShip(65, 69);
-// computer.setShip(81, 84);
 // computer.setShip(18, 38);
 human.randomizeShips()
-computer.randomizeShips()
+// computer.randomizeShips()
 updateBoard(human)
 updateBoard(computer)
 console.log(human.gameboard)

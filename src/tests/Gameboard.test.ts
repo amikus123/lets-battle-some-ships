@@ -56,7 +56,7 @@ expect(testedGameboard.ships.length).toBe(1);
 test("check random", () => {
 testedGameboard.resetGameboard();
 testedGameboard.randomShipSetup();
-expect(testedGameboard.ships.length).toBe(5);
+expect(testedGameboard.ships.length).toBe(10);
 });
 
 

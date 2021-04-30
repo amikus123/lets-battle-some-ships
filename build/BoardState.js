@@ -22,11 +22,15 @@ class BoardState {
             this.positions[point.position].canPlace = false;
             this.afloat.push(point.position);
         }
-        let combinedUnplaceable = this.unplacable.concat(ship.adjecentPositions).concat(this.afloat).concat(this.sunk);
+        let combinedUnplaceable = this.unplacable
+            .concat(ship.adjecentPositions)
+            .concat(this.afloat)
+            .concat(this.sunk);
         this.unplacable = [...new Set(combinedUnplaceable)];
         for (const x of this.unplacable) {
             this.positions[x].canPlace = false;
         }
+        console.log(this.unplacable, "dont place here", this.positions);
     }
     numbersFromPositions(arr) {
         const ret = [];
@@ -66,15 +70,9 @@ class BoardState {
         return this.positions[position].isHit ? true : false;
     }
     checkCanBePlaced(ship) {
-        //     let x = true;
-        // for(const position of ship.adjecentPositions){
-        // if(!this.positions[position].canPlace){
-        //     x = false;
-        //     console.log(this.positions[position])
-        // }
-        // return x
-        for (const x of ship.adjecentPositions) {
-            if (this.unplacable.indexOf(x) !== -1) {
+        for (const x of ship.hull) {
+            if (this.unplacable.indexOf(x.position) !== -1) {
+                console.log(x.position, this.unplacable.indexOf(x.position), "fail");
                 return false;
             }
         }

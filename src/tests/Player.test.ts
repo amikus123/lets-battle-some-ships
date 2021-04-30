@@ -26,6 +26,6 @@ test("checking loss detection", () => {
 
 test("checking radnom ship setup",()=>{
   human.randomizeShips();
-  // console.log(human.gameboard.ships)
-  expect(human.gameboard.ships.length).toBe(5)
+  console.log(human.gameboard.ships)
+  // expect(human.gameboard.ships.length).toBe()
 })

@@ -43,7 +43,7 @@ class Ship {
       return [...new Set(positionsToCheck)];
     }
   private getAdjecentToPosition(position:number){
-    const positions: number[] = [];
+    const positions: number[] = [position];
     if (position % 10 !== 9) {
       positions.push(position + 1);
       if (position > 9) {
