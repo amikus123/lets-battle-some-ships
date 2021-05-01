@@ -6,6 +6,7 @@ const humanBoard: HTMLElement = document.getElementById("human--board")!;
 const computerBoard: HTMLElement = document.getElementById("computer--board")!;
 
 const addOneHundredDivs = (parent: HTMLElement,player: Player) => {
+
   let suffix = "";
   suffix = player.isComputer ? "com_" : "hum_";
   for (let i = 0; i < 100; i++) {
@@ -26,19 +27,11 @@ const updateBoard = (player: Player) => {
   }
   };
 addOneHundredDivs(humanBoard, human);
-addOneHundredDivs(computerBoard, computer);
+// addOneHundredDivs(computerBoard, computer);
 
 human.setEnemy(computer);
-computer.setEnemy(human);
+// computer.setEnemy(human);
 
-// setting ships
-// human.setShip(12, 42)
-// human.setShip(65, 69);
-// human.setShip(81, 84);
-// human.setShip(18, 38);
-// computer.setShip(12, 42)
-// computer.setShip(65, 69);
-// computer.setShip(18, 38);
 human.randomizeShips()
 computer.randomizeShips()
 updateBoard(human)

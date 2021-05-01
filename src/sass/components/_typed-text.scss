@@ -1,0 +1,48 @@
+/* Google Fonts */
+
+.text-box {
+  //    width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#typewriter {
+  color: lime;
+
+  font-size: 2em;
+  margin: 0;
+  font-family: joystix;
+
+  &:after {
+    content: "|";
+    animation: blink 500ms linear infinite alternate;
+  }
+}
+
+@-webkit-keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

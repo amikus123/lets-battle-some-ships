@@ -29,17 +29,9 @@ const updateBoard = (player) => {
     }
 };
 addOneHundredDivs(humanBoard, human);
-addOneHundredDivs(computerBoard, computer);
+// addOneHundredDivs(computerBoard, computer);
 human.setEnemy(computer);
-computer.setEnemy(human);
-// setting ships
-// human.setShip(12, 42)
-// human.setShip(65, 69);
-// human.setShip(81, 84);
-// human.setShip(18, 38);
-// computer.setShip(12, 42)
-// computer.setShip(65, 69);
-// computer.setShip(18, 38);
+// computer.setEnemy(human);
 human.randomizeShips();
 computer.randomizeShips();
 updateBoard(human);

@@ -10,7 +10,6 @@ class Gameboard {
         this.ships = [];
         this.boardState = new BoardState_1.default();
         this.shipsSizes = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-        // this.shipsSizes = [3,2,1];
     }
     resetGameboard() {
         this.ships = [];
@@ -23,10 +22,6 @@ class Gameboard {
             }
         }
         return true;
-    }
-    finishPlacingShip(createdShip) {
-        this.ships.push(createdShip);
-        this.boardState.addShip(createdShip);
     }
     tryToPlaceShip(startPosistion, endPosistion) {
         const createdShip = new Ship_1.default(startPosistion, endPosistion);
@@ -65,35 +60,53 @@ class Gameboard {
     }
     createRadnomShip(lenght) {
         while (true) {
-            if (this.randomBinary()) {
+            if (Math.round(Math.random()) === 1) {
                 if (this.randomVerticalShip(lenght)) {
                     break;
                 }
             }
             else {
                 if (this.randomHorizontalShip(lenght)) {
-                    console.log("BOK");
                     break;
                 }
             }
-            // break;
         }
     }
     randomVerticalShip(length) {
         const randomColumn = Math.floor(Math.random() * 10);
-        // 0 9
         const validStarts = this.getValidVerticalStarts(randomColumn, length);
         if (validStarts.length !== 0) {
             const randomStart = validStarts[Math.floor(Math.random() * validStarts.length)];
             const newShip = new Ship_1.default(randomStart, randomStart + (length - 1) * 10);
-            console.log("srodek", newShip);
+            // console.log("srodek", newShip);
             if (true || this.boardState.checkCanBePlaced(newShip)) {
-                console.log(randomColumn, validStarts, newShip, randomStart, "err");
+                // console.log(randomColumn, validStarts, newShip, randomStart, "err");
                 this.finishPlacingShip(newShip);
                 return true;
             }
         }
         return false;
+    }
+    getValidVerticalStarts(column, length) {
+        const possibleStarts = [];
+        // console.log("kolumna", column);
+        for (let i = 0; i < 11 - length; i++) {
+            let canInsert = true;
+            for (let j = 0; j < length; j++) {
+                // j == fieds to check
+                // l = ilosc do sprawdzenia za kazdym razem
+                if (!this.boardState.positions[(i + j) * 10 + column].canPlace) {
+                    canInsert = false;
+                    break;
+                }
+                // console.log(this.boardState.positions[(i + j) * 10 + column]);
+            }
+            if (canInsert) {
+                possibleStarts.push(i * 10 + column);
+            }
+        }
+        // console.log(possibleStarts, column, length);
+        return possibleStarts;
     }
     randomHorizontalShip(length) {
         const randomRow = Math.floor(Math.random() * 10) * 10;
@@ -107,54 +120,28 @@ class Gameboard {
         }
         return false;
     }
-    getValidVerticalStarts(column, length) {
-        const possibleStarts = [];
-        // i = ilosc powtorzen gornej perli  11-l
-        console.log("kolumna", column);
-        for (let i = 0; i < 11 - length; i++) {
-            let canInsert = true;
-            for (let j = 0; j < length; j++) {
-                // j == fieds to check
-                // l = ilosc do sprawdzenia za kazdym razem
-                if (!this.boardState.positions[(i + j) * 10 + column].canPlace) {
-                    canInsert = false;
-                    break;
-                }
-                console.log(this.boardState.positions[(i + j) * 10 + column]);
-            }
-            if (canInsert) {
-                possibleStarts.push(i * 10 + column);
-            }
-        }
-        // possibleStarts.push(2)
-        console.log(possibleStarts, column, length);
-        return possibleStarts;
-    }
     getValidHorizontalStarts(row, length) {
         const possibleStarts = [];
-        console.log("kolumna", row);
+        // console.log("kolumna", row);
         for (let i = 0; i < 11 - length; i++) {
             let canInsert = true;
             for (let j = 0; j < length; j++) {
-                // j == fieds to check
-                // l = ilosc do sprawdzenia za kazdym razem
                 if (!this.boardState.positions[i + j + row].canPlace) {
                     canInsert = false;
                     break;
                 }
-                console.log(this.boardState.positions[i + j + row]);
+                // console.log(this.boardState.positions[i + j + row]);
             }
             if (canInsert) {
                 possibleStarts.push(i + row);
             }
         }
-        // possibleStarts.push(2)
-        console.log(possibleStarts, row, length);
+        // console.log(possibleStarts, row, length);
         return possibleStarts;
     }
-    randomBinary() {
-        let random = Math.round(Math.random());
-        return random === 0 ? false : true;
+    finishPlacingShip(createdShip) {
+        this.ships.push(createdShip);
+        this.boardState.addShip(createdShip);
     }
 }
 exports.default = Gameboard;

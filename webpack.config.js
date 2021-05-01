@@ -2,11 +2,11 @@
 const path = require('path');
 
 module.exports = {
-  entry: './build/index.js',
+  entry: './src/ts/js/index.js',
   watch: true,
   mode: "development",
   output: {
-    filename: 'main.js',
+    filename: './build/main.js',
     path: path.resolve(__dirname, ''),
   },
 };
