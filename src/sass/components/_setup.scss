@@ -1,0 +1,66 @@
+.setup {
+  width: 75%;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin: 2rem;
+  }
+
+  .main-setup-wrap {
+    display: flex;
+    justify-content: space-around;
+
+    .dockyard {
+      width: 50%;
+      display: flex;
+      margin-left: 5rem;
+      justify-content: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 1rem;
+      .ship {
+        margin: 1rem;
+      }
+      .ship-container {
+        span {
+          font-size: 2rem;
+          padding-right: 1rem;
+        }
+      }
+
+      .gameboard-setup {
+        width: 50%;
+      }
+    }
+  }
+
+  .tips {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem auto 2rem;
+    width: fit-content;
+    span {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-around;
+    .setup-option {
+      background-color: inherit;
+      color: inherit;
+      font-family: joystix;
+      font-size: 1.8rem;
+      transition: all 0.2s ease-in;
+      &:hover {
+        cursor: pointer;
+        color: #f83b3a;
+      }
+    }
+  }
+}
