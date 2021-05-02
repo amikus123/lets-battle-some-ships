@@ -28,14 +28,14 @@ class BoardState {
     }
     return ret;
   }
-  public getSquareState(index:number) :string{
-    const result = this.positions[index]
-    if(result.ship !== undefined ){
-      return "afloat"
-    }else if(!result.canPlace){
-      return "unplaceable"
-    }else{
-      return "empty"
+  public getSquareState(index: number): string {
+    const result = this.positions[index];
+    if (result.ship !== undefined) {
+      return "afloat";
+    } else if (!result.canPlace) {
+      return "unplaceable";
+    } else {
+      return "empty";
     }
   }
   public addShip(ship: Ship) {
@@ -89,7 +89,26 @@ class BoardState {
     return this.positions[position].isHit ? true : false;
   }
   public checkCanBePlaced(ship: Ship) {
-    console.log("tsts")
+    console.log("checkCanBePlaced", ship);
+    if (ship.endPosition > 99) {
+      return false;
+    }
+    if (
+      (ship.startPosition % 10 !== ship.endPosition % 10) && (
+        ship.startPosition - (ship.startPosition % 10) !==
+      ship.endPosition - (ship.endPosition % 10)
+      )
+    ) {
+      return false;
+    }
+    console.log(ship.startPosition, ship.endPosition);
+    // means vertical
+    console.log(ship.startPosition % 10, ship.endPosition % 10);
+    console.log(
+      ship.startPosition - (ship.startPosition % 10),
+      ship.endPosition - (ship.endPosition % 10)
+    );
+
     for (const x of ship.hull) {
       if (this.unplacable.indexOf(x.position) !== -1) {
         console.log(x.position, this.unplacable.indexOf(x.position), "fail");

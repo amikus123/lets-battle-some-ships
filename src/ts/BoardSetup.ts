@@ -29,17 +29,19 @@ class BoardSetup {
       this.gameboard.appendChild(newDiv);
     }
   }
-  public updateBoard(){
-    const boardPostions = this.player.gameboard.boardState
+  public updateBoard() {
+    const boardPostions = this.player.gameboard.boardState;
     // console.log(boardPostions,this.gameboard.children)
     const gameSquares = Array.from(this.gameboard.children);
-    for(let i=0;i<100;i++){
-      gameSquares[i].className = `game-square ${this.player.gameboard.boardState.getSquareState(i)}`
+    for (let i = 0; i < 100; i++) {
+      gameSquares[
+        i
+      ].className = `game-square ${this.player.gameboard.boardState.getSquareState(
+        i
+      )}`;
     }
   }
-  private decideSquareState(){
-
-  }
+  private decideSquareState() {}
   private getDropShip() {
     const dropShip = (e: any) => {
       e.preventDefault();
@@ -47,28 +49,26 @@ class BoardSetup {
       const id = e.dataTransfer!.getData("text/plain");
       const draggable: HTMLElement = document.getElementById(id)!;
       // console.log(111111, draggable?.attributes.length, id, "drop");
-      const shipPositions = this.getShipDOMStartAndEnd(dropSquare,draggable);
-      console.log(shipPositions,"postions")
+      const shipPositions = this.getShipDOMStartAndEnd(dropSquare, draggable);
+      console.log(shipPositions, "postions");
       if (this.player.tryToPlaceShip(shipPositions[0], shipPositions[1])) {
         dropSquare.appendChild(draggable);
-        this.updateBoard()
+        this.updateBoard();
         console.log("succ");
       } else {
         console.log("fail");
       }
-
     };
     return dropShip;
   }
   private getShipDOMStartAndEnd(square: Element, ship: Element) {
     const length: number = Number(ship.getAttribute("length"));
     const squareIndex: number = Number(square.getAttribute("index"));
-    console.log(length,squareIndex,"dom")
+    console.log(length, squareIndex, "dom");
     if (ship.classList.contains("ship-vertical")) {
-      return [squareIndex, squareIndex + 10 * (length-1)];
+      return [squareIndex, squareIndex + 10 * (length - 1)];
     } else {
-      return [squareIndex, squareIndex + length-1];
-
+      return [squareIndex, squareIndex + length - 1];
     }
   }
   private addDClick() {

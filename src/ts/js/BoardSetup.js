@@ -35,8 +35,7 @@ class BoardSetup {
             gameSquares[i].className = `game-square ${this.player.gameboard.boardState.getSquareState(i)}`;
         }
     }
-    decideSquareState() {
-    }
+    decideSquareState() { }
     getDropShip() {
         const dropShip = (e) => {
             e.preventDefault();
