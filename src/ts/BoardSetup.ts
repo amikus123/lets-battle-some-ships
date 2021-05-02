@@ -18,6 +18,7 @@ class BoardSetup {
     } else {
       this.shipsDOM = null;
     }
+    this.dokcyardSetup();
   }
   private setShips() {
     return Array.from(document.getElementsByClassName("ship"));
@@ -94,37 +95,45 @@ class BoardSetup {
     const dropShip = (e: any) => {
       e.preventDefault();
       let dropTarget: HTMLElement = e.target;
-      if(dropTarget.classList.contains("ship-part")){
+      if (dropTarget.classList.contains("ship-part")) {
         dropTarget = e.target.parentElement.parentElement;
-        console.log(dropTarget)
+        console.log(dropTarget);
       }
-      // if(dropTarget.classList.contains("ship")){
-      //   console.log("s")
-      //   dropTarget = e.target.parentElement;
-      // }
       const id = e.dataTransfer!.getData("text/plain");
       const shipDom: HTMLElement = document.getElementById(id)!;
-      const previousParent = shipDom.parentElement
-      console.log(dropTarget,shipDom);
+      const previousParent = shipDom.parentElement;
+      console.log(dropTarget, shipDom);
       if (dropTarget.classList.contains("game-square")) {
         const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
         if (this.player.tryToPlaceShip(cords[0], cords[1])) {
           shipDom.setAttribute("start", cords[0].toString());
           shipDom.setAttribute("end", cords[1].toString());
           dropTarget.append(shipDom);
-        }else{
-          console.log("fail")
-          previousParent?.append(shipDom)
+        } else {
+          console.log("fail");
+          previousParent?.append(shipDom);
           const start = Number(shipDom.getAttribute("start"));
           const end = Number(shipDom.getAttribute("end"));
-          this.player.tryToPlaceShip(start,end)
-          console.log(this.player)
+          this.player.tryToPlaceShip(start, end);
+          console.log(this.player);
         }
       }
 
       this.updateBoard();
     };
     return dropShip;
+  }
+  private dokcyardSetup() {
+    const dockyard = document.getElementById("dockyard")!;
+    const dropShipToDockyard = (e: any) => {
+      e.preventDefault();
+      const id = e.dataTransfer!.getData("text/plain");
+      const shipDom: HTMLElement = document.getElementById(id)!;
+      dockyard.append(shipDom);
+
+      this.updateBoard();
+    };
+    dockyard?.addEventListener("drop", dropShipToDockyard);
   }
 }
 export default BoardSetup;

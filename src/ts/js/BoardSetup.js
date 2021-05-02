@@ -13,6 +13,7 @@ class BoardSetup {
         else {
             this.shipsDOM = null;
         }
+        this.dokcyardSetup();
     }
     setShips() {
         return Array.from(document.getElementsByClassName("ship"));
@@ -87,10 +88,6 @@ class BoardSetup {
                 dropTarget = e.target.parentElement.parentElement;
                 console.log(dropTarget);
             }
-            // if(dropTarget.classList.contains("ship")){
-            //   console.log("s")
-            //   dropTarget = e.target.parentElement;
-            // }
             const id = e.dataTransfer.getData("text/plain");
             const shipDom = document.getElementById(id);
             const previousParent = shipDom.parentElement;
@@ -114,6 +111,17 @@ class BoardSetup {
             this.updateBoard();
         };
         return dropShip;
+    }
+    dokcyardSetup() {
+        const dockyard = document.getElementById("dockyard");
+        const dropShipToDockyard = (e) => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData("text/plain");
+            const shipDom = document.getElementById(id);
+            dockyard.append(shipDom);
+            this.updateBoard();
+        };
+        dockyard === null || dockyard === void 0 ? void 0 : dockyard.addEventListener("drop", dropShipToDockyard);
     }
 }
 exports.default = BoardSetup;

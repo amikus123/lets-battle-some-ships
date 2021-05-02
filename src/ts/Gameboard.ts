@@ -60,7 +60,6 @@ class Gameboard {
     }
     this.boardState.removeShip(this.ships)
     console.log(this.ships.length,"po")
-
   }
   public recieveAttack(posistion: number) {
     if (this.getPosition(posistion).ship === null) {
