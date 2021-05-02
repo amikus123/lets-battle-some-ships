@@ -12,7 +12,6 @@ class BoardState {
         return ret;
     }
     getSquareState(index) {
-        // console.log(this.positions)
         const result = this.positions[index];
         if (result.ship !== undefined) {
             return "afloat";
@@ -33,9 +32,11 @@ class BoardState {
             this.positions[index].canPlace = false;
         }
     }
-    updateAfterRemoval(ships) {
+    removeShip(ships) {
         this.positions = this.initalSetup();
-        ships.forEach(ship => this.addShip(ship));
+        ships.forEach(ship => {
+            this.addShip(ship);
+        });
     }
     setHit(position) {
         if (typeof position === "number") {
@@ -54,7 +55,6 @@ class BoardState {
         return this.positions[position].isHit ? true : false;
     }
     checkCanBePlaced(ship) {
-        console.log("checkCanBePlaced", ship);
         if (ship.endPosition > 99) {
             return false;
         }
@@ -65,15 +65,10 @@ class BoardState {
         }
         for (const x of ship.hull) {
             if (!this.positions[x.position].canPlace) {
-                // console.log(x.position, this.unplacable.indexOf(x.position), "fail");
                 return false;
             }
         }
         return true;
     }
-    getSunk() { }
-    getAfloat() { }
-    getHit() { }
-    getUnplacable() { }
 }
 exports.default = BoardState;

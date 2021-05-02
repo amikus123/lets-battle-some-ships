@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ship_1 = __importDefault(require("./Ship"));
 class BoardSetup {
     constructor(player, gameboard) {
         this.player = player;
@@ -12,7 +8,7 @@ class BoardSetup {
         if (this.setupPhase) {
             this.shipsDOM = this.setShips();
             this.addDClick();
-            this.allowDrag();
+            this.shipDOMPickUp();
         }
         else {
             this.shipsDOM = null;
@@ -22,7 +18,7 @@ class BoardSetup {
         return Array.from(document.getElementsByClassName("ship"));
     }
     addSquares() {
-        const dropShip = this.getDropShip();
+        const dropShip = this.ShipDOMDrop();
         const beginDrag = this.getBeginDrag();
         const suffix = this.player.isComputer ? "com_" : "hum_";
         for (let i = 0; i < 100; i++) {
@@ -35,37 +31,14 @@ class BoardSetup {
             this.gameboard.appendChild(newDiv);
         }
     }
-    updateBoard() {
-        const gameSquares = Array.from(this.gameboard.children);
-        for (let i = 0; i < 100; i++) {
-            gameSquares[i].className = `game-square ${this.player.gameboard.boardState.getSquareState(i)}`;
+    addDClick() {
+        if (this.shipsDOM !== null) {
+            this.shipsDOM.forEach((ship) => {
+                ship.addEventListener("dblclick", (e) => {
+                    ship.classList.toggle("ship-vertical");
+                });
+            });
         }
-    }
-    getBeginDrag() {
-        const beginDrag = (e) => {
-            e.preventDefault();
-        };
-        return beginDrag;
-    }
-    getDropShip() {
-        const dropShip = (e) => {
-            e.preventDefault();
-            const dropSquare = e.target;
-            const id = e.dataTransfer.getData("text/plain");
-            const draggable = document.getElementById(id);
-            const shipPositions = this.getShipDOMStartAndEnd(dropSquare, draggable);
-            const createdShip = new Ship_1.default(shipPositions[0], shipPositions[1]);
-            const shipDom = document.getElementById(id);
-            console.log(shipPositions, "postions");
-            if (this.player.tryToPlaceShip(shipPositions[0], shipPositions[1])) {
-                dropSquare.appendChild(draggable);
-                this.updateBoard();
-                shipDom === null || shipDom === void 0 ? void 0 : shipDom.setAttribute("index", (this.player.gameboard.ships.length - 1).toString());
-            }
-            else {
-            }
-        };
-        return dropShip;
     }
     getShipDOMStartAndEnd(square, ship) {
         const length = Number(ship.getAttribute("length"));
@@ -77,30 +50,61 @@ class BoardSetup {
             return [squareIndex, squareIndex + length - 1];
         }
     }
-    addDClick() {
-        if (this.shipsDOM !== null) {
-            this.shipsDOM.forEach((ship) => {
-                ship.addEventListener("dblclick", (e) => {
-                    ship.classList.toggle("ship-vertical");
-                });
-            });
+    getBeginDrag() {
+        const beginDrag = (e) => {
+            e.preventDefault();
+            console.log(2);
+        };
+        return beginDrag;
+    }
+    updateBoard() {
+        const gameSquares = Array.from(this.gameboard.children);
+        for (let i = 0; i < 100; i++) {
+            gameSquares[i].className = `game-square ${this.player.gameboard.boardState.getSquareState(i)}`;
         }
     }
-    allowDrag() {
+    shipDOMPickUp() {
         if (this.shipsDOM !== null) {
             const dragStart = (e) => {
                 e.dataTransfer.setData("text/plain", e.target.id);
-                console.log(e.dataTransfer, "picked");
-                if (e.target.parentElement.id !== "dockyard" &&
-                    e.target.getAttribute("index") !== null) {
-                    this.player.gameboard.removeShip(Number(e.target.getAttribute("index")));
-                    console.log(e.target, this.player);
+                console.log(e.target.parentElement, "picked up");
+                if (e.target.getAttribute("start") !== null) {
+                    const start = e.target.getAttribute("start");
+                    const end = e.target.getAttribute("end");
+                    this.player.gameboard.removeShip(start, end);
                 }
             };
             this.shipsDOM.forEach((item) => {
                 item.addEventListener("dragstart", dragStart);
             });
         }
+    }
+    ShipDOMDrop() {
+        const dropShip = (e) => {
+            e.preventDefault();
+            let dropTarget = e.target;
+            if (dropTarget.classList.contains("ship-part")) {
+                dropTarget = e.target.parentElement.parentElement;
+                console.log(dropTarget);
+            }
+            if (dropTarget.classList.contains("ship")) {
+                console.log("s");
+                dropTarget = e.target.parentElement;
+            }
+            const id = e.dataTransfer.getData("text/plain");
+            const shipDom = document.getElementById(id);
+            console.log(dropTarget, shipDom);
+            if (dropTarget.classList.contains("game-square")) {
+                const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
+                if (this.player.tryToPlaceShip(cords[0], cords[1])) {
+                    shipDom.setAttribute("start", cords[0].toString());
+                    shipDom.setAttribute("end", cords[1].toString());
+                    dropTarget.append(shipDom);
+                }
+            }
+            this.updateBoard();
+        };
+        return dropShip;
     }
 }
 exports.default = BoardSetup;

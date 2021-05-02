@@ -30,8 +30,6 @@ class Gameboard {
     shouldPlace: boolean = true
   ) {
     const createdShip = new Ship(startPosistion, endPosistion);
-    console.log(createdShip);
-    // horizontal
     if (this.boardState.checkCanBePlaced(createdShip)) {
       if (shouldPlace) {
         this.finishPlacingShip(createdShip);
@@ -47,21 +45,22 @@ class Gameboard {
   public getPosition(posistion: number): boardPosition {
     return this.boardState.positions[posistion];
   }
-  public removeShip(ship:Ship | number){
-    if(typeof ship !== "number"){
-      let indexToRemove = -1;
-      console.log(ship,"REMOVING")
-      this.ships.forEach((item,index)=>{
-        if(ship.endPosition === item.endPosition && ship.startPosition === item.startPosition){
-          indexToRemove = index;
-        }
-      })
+  public removeShip(start:number,end:number){
+    let indexToRemove = -1;
+    console.log(this.ships.length,"przed")
+    this.ships.forEach((ship,inedx)=>{
+      console.log(ship,"start",start)
+      if(ship.startPosition == start){
+        console.log("SAME")
+        indexToRemove = inedx 
+      }
+    })
+    if(indexToRemove !== -1){
       this.ships.splice(indexToRemove,1)
-      this.boardState.updateAfterRemoval(this.ships)
-    }else{
-      this.ships.splice(ship,1)
-      this.boardState.updateAfterRemoval(this.ships)
     }
+    this.boardState.removeShip(this.ships)
+    console.log(this.ships.length,"po")
+
   }
   public recieveAttack(posistion: number) {
     if (this.getPosition(posistion).ship === null) {
@@ -102,9 +101,7 @@ class Gameboard {
       const randomStart =
         validStarts[Math.floor(Math.random() * validStarts.length)];
       const newShip = new Ship(randomStart, randomStart + (length - 1) * 10);
-      // console.log("srodek", newShip);
       if (true || this.boardState.checkCanBePlaced(newShip)) {
-        // console.log(randomColumn, validStarts, newShip, randomStart, "err");
         this.finishPlacingShip(newShip);
         return true;
       }
@@ -113,7 +110,6 @@ class Gameboard {
   }
   private getValidVerticalStarts(column: number, length: number) {
     const possibleStarts: number[] = [];
-    // console.log("kolumna", column);
     for (let i = 0; i < 11 - length; i++) {
       let canInsert = true;
       for (let j = 0; j < length; j++) {
@@ -123,13 +119,11 @@ class Gameboard {
           canInsert = false;
           break;
         }
-        // console.log(this.boardState.positions[(i + j) * 10 + column]);
       }
       if (canInsert) {
         possibleStarts.push(i * 10 + column);
       }
     }
-    // console.log(possibleStarts, column, length);
     return possibleStarts;
   }
 
@@ -149,7 +143,6 @@ class Gameboard {
   }
   private getValidHorizontalStarts(row: number, length: number) {
     const possibleStarts = [];
-    // console.log("kolumna", row);
     for (let i = 0; i < 11 - length; i++) {
       let canInsert = true;
       for (let j = 0; j < length; j++) {
@@ -157,13 +150,11 @@ class Gameboard {
           canInsert = false;
           break;
         }
-        // console.log(this.boardState.positions[i + j + row]);
       }
       if (canInsert) {
         possibleStarts.push(i + row);
       }
     }
-    // console.log(possibleStarts, row, length);
     return possibleStarts;
   }
   private finishPlacingShip(createdShip: Ship): void {

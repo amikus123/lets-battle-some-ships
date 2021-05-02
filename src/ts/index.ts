@@ -12,6 +12,20 @@ radomButton?.addEventListener("click", randomSetup);
 startButton?.addEventListener("click", startGame);
 audioButton?.addEventListener("click", audioToggle);
 
+// allows dropping to dokcyard
+const dockyard = document.getElementById("dockyard");
+dockyard?.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+dockyard?.addEventListener("drop", (e: any) => {
+  e.preventDefault();
+  const dropSquare: HTMLElement = e.target;
+  const id = e.dataTransfer!.getData("text/plain");
+  const draggable: HTMLElement = document.getElementById(id)!;
+  dropSquare.appendChild(draggable);
+});
+
+
 const human = new Player(false);
 const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
