@@ -24,26 +24,45 @@ class Gameboard {
     return true;
   }
 
-  public tryToPlaceShip(startPosistion: number, endPosistion: number) {
-    
+  public tryToPlaceShip(
+    startPosistion: number,
+    endPosistion: number,
+    shouldPlace: boolean = true
+  ) {
     const createdShip = new Ship(startPosistion, endPosistion);
-    console.log(createdShip)
+    console.log(createdShip);
     // horizontal
     if (this.boardState.checkCanBePlaced(createdShip)) {
-      this.finishPlacingShip(createdShip);
+      if (shouldPlace) {
+        this.finishPlacingShip(createdShip);
+      }
       return true;
     } else {
       return false;
     }
   }
-
   public isPositionHit(positon: number) {
     return this.boardState.isHit(positon);
   }
   public getPosition(posistion: number): boardPosition {
     return this.boardState.positions[posistion];
   }
-
+  public removeShip(ship:Ship | number){
+    if(typeof ship !== "number"){
+      let indexToRemove = -1;
+      console.log(ship,"REMOVING")
+      this.ships.forEach((item,index)=>{
+        if(ship.endPosition === item.endPosition && ship.startPosition === item.startPosition){
+          indexToRemove = index;
+        }
+      })
+      this.ships.splice(indexToRemove,1)
+      this.boardState.updateAfterRemoval(this.ships)
+    }else{
+      this.ships.splice(ship,1)
+      this.boardState.updateAfterRemoval(this.ships)
+    }
+  }
   public recieveAttack(posistion: number) {
     if (this.getPosition(posistion).ship === null) {
       this.getPosition(posistion).ship?.receiveHit(posistion);
@@ -62,7 +81,6 @@ class Gameboard {
     });
   }
 
-  
   private createRadnomShip(lenght: number) {
     while (true) {
       if (Math.round(Math.random()) === 1) {

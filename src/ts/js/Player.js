@@ -13,8 +13,8 @@ class Player {
     resetGameboard() {
         this.gameboard.resetGameboard();
     }
-    tryToPlaceShip(startPosistion, endPosistion) {
-        return this.gameboard.tryToPlaceShip(startPosistion, endPosistion);
+    tryToPlaceShip(startPosistion, endPosistion, shouldPlace = true) {
+        return this.gameboard.tryToPlaceShip(startPosistion, endPosistion, shouldPlace);
     }
     setEnemy(enemy) {
         this.enemy = enemy;
@@ -49,12 +49,6 @@ class Player {
         else {
             //
         }
-    }
-    getSunk() {
-        return this.gameboard.boardState.sunk;
-    }
-    getAfloat() {
-        return this.gameboard.boardState.afloat;
     }
     humanAction() { }
     computerAction() { }

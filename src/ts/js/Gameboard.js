@@ -23,12 +23,14 @@ class Gameboard {
         }
         return true;
     }
-    tryToPlaceShip(startPosistion, endPosistion) {
+    tryToPlaceShip(startPosistion, endPosistion, shouldPlace = true) {
         const createdShip = new Ship_1.default(startPosistion, endPosistion);
         console.log(createdShip);
         // horizontal
         if (this.boardState.checkCanBePlaced(createdShip)) {
-            this.finishPlacingShip(createdShip);
+            if (shouldPlace) {
+                this.finishPlacingShip(createdShip);
+            }
             return true;
         }
         else {
@@ -40,6 +42,23 @@ class Gameboard {
     }
     getPosition(posistion) {
         return this.boardState.positions[posistion];
+    }
+    removeShip(ship) {
+        if (typeof ship !== "number") {
+            let indexToRemove = -1;
+            console.log(ship, "REMOVING");
+            this.ships.forEach((item, index) => {
+                if (ship.endPosition === item.endPosition && ship.startPosition === item.startPosition) {
+                    indexToRemove = index;
+                }
+            });
+            this.ships.splice(indexToRemove, 1);
+            this.boardState.updateAfterRemoval(this.ships);
+        }
+        else {
+            this.ships.splice(ship, 1);
+            this.boardState.updateAfterRemoval(this.ships);
+        }
     }
     recieveAttack(posistion) {
         var _a, _b;

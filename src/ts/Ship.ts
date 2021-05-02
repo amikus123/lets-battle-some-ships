@@ -5,9 +5,10 @@ export interface point {
 class Ship {
   length: number;
   hull: point[];
-  adjecentPositions:number[]
-  startPosition:number;
-  endPosition:number
+  adjecentPositions: number[];
+  startPosition: number;
+  endPosition: number;
+  
   constructor(startPosition: number, endPosition: number) {
     this.length = this.setLength(startPosition, endPosition);
     this.hull = this.setHull(this.length, startPosition, endPosition);
@@ -15,11 +16,7 @@ class Ship {
     this.endPosition = endPosition;
     this.adjecentPositions = this.setAdjecentPositions(this.hull);
   }
-  private setHull(
-    length: number,
-    startPosition: number,
-    endPosition: number
-  ) {
+  private setHull(length: number, startPosition: number, endPosition: number) {
     //  eP - sP is smaller than 10? then it is horizontal
     const hull: point[] = [];
     if (endPosition - startPosition < 10) {
@@ -33,17 +30,20 @@ class Ship {
     }
     return hull;
   }
-  private setAdjecentPositions(hull:point[]){
+  private setAdjecentPositions(hull: point[]) {
     let positionsToCheck: number[] = [];
-      for( const point of hull){
-        positionsToCheck = positionsToCheck.concat(
-          this.getAdjecentToPosition(point.position)
-        );
-      }
-      return [...new Set(positionsToCheck)];
+    for (const point of hull) {
+      positionsToCheck = positionsToCheck.concat(
+        this.getAdjecentToPosition(point.position)
+      );
     }
-  private getAdjecentToPosition(position:number){
+    return [...new Set(positionsToCheck)];
+  }
+  private getAdjecentToPosition(position: number) {
     const positions: number[] = [position];
+    if (position == 10) {
+      positions.push(0);
+    }
     if (position % 10 !== 9) {
       positions.push(position + 1);
       if (position > 9) {
@@ -91,7 +91,7 @@ class Ship {
     }
     return this.hull[0];
   }
-  
+
   public isSunk() {
     for (const point of this.hull) {
       if (!point.isHit) {

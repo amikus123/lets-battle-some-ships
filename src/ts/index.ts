@@ -1,40 +1,31 @@
 import Player from "./Player";
 import GameFlow from "./GameFlow";
-import BoardSetup from "./BoardSetup"
+import BoardSetup from "./BoardSetup";
+import { randomSetup, audioToggle, startGame, resetBoard } from "./Buttons";
+
+const resetButton = document.getElementById("reset");
+const radomButton = document.getElementById("random");
+const startButton = document.getElementById("start");
+const audioButton = document.getElementById("audio");
+resetButton?.addEventListener("click", resetBoard);
+radomButton?.addEventListener("click", randomSetup);
+startButton?.addEventListener("click", startGame);
+audioButton?.addEventListener("click", audioToggle);
 
 const human = new Player(false);
 const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
 const computerBoard: HTMLElement = document.getElementById("computer--board")!;
-const humanBoardSetup = new BoardSetup(human,humanBoard);
-const updateBoard = (player: Player) => {
-  const shipsAfloat = player.getAfloat();
-  let suffix = "";
-  suffix = player.isComputer ? "com_" : "hum_";
-  console.log(suffix);
-  for (const point of shipsAfloat) {
-    const afloat = document.getElementById(suffix + point);
-    afloat?.classList.add("afloat");
-  }
-};
-humanBoardSetup.addSquares()
+const computerBoardSetup = new BoardSetup(computer, computerBoard);
+const humanBoardSetup = new BoardSetup(human, humanBoard);
 human.setEnemy(computer);
 computer.setEnemy(human);
-humanBoardSetup.updateBoard()
 
-updateBoard(human);
-updateBoard(computer);
-console.log(human.gameboard);
-// console.log(human);
-// console.log(computer);
-function dragStart(e: any) {
-  e.dataTransfer.setData("text/plain", e.target.id);
-  console.log(e.dataTransfer);
-}
-const ships = document.getElementsByClassName("ship");
+humanBoardSetup.addSquares();
+computerBoardSetup.addSquares();
+computer.randomizeShips();
+computerBoardSetup.updateBoard();
+humanBoardSetup.updateBoard();
 
-const arr = Array.from(ships);
-console.log(arr);
-arr.forEach((item) => {
-  item.addEventListener("dragstart", dragStart);
-});
+console.log(human);
+console.log(computer);

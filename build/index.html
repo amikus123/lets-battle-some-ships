@@ -14,7 +14,7 @@
 
 <body>
   <div class="game">
-    <H1 draggable="true">ASDASDASDASD</H1>
+    <h1>BATTLESHIPS RETRO</h1>
     <div class="setup">
       <h2 id="sd">Arrange your board</h2>
       <div class="main-setup-wrap">
@@ -47,7 +47,7 @@
             <div id="human--board" class="gameboard gird"></div>
           </div>
         </div>
-        <div class="dockyard">
+        <div class="dockyard" id="dockyard">
           <div class="ship" draggable="true" id="ship-1" length="4">
             <div class="ship-part"></div>
             <div class="ship-part"></div>
@@ -104,8 +104,36 @@
         <button class="setup-option" id="random">Play now</button>
         <button class="setup-option" id="reset">Reset</button>
         <button class="setup-option" id="start">Start</button>
+        <button class="setup-option" id="audio">Audio</button>
+
 
       </div>
+      <div class="gameboard-wrap">
+        <div class="letters side">
+          <div class="letter">A</div>
+          <div class="letter">B</div>
+          <div class="letter">C</div>
+          <div class="letter">D</div>
+          <div class="letter">E</div>
+          <div class="letter">F</div>
+          <div class="letter">G</div>
+          <div class="letter">H</div>
+          <div class="letter">I</div>
+          <div class="letter">J</div>
+        </div>
+        <div class="numbers side">
+          <div class="letter">1</div>
+          <div class="letter">2</div>
+          <div class="letter">3</div>
+          <div class="letter">4</div>
+          <div class="letter">5</div>
+          <div class="letter">6</div>
+          <div class="letter">7</div>
+          <div class="letter">8</div>
+          <div class="letter">9</div>
+          <div class="letter">10</div>
+        </div>
+        <div id="computer--board" class="gameboard gird"></div>
     </div>
 
     <script src="./main.js"></script>
@@ -114,32 +142,7 @@
 </body>
 
 </html>
-<!-- <div class="gameboard-wrap">
-          <div class="letters side">
-            <div class="letter">A</div>
-            <div class="letter">B</div>
-            <div class="letter">C</div>
-            <div class="letter">D</div>
-            <div class="letter">E</div>
-            <div class="letter">F</div>
-            <div class="letter">G</div>
-            <div class="letter">H</div>
-            <div class="letter">I</div>
-            <div class="letter">J</div>
-          </div>
-          <div class="numbers side">
-            <div class="letter">1</div>
-            <div class="letter">2</div>
-            <div class="letter">3</div>
-            <div class="letter">4</div>
-            <div class="letter">5</div>
-            <div class="letter">6</div>
-            <div class="letter">7</div>
-            <div class="letter">8</div>
-            <div class="letter">9</div>
-            <div class="letter">10</div>
-            <div id="computer--board" class="gameboard gird"></div>
-          </div> -->
+
 <!-- <pre id="typewriter">
             Player has shot... 
               And missed!
