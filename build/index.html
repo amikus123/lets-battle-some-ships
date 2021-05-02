@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link href="./index.css" rel="stylesheet" />
+  <script>
+    var exports = {};
+  </script>
+</head>
+
+<body>
+  <div class="game">
+    <H1 draggable="true">ASDASDASDASD</H1>
+    <div class="setup">
+      <h2 id="sd">Arrange your board</h2>
+      <div class="main-setup-wrap">
+        <div class="gameboard-setup">
+          <div class="gameboard-wrap">
+            <div class="letters side">
+              <div class="letter">A</div>
+              <div class="letter">B</div>
+              <div class="letter">C</div>
+              <div class="letter">D</div>
+              <div class="letter">E</div>
+              <div class="letter">F</div>
+              <div class="letter">G</div>
+              <div class="letter">H</div>
+              <div class="letter">I</div>
+              <div class="letter">J</div>
+            </div>
+            <div class="numbers side">
+              <div class="letter">1</div>
+              <div class="letter">2</div>
+              <div class="letter">3</div>
+              <div class="letter">4</div>
+              <div class="letter">5</div>
+              <div class="letter">6</div>
+              <div class="letter">7</div>
+              <div class="letter">8</div>
+              <div class="letter">9</div>
+              <div class="letter">10</div>
+            </div>
+            <div id="human--board" class="gameboard gird"></div>
+          </div>
+        </div>
+        <div class="dockyard">
+          <div class="ship" draggable="true" id="ship-1" length="4">
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+          </div>
+
+          <div class="ship" draggable="true" id="ship-2" length="3">
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" draggable="true" id="ship-3" length="3">
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+          </div>
+
+          <div class="ship" draggable="true" id="ship-4" length="2">
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+
+          </div>
+          <div class="ship" draggable="true" id="ship-5" length="2">
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+
+          </div>
+          <div class="ship" draggable="true" id="ship-6" length="2">
+            <div class="ship-part"></div>
+            <div class="ship-part"></div>
+
+          </div>
+          <div class="ship" draggable="true" id="ship-7" length="1">
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" draggable="true" id="ship-8" length="1">   
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" draggable="true" id="ship-9" length="1"> 
+            <div class="ship-part"></div>
+          </div>
+          <div class="ship" draggable="true" id="ship-10" length="1">
+            <div class="ship-part"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tips">
+        <span>Drag and drop to place</span>
+        <span>To rotate click on placed ship</span>
+
+      </div>
+      <div class="options">
+        <button class="setup-option" id="random">Play now</button>
+        <button class="setup-option" id="reset">Reset</button>
+        <button class="setup-option" id="start">Start</button>
+
+      </div>
+    </div>
+
+    <script src="./main.js"></script>
+    <!-- <script src="./temp.js"></script> -->
+
+</body>
+
+</html>
+<!-- <div class="gameboard-wrap">
+          <div class="letters side">
+            <div class="letter">A</div>
+            <div class="letter">B</div>
+            <div class="letter">C</div>
+            <div class="letter">D</div>
+            <div class="letter">E</div>
+            <div class="letter">F</div>
+            <div class="letter">G</div>
+            <div class="letter">H</div>
+            <div class="letter">I</div>
+            <div class="letter">J</div>
+          </div>
+          <div class="numbers side">
+            <div class="letter">1</div>
+            <div class="letter">2</div>
+            <div class="letter">3</div>
+            <div class="letter">4</div>
+            <div class="letter">5</div>
+            <div class="letter">6</div>
+            <div class="letter">7</div>
+            <div class="letter">8</div>
+            <div class="letter">9</div>
+            <div class="letter">10</div>
+            <div id="computer--board" class="gameboard gird"></div>
+          </div> -->
+<!-- <pre id="typewriter">
+            Player has shot... 
+              And missed!
+</pre> -->
+<!-- </p>
+      <div class="boards-wrapper">
+        <div class="gameboard-wrap">
+          <div class="letters side">
+            <div class="letter">A</div>
+            <div class="letter">B</div>
+            <div class="letter">C</div>
+            <div class="letter">D</div>
+            <div class="letter">E</div>
+            <div class="letter">F</div>
+            <div class="letter">G</div>
+            <div class="letter">H</div>
+            <div class="letter">I</div>
+            <div class="letter">J</div>
+          </div>
+          <div class="numbers side">
+            <div class="letter">1</div>
+            <div class="letter">2</div>
+            <div class="letter">3</div>
+            <div class="letter">4</div>
+            <div class="letter">5</div>
+            <div class="letter">6</div>
+            <div class="letter">7</div>
+            <div class="letter">8</div>
+            <div class="letter">9</div>
+            <div class="letter">10</div>
+          </div>
+          <div id="human--board"  class="gameboard gird"></div>
+        </div>
+
+      </div> -->

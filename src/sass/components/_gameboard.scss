@@ -1,0 +1,46 @@
+
+
+.gameboard-wrap {
+  display: grid;
+  width: 330px;
+  height: 330px;
+  grid-template-columns: repeat(11, 3rem);
+  grid-template-rows: repeat(11, 3rem);
+}
+.gameboard {
+    display: grid;
+    grid-template-rows: repeat(10, 3rem);
+    grid-template-columns: repeat(10, 3rem);
+    width: fit-content;
+    height: fit-content;
+  }
+.letters {
+  width: 300px;
+  height: 30px;
+  display: flex;
+  grid-column-start: 2;
+  grid-column-end: 11;
+//   grid-column: 1;
+div {
+    width: 30px;
+    height: 30px;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.numbers {
+  width: 30px;
+  height: 300px;
+  
+  grid-column-start: 1;
+  div {
+    width: 30px;
+    height: 30px;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
