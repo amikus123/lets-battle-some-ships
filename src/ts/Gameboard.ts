@@ -30,7 +30,7 @@ class Gameboard {
     shouldPlace: boolean = true
   ) {
     const createdShip = new Ship(startPosistion, endPosistion);
-    if (this.boardState.checkCanBePlaced(createdShip)) {
+    if (this.boardState.checkCanBePlaced(createdShip) && endPosistion <=99) {
       if (shouldPlace) {
         this.finishPlacingShip(createdShip);
       }
@@ -49,9 +49,7 @@ class Gameboard {
     let indexToRemove = -1;
     console.log(this.ships.length,"przed")
     this.ships.forEach((ship,inedx)=>{
-      console.log(ship,"start",start)
       if(ship.startPosition == start){
-        console.log("SAME")
         indexToRemove = inedx 
       }
     })

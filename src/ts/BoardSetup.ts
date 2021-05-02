@@ -37,15 +37,6 @@ class BoardSetup {
       this.gameboard.appendChild(newDiv);
     }
   }
-  private addDClick() {
-    if (this.shipsDOM !== null) {
-      this.shipsDOM.forEach((ship) => {
-        ship.addEventListener("dblclick", (e) => {
-          ship.classList.toggle("ship-vertical");
-        });
-      });
-    }
-  }
 
   private getShipDOMStartAndEnd(square: Element, ship: Element) {
     const length: number = Number(ship.getAttribute("length"));
@@ -60,7 +51,6 @@ class BoardSetup {
   private getBeginDrag() {
     const beginDrag = (e: Event) => {
       e.preventDefault();
-      console.log(2);
     };
     return beginDrag;
   }
@@ -78,7 +68,7 @@ class BoardSetup {
     if (this.shipsDOM !== null) {
       const dragStart = (e: any) => {
         e.dataTransfer.setData("text/plain", e.target.id);
-        console.log(e.target.parentElement, "picked up");
+        // console.log(e.target.parentElement, "picked up");
         if (e.target.getAttribute("start") !== null) {
           const start = e.target.getAttribute("start");
           const end = e.target.getAttribute("end");
@@ -97,7 +87,6 @@ class BoardSetup {
       let dropTarget: HTMLElement = e.target;
       if (dropTarget.classList.contains("ship-part")) {
         dropTarget = e.target.parentElement.parentElement;
-        console.log(dropTarget);
       }
       const id = e.dataTransfer!.getData("text/plain");
       const shipDom: HTMLElement = document.getElementById(id)!;
@@ -106,23 +95,78 @@ class BoardSetup {
       if (dropTarget.classList.contains("game-square")) {
         const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
         if (this.player.tryToPlaceShip(cords[0], cords[1])) {
+          console.log("new")
           shipDom.setAttribute("start", cords[0].toString());
           shipDom.setAttribute("end", cords[1].toString());
           dropTarget.append(shipDom);
         } else {
           console.log("fail");
-          previousParent?.append(shipDom);
           const start = Number(shipDom.getAttribute("start"));
           const end = Number(shipDom.getAttribute("end"));
-          this.player.tryToPlaceShip(start, end);
-          console.log(this.player);
+          const length = Number(shipDom.getAttribute("length"));
+
+          console.log(start,end,length,"1111")
+          if(start === end && end === 0  && length !== 1){
+
+          }else{
+            this.player.tryToPlaceShip(start, end);
+            previousParent?.append(shipDom);
+            this.updateBoard();
+            console.log(this)
+          }
+         
+          // console.log(this.player);
         }
       }
-
       this.updateBoard();
+
     };
     return dropShip;
   }
+
+  private addDClick() {
+    const doubleClick = (e: any) => {
+      const shipDom = e.target.parentElement;
+      if (shipDom.parentElement.id === "dockyard") {
+        shipDom.classList.toggle("ship-vertical");
+        console.log("DOCK")
+      } else {
+        const start = Number(shipDom.getAttribute("start"));
+        const currentEnd = Number(shipDom.getAttribute("end"));
+        const length = Number(shipDom.getAttribute("length"));
+        let newEnd = 0;
+        if (currentEnd - start  < 10) {
+          newEnd = start + (length - 1) * 10;
+        } else {
+          newEnd = start + length - 1;
+        }
+        console.log(start,currentEnd,newEnd)
+        this.player.gameboard.removeShip(start, currentEnd);
+        if (this.player.tryToPlaceShip(start, newEnd)) {
+          shipDom.classList.toggle("ship-vertical")
+        console.log("succcc")
+        shipDom.setAttribute("start", start.toString());
+        shipDom.setAttribute("end", newEnd.toString());
+
+        }
+        else{
+        this.player.tryToPlaceShip(start, currentEnd)
+        console.log("FAIL")
+        }
+        console.log(this.player)
+        this.updateBoard();
+
+      }
+    };
+    if (this.shipsDOM !== null) {
+      this.shipsDOM.forEach((item) =>
+        item.addEventListener("dblclick", doubleClick)
+        // item.addEventListener("click", doubleClick)
+        
+      );
+    }
+  }
+
   private dokcyardSetup() {
     const dockyard = document.getElementById("dockyard")!;
     const dropShipToDockyard = (e: any) => {
@@ -130,7 +174,6 @@ class BoardSetup {
       const id = e.dataTransfer!.getData("text/plain");
       const shipDom: HTMLElement = document.getElementById(id)!;
       dockyard.append(shipDom);
-
       this.updateBoard();
     };
     dockyard?.addEventListener("drop", dropShipToDockyard);
