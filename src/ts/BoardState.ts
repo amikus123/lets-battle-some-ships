@@ -28,6 +28,16 @@ class BoardState {
     }
     return ret;
   }
+  public getSquareState(index:number) :string{
+    const result = this.positions[index]
+    if(result.ship !== undefined ){
+      return "afloat"
+    }else if(!result.canPlace){
+      return "unplaceable"
+    }else{
+      return "empty"
+    }
+  }
   public addShip(ship: Ship) {
     for (const point of ship.hull) {
       this.positions[point.position].ship = ship;
@@ -42,7 +52,6 @@ class BoardState {
     for (const x of this.unplacable) {
       this.positions[x].canPlace = false;
     }
-    console.log(this.unplacable,"dont place here",this.positions)
   }
   private numbersFromPositions(arr: boardPosition[]) {
     const ret: number[] = [];
@@ -80,6 +89,7 @@ class BoardState {
     return this.positions[position].isHit ? true : false;
   }
   public checkCanBePlaced(ship: Ship) {
+    console.log("tsts")
     for (const x of ship.hull) {
       if (this.unplacable.indexOf(x.position) !== -1) {
         console.log(x.position, this.unplacable.indexOf(x.position), "fail");

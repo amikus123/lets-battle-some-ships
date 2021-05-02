@@ -122,7 +122,27 @@ ol, ul {
 }
 
 .afloat {
+  background-color: green !important;
+}
+
+.unplaceable {
+  background-color: yellow;
+}
+
+.hit {
+  background-color: cyan;
+}
+
+.missed {
+  background-color: beige;
+}
+
+.sunk {
   background-color: red;
+}
+
+.empty {
+  background-color: #191919;
 }
 
 .ship {

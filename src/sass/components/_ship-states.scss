@@ -6,8 +6,24 @@
     transition: all 0.3s ease 0s;
   }
   .afloat{
+      background-color: green!important;
+  }
+  .unplaceable{
+    background-color: yellow;
+
+  }
+  .hit{
+      background-color: cyan;
+  }
+  .missed{
+      background-color: beige;
+  }
+  .sunk{
       background-color: red;
-      
+  }
+  .empty{
+    background-color: rgb(25,25,25);
+
   }
   .ship {
     height: 30px;
@@ -27,4 +43,5 @@
         background-color: lime;
         border: 4px solid rgb(1, 169, 1);
     }
+    
 }

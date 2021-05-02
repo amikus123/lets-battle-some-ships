@@ -25,6 +25,7 @@ class Gameboard {
     }
     tryToPlaceShip(startPosistion, endPosistion) {
         const createdShip = new Ship_1.default(startPosistion, endPosistion);
+        console.log(createdShip);
         // horizontal
         if (this.boardState.checkCanBePlaced(createdShip)) {
             this.finishPlacingShip(createdShip);

@@ -13,8 +13,8 @@ class Player {
     resetGameboard() {
         this.gameboard.resetGameboard();
     }
-    setShip(startPosistion, endPosistion) {
-        this.gameboard.tryToPlaceShip(startPosistion, endPosistion);
+    tryToPlaceShip(startPosistion, endPosistion) {
+        return this.gameboard.tryToPlaceShip(startPosistion, endPosistion);
     }
     setEnemy(enemy) {
         this.enemy = enemy;

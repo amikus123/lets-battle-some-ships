@@ -25,7 +25,9 @@ class Gameboard {
   }
 
   public tryToPlaceShip(startPosistion: number, endPosistion: number) {
+    
     const createdShip = new Ship(startPosistion, endPosistion);
+    console.log(createdShip)
     // horizontal
     if (this.boardState.checkCanBePlaced(createdShip)) {
       this.finishPlacingShip(createdShip);
@@ -60,6 +62,7 @@ class Gameboard {
     });
   }
 
+  
   private createRadnomShip(lenght: number) {
     while (true) {
       if (Math.round(Math.random()) === 1) {
