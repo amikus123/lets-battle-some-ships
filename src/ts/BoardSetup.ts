@@ -98,13 +98,13 @@ class BoardSetup {
         dropTarget = e.target.parentElement.parentElement;
         console.log(dropTarget)
       }
-
-      if(dropTarget.classList.contains("ship")){
-        console.log("s")
-        dropTarget = e.target.parentElement;
-      }
+      // if(dropTarget.classList.contains("ship")){
+      //   console.log("s")
+      //   dropTarget = e.target.parentElement;
+      // }
       const id = e.dataTransfer!.getData("text/plain");
       const shipDom: HTMLElement = document.getElementById(id)!;
+      const previousParent = shipDom.parentElement
       console.log(dropTarget,shipDom);
       if (dropTarget.classList.contains("game-square")) {
         const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
@@ -112,6 +112,13 @@ class BoardSetup {
           shipDom.setAttribute("start", cords[0].toString());
           shipDom.setAttribute("end", cords[1].toString());
           dropTarget.append(shipDom);
+        }else{
+          console.log("fail")
+          previousParent?.append(shipDom)
+          const start = Number(shipDom.getAttribute("start"));
+          const end = Number(shipDom.getAttribute("end"));
+          this.player.tryToPlaceShip(start,end)
+          console.log(this.player)
         }
       }
 
