@@ -125,7 +125,7 @@ ol, ul {
   background-color: lime !important;
 }
 
-.unplaceable {
+.dev .unplaceable {
   background-color: yellow;
 }
 
@@ -222,6 +222,10 @@ ol, ul {
 .setup .options .setup-option:hover {
   cursor: pointer;
   color: #f83b3a;
+}
+
+.hide {
+  display: none;
 }
 
 /*# sourceMappingURL=index.css.map */

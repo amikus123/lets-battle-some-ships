@@ -58,9 +58,9 @@ class BoardSetup {
         if (this.shipsDOM !== null) {
             const dragStart = (e) => {
                 e.dataTransfer.setData("text/plain", "S" + e.target.id);
-                console.log(e.target.parentElement, "picked up");
+                // console.log(e.target.parentElement, "picked up");
                 if (e.target.getAttribute("start") !== null) {
-                    console.log("removing a ship");
+                    // console.log("removing a ship");
                     const start = e.target.getAttribute("start");
                     const end = e.target.getAttribute("end");
                     this.player.gameboard.removeShip(start, end);
@@ -74,7 +74,7 @@ class BoardSetup {
     ShipDOMDrop() {
         const dropShip = (e) => {
             e.preventDefault();
-            console.log(e);
+            // console.log(e);
             let id = e.dataTransfer.getData("text/plain");
             if (this.checkIfVaildDrop(id)) {
                 const restOfData = this.getDropData(id);
@@ -85,13 +85,13 @@ class BoardSetup {
                 if (dropTarget.classList.contains("game-square")) {
                     const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
                     if (this.player.tryToPlaceShip(cords[0], cords[1])) {
-                        console.log("placed in new loaction");
+                        // console.log("placed in new loaction");
                         shipDom.setAttribute("start", cords[0].toString());
                         shipDom.setAttribute("end", cords[1].toString());
                         dropTarget.append(shipDom);
                     }
                     else {
-                        console.log("fail");
+                        // console.log("fail");
                         const start = Number(shipDom.getAttribute("start"));
                         const end = Number(shipDom.getAttribute("end"));
                         const length = Number(shipDom.getAttribute("length"));
@@ -105,20 +105,20 @@ class BoardSetup {
                     }
                 }
                 this.updateBoard();
-                console.log(this.player);
+                // console.log(this.player);
             }
         };
         return dropShip;
     }
     getDropSquare(shipDom, dropTarget) {
-        console.log(shipDom, dropTarget);
+        // console.log(shipDom, dropTarget);
         if (dropTarget.classList.contains("ship-part")) {
             const boundingRect = dropTarget.getBoundingClientRect();
             const elementsOnPosition = document.elementsFromPoint(boundingRect.x, boundingRect.y);
-            console.log(elementsOnPosition, "whats on positon");
+            // console.log(elementsOnPosition, "whats on positon");
             for (const item of elementsOnPosition) {
                 if (item.classList.contains("game-square")) {
-                    console.log(item);
+                    // console.log(item);
                     return item;
                 }
             }
@@ -168,7 +168,7 @@ class BoardSetup {
         const dockyard = document.getElementById("dockyard");
         const dropShipToDockyard = (e) => {
             e.preventDefault();
-            console.log("dropping to dock");
+            // console.log("dropping to dock");
             const id = e.dataTransfer.getData("text/plain");
             if (this.checkIfVaildDrop(id)) {
                 const restOfData = this.getDropData(id);
@@ -185,7 +185,7 @@ class BoardSetup {
     randomSetup() {
         const randomShips = this.player.gameboard.randomShipSetup();
         const gameSquares = Array.from(this.gameboard.childNodes);
-        console.log(randomShips);
+        // console.log(randomShips);
         randomShips.forEach((ship, index) => {
             if (this.shipsDOM) {
                 const shipDom = this.shipsDOM[index];
@@ -227,6 +227,31 @@ class BoardSetup {
                 this.player.resetGameboard();
                 this.updateBoard();
             });
+        }
+    }
+    start() {
+        var _a;
+        const dockyard = document.getElementById("dockyard");
+        const humanBoard = document.getElementById("human--board");
+        const botBoard = document.getElementById("copmuterBoardWrap");
+        const boardsContainer = document.getElementById("gameboard-setup");
+        const tips = document.getElementById("tips");
+        const options = document.getElementById("options");
+        if (dockyard.childElementCount === 0) {
+            humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("dev");
+            dockyard.remove();
+            options.remove();
+            botBoard.classList.toggle("hide");
+            boardsContainer === null || boardsContainer === void 0 ? void 0 : boardsContainer.appendChild(tips);
+            boardsContainer === null || boardsContainer === void 0 ? void 0 : boardsContainer.appendChild(botBoard);
+            (_a = this.shipsDOM) === null || _a === void 0 ? void 0 : _a.forEach(item => {
+                item.remove();
+            });
+            // console.log(boardsContainer,botBoard)
+            // change class or some shit  
+        }
+        else {
+            console.log("cant start");
         }
     }
 }

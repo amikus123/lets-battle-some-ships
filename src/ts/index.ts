@@ -11,38 +11,29 @@ const humanBoard: HTMLElement = document.getElementById("human--board")!;
 const computerBoard: HTMLElement = document.getElementById("computer--board")!;
 const computerBoardSetup = new BoardSetup(computer, computerBoard);
 const humanBoardSetup = new BoardSetup(human, humanBoard);
+
+const resetButton = document.getElementById("reset");
+const radomButton = document.getElementById("random");
+const startButton = document.getElementById("start");
+const audioButton = document.getElementById("audio");
+const audioIcon = document.getElementById("audioIcon");
+
+radomButton?.addEventListener("click", ()=>{humanBoardSetup.randomSetup()});
+resetButton?.addEventListener("click", ()=>{humanBoardSetup.reset()});
+startButton?.addEventListener("click", ()=>{humanBoardSetup.start()});
+audioButton?.addEventListener("click", audioToggle);
+audioIcon?.addEventListener("click", audioToggle);
+
+
+
 human.setEnemy(computer);
 computer.setEnemy(human);
 
 humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
 computer.randomizeShips();
-computerBoardSetup.updateBoard();
+// computerBoardSetup.updateBoard();
 humanBoardSetup.updateBoard();
-
-
-
-const resetButton = document.getElementById("reset");
-const radomButton = document.getElementById("random");
-const startButton = document.getElementById("start");
-const audioButton = document.getElementById("audio");
-radomButton?.addEventListener("click", ()=>{humanBoardSetup.randomSetup()});
-resetButton?.addEventListener("click", ()=>{humanBoardSetup.reset()});
-startButton?.addEventListener("click", startGame);
-audioButton?.addEventListener("click", audioToggle);
-
-// allows dropping to dokcyard
-
-// dockyard?.addEventListener("drop", (e: any) => {
-//   e.preventDefault();
-//   const dropSquare: HTMLElement = e.target;
-//   const id = e.dataTransfer!.getData("text/plain");
-//   const draggable: HTMLElement = document.getElementById(id)!;
-//   dropSquare.appendChild(draggable);
-// });
-
-
-
 
 console.log(human);
 console.log(computer);

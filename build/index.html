@@ -14,11 +14,15 @@
 
 <body>
   <div class="game">
+    <div class="topbar">
     <h1>BATTLESHIPS RETRO</h1>
+    <button class="setup-option" id="audioIcon">Emoni</button>
+      
+    </div>
     <div class="setup">
       <h2 id="sd">Arrange your board</h2>
-      <div class="main-setup-wrap">
-        <div class="gameboard-setup">
+      <div class="main-setup-wrap" >
+        <div class="gameboard-setup" id="gameboard-setup">
           <div class="gameboard-wrap">
             <div class="letters side">
               <div class="letter">A</div>
@@ -44,7 +48,7 @@
               <div class="letter">9 </div>
               <div class="letter">10 </div>
             </div>
-            <div id="human--board" class="gameboard gird"></div>
+            <div id="human--board" class="gameboard gird dev" ></div>
           </div>
         </div>
         <div class="dockyard" id="dockyard">
@@ -95,20 +99,21 @@
           </div>
         </div>
       </div>
-      <div class="tips">
+      <div class="boards-wrap" id="boards-wrap"> 
+
+      </div>
+      <div class="tips" id="tips">
         <span>Drag and drop to place</span>
         <span>To rotate click on placed ship</span>
 
       </div>
-      <div class="options">
+      <div class="options" id="options"> 
         <button class="setup-option" id="random">Randomize</button>
         <button class="setup-option" id="reset">Reset</button>
         <button class="setup-option" id="start">Start</button>
         <button class="setup-option" id="audio">Audio</button>
-
-
       </div>
-      <div class="gameboard-wrap">
+      <div class="gameboard-wrap hide" id="copmuterBoardWrap">
         <div class="letters side">
           <div class="letter">A</div>
           <div class="letter">B</div>
