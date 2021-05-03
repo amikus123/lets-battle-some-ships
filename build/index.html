@@ -15,23 +15,24 @@
 <body>
  
 
-  <div class="game">
+  <div>
     <header >
-    <h1 id="logo" class=""></h1>
+    <h1 id="logo" class="hide"></h1>
     <!-- <button class="setup-option" id="audioIcon">Emoni</button> -->
-  </div>
+    </header>
+      <div class="modal modal-big hide text-box" id="modalBig">
+      <pre class="animated hide"id="modalBigText"></pre>
+    </div>
+    
   <div class="setup">
-    <div class="modal modal-big hide text-box" id="modalBig">
-      <pre class="animated"id="modalBigText"></pre>
-    </div>
+
     <div class="modal modal-small text-box hide " id="modalSmall">
-      <pre class="animated"id="modalSmallText"></pre>
+      <pre class="animated hide"id="modalSmallText"></pre>
     </div>
-      <pre class="animated" id="helpetText" class="hide"></pre>
       <!-- <h2 id="sd">Arrange your board</h2> -->
-      <div class="main-setup-wrap" >
+      <div class="main-setup-wrap" id="game-div" >
         <div class="gameboard-setup" id="gameboard-setup">
-          <div class="gameboard-wrap">
+          <div class="gameboard-wrap" id="gameboard-human-wrap">
             <div class="letters side">
               <div class="letter">A</div>
               <div class="letter">B</div>
@@ -111,9 +112,9 @@
 
       </div>
       <div class="tips" id="tips">
-        <span>Drag and drop to place</span>
-        <span>To rotate click on placed ship</span>
+        <pre class="animated hide" id="helpetText" > asdasd</pre>
       </div>
+
       <div class="options" id="options"> 
         <button class="setup-option" id="random">Randomize</button>
         <button class="setup-option" id="reset">Reset</button>
@@ -146,7 +147,7 @@
           <div class="letter">10</div>
         </div>
         <div id="computer--board" class="gameboard gird"></div>
-    </div>
+      </div>
 
     <script src="./main.js"></script>
     <!-- <script src="./temp.js"></script> -->

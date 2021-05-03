@@ -229,21 +229,35 @@ class BoardSetup {
             });
         }
     }
+    canStart() {
+        const dockyard = document.getElementById("dockyard");
+        if (dockyard.childElementCount === 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     start() {
         var _a;
         const dockyard = document.getElementById("dockyard");
         const humanBoard = document.getElementById("human--board");
         const botBoard = document.getElementById("copmuterBoardWrap");
         const boardsContainer = document.getElementById("gameboard-setup");
+        const humanWrap = document.getElementById("gameboard-human-wrap");
         const tips = document.getElementById("tips");
         const options = document.getElementById("options");
-        if (dockyard.childElementCount === 0) {
+        const gameDiv = document.getElementById("game-div");
+        if (this.canStart()) {
             humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("dev");
+            botBoard.classList.toggle("hide");
+            gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(humanWrap);
+            gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(tips);
+            gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(botBoard);
+            gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.add("game");
+            boardsContainer.remove();
             dockyard.remove();
             options.remove();
-            botBoard.classList.toggle("hide");
-            boardsContainer === null || boardsContainer === void 0 ? void 0 : boardsContainer.appendChild(tips);
-            boardsContainer === null || boardsContainer === void 0 ? void 0 : boardsContainer.appendChild(botBoard);
             (_a = this.shipsDOM) === null || _a === void 0 ? void 0 : _a.forEach(item => {
                 item.remove();
             });

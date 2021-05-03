@@ -244,21 +244,33 @@ class BoardSetup {
       });
     }
   }
+  public canStart(){
+    const dockyard = document.getElementById("dockyard")!;
+    if(dockyard.childElementCount ===0){
+      return true
+    }else{
+      return false
+    }
+  }
   public start(){
     const dockyard = document.getElementById("dockyard")!;
     const humanBoard = document.getElementById("human--board")
     const botBoard = document.getElementById("copmuterBoardWrap")!;
-    const boardsContainer = document.getElementById("gameboard-setup")
+    const boardsContainer = document.getElementById("gameboard-setup")!
+    const humanWrap = document.getElementById("gameboard-human-wrap")!
     const tips = document.getElementById("tips")!
     const options = document.getElementById("options")!
-    
-    if(dockyard.childElementCount ===0){
+    const gameDiv = document.getElementById("game-div")!
+    if(this.canStart()){
       humanBoard?.classList.toggle("dev")
+      botBoard.classList.toggle("hide")
+      gameDiv?.appendChild(humanWrap)
+      gameDiv?.appendChild(tips)
+      gameDiv?.appendChild(botBoard)
+      gameDiv?.classList.add("game")
+      boardsContainer.remove()
       dockyard.remove()
       options.remove()
-      botBoard.classList.toggle("hide")
-      boardsContainer?.appendChild(tips)
-      boardsContainer?.appendChild(botBoard)
       this.shipsDOM?.forEach(item=>{
         item.remove()
       })

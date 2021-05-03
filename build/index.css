@@ -18,7 +18,7 @@ html {
 }
 
 body {
-  line-height: 1;
+  line-height: 1.7;
   font-family: joystix;
   background: #191919;
   color: lime;
@@ -34,10 +34,11 @@ ul {
 .modal-big {
   position: absolute;
   top: 0;
-  left: -5rem;
-  bottom: -5rem;
-  right: -5rem;
+  left: 0;
+  bottom: 0;
+  right: 0;
   background-color: #191919;
+  z-index: 10;
 }
 .modal-big pre {
   position: absolute;
@@ -183,9 +184,12 @@ ul {
 }
 
 .setup {
-  width: 75%;
+  max-width: 95%;
   margin: 0 auto;
   position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .setup h2 {
   font-size: 3rem;
@@ -199,6 +203,7 @@ ul {
 .setup .main-setup-wrap .dockyard {
   width: 50%;
   display: flex;
+  height: 330px;
   margin-left: 5rem;
   justify-content: center;
   flex-direction: row;
@@ -220,16 +225,27 @@ ul {
 .setup .tips {
   display: flex;
   flex-direction: column;
-  margin: 2rem auto 2rem;
-  width: fit-content;
+  margin: auto;
+  height: 20rem;
+  position: relative;
+  width: 420px;
+  overflow: hidden;
 }
-.setup .tips span {
-  font-size: 1.2rem;
+.setup .tips pre {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 .setup .options {
   display: flex;
   justify-content: space-around;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 100rem;
 }
 .setup .options .setup-option {
   background-color: inherit;
@@ -250,6 +266,20 @@ header {
 }
 header h1 {
   font-size: 3rem;
+  z-index: 100;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+  max-width: 120rem;
+  margin: 5rem 2rem;
+}
+.game #tips {
+  width: 30rem;
+}
+.game #tips #helpetText {
+  width: 30rem;
 }
 
 .hide {

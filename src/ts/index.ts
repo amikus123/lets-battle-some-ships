@@ -24,7 +24,13 @@ resetButton?.addEventListener("click", () => {
   humanBoardSetup.reset();
 });
 startButton?.addEventListener("click", () => {
-  humanBoardSetup.start();
+  if(humanBoardSetup.canStart()){
+
+    animatedBigModal.phase(2);
+    humanBoardSetup.start();
+  }else{
+    // modal or some shit
+  }
 });
 audioButton?.addEventListener("click", audioToggle);
 audioIcon?.addEventListener("click", audioToggle);
@@ -51,5 +57,7 @@ const animatedBigModal = new AnimatedText(modalBigText, bigModal);
 const animatedGameText = new AnimatedText(helperText);
 const animatedLogo = new AnimatedText(logo);
 
-animatedLogo.type("BATTLESHIPS RETRO ")
-animatedBigModal.phase();
+animatedLogo.type("BATTLESHIPS RETRO ");
+
+animatedBigModal.phase(1);
+animatedGameText.typeTips()

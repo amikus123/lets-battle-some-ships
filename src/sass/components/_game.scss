@@ -1,0 +1,14 @@
+.game{
+
+    display: flex;
+    flex-direction: row;
+    max-width: 120rem;
+    margin: 5rem 2rem;
+    #tips{
+        width: 30rem;
+        #helpetText{
+        width: 30rem;
+
+        }
+    }
+}
