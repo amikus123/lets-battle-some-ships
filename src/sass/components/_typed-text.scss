@@ -1,15 +1,33 @@
-/* Google Fonts */
+
+.modal{
+  &-big{
+    position: absolute;
+    top:0;
+    left:-5rem;
+    bottom: -5rem;
+    right: -5rem;
+    background-color: rgba(25,25,25);
+    pre{
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%,-100%);
+      font-size: 3rem;
+    }
+  }
+  &-small{
+
+  }
+}
 
 .text-box {
-  //    width: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#typewriter {
+.animated {
   color: lime;
-
   font-size: 2em;
   margin: 0;
   font-family: joystix;
