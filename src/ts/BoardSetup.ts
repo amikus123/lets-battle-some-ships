@@ -67,14 +67,14 @@ class BoardSetup {
   private shipDOMPickUp() {
     if (this.shipsDOM !== null) {
       const dragStart = (e: any) => {
+
         e.dataTransfer.setData("text/plain", "S" + e.target.id);
-        // console.log(e.target.parentElement, "picked up");
+        console.log(e.target.parentElement, "picked up");
         if (e.target.getAttribute("start") !== null) {
           console.log("removing a ship");
           const start = e.target.getAttribute("start");
           const end = e.target.getAttribute("end");
           this.player.gameboard.removeShip(start, end);
-          // this.updateBoard()
         }
       };
 
@@ -90,15 +90,10 @@ class BoardSetup {
       let id: string = e.dataTransfer!.getData("text/plain");
       if (this.checkIfVaildDrop(id)) {
         const restOfData = this.getDropData(id);
-        console.log(restOfData);
-        console.log("przeszlow");
-        let dropTarget: HTMLElement = e.target;
-        if (dropTarget.classList.contains("ship-part")) {
-          dropTarget = e.target.parentElement.parentElement;
-        }
         const shipDom: HTMLElement = document.getElementById(restOfData)!;
         const previousParent = shipDom.parentElement;
-        console.log(dropTarget, shipDom);
+        const dropTarget: Element  = this.getDropSquare(shipDom,e.target)
+        // console.log(dropTarget, shipDom,previousParent);
         if (dropTarget.classList.contains("game-square")) {
           const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
           if (this.player.tryToPlaceShip(cords[0], cords[1])) {
@@ -111,8 +106,6 @@ class BoardSetup {
             const start = Number(shipDom.getAttribute("start"));
             const end = Number(shipDom.getAttribute("end"));
             const length = Number(shipDom.getAttribute("length"));
-
-            console.log(start, end, length, "1111");
             if (start === end && end === 0 && length !== 1) {
             } else {
               this.player.tryToPlaceShip(start, end);
@@ -127,7 +120,19 @@ class BoardSetup {
     };
     return dropShip;
   }
+  private getDropSquare(shipDom:HTMLElement,dropTarget:HTMLElement){
+    console.log(shipDom,dropTarget  )
+    if(dropTarget.classList.contains("ship-part")){
+      const boundingRect = dropTarget.getBoundingClientRect()
+      const elementsOnPosition = document.elementsFromPoint(boundingRect.x,boundingRect.y)
+      // console.log(ret,"whats on positon")
+      return elementsOnPosition[1]
 
+    }else{
+      // console.log("no need to check")
+      return dropTarget
+    }
+  }
   private addDClick() {
     const doubleClick = (e: any) => {
       const shipDom = e.target.parentElement;
@@ -192,7 +197,7 @@ class BoardSetup {
     randomShips.forEach((ship, index) => {
       if (this.shipsDOM) {
         const shipDom = this.shipsDOM[index];
-        const { length, startPosition, endPosition } = ship;
+        const {startPosition, endPosition } = ship;
         const squareToAppendTo = gameSquares[startPosition];
         shipDom.setAttribute("start", startPosition.toString());
         shipDom.setAttribute("end", endPosition.toString());
