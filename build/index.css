@@ -186,6 +186,7 @@ ol, ul {
   flex-wrap: wrap;
   align-items: center;
   padding: 1rem;
+  outline: 1px solid lime;
 }
 .setup .main-setup-wrap .dockyard .ship {
   margin: 1rem;

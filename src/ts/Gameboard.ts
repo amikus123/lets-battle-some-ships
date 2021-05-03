@@ -75,6 +75,7 @@ class Gameboard {
     this.shipsSizes.forEach((length) => {
       this.createRadnomShip(length);
     });
+    return this.ships
   }
 
   private createRadnomShip(lenght: number) {
