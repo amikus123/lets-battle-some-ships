@@ -115,13 +115,16 @@ class BoardSetup {
         if (dropTarget.classList.contains("ship-part")) {
             const boundingRect = dropTarget.getBoundingClientRect();
             const elementsOnPosition = document.elementsFromPoint(boundingRect.x, boundingRect.y);
-            // console.log(ret,"whats on positon")
-            return elementsOnPosition[1];
+            console.log(elementsOnPosition, "whats on positon");
+            for (const item of elementsOnPosition) {
+                if (item.classList.contains("game-square")) {
+                    console.log(item);
+                    return item;
+                }
+            }
+            // return elementsOnPosition[1]
         }
-        else {
-            // console.log("no need to check")
-            return dropTarget;
-        }
+        return dropTarget;
     }
     addDClick() {
         const doubleClick = (e) => {

@@ -67,7 +67,6 @@ class BoardSetup {
   private shipDOMPickUp() {
     if (this.shipsDOM !== null) {
       const dragStart = (e: any) => {
-
         e.dataTransfer.setData("text/plain", "S" + e.target.id);
         console.log(e.target.parentElement, "picked up");
         if (e.target.getAttribute("start") !== null) {
@@ -92,7 +91,7 @@ class BoardSetup {
         const restOfData = this.getDropData(id);
         const shipDom: HTMLElement = document.getElementById(restOfData)!;
         const previousParent = shipDom.parentElement;
-        const dropTarget: Element  = this.getDropSquare(shipDom,e.target)
+        const dropTarget: Element = this.getDropSquare(shipDom, e.target);
         // console.log(dropTarget, shipDom,previousParent);
         if (dropTarget.classList.contains("game-square")) {
           const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
@@ -120,18 +119,24 @@ class BoardSetup {
     };
     return dropShip;
   }
-  private getDropSquare(shipDom:HTMLElement,dropTarget:HTMLElement){
-    console.log(shipDom,dropTarget  )
-    if(dropTarget.classList.contains("ship-part")){
-      const boundingRect = dropTarget.getBoundingClientRect()
-      const elementsOnPosition = document.elementsFromPoint(boundingRect.x,boundingRect.y)
-      // console.log(ret,"whats on positon")
-      return elementsOnPosition[1]
-
-    }else{
-      // console.log("no need to check")
-      return dropTarget
+  private getDropSquare(shipDom: HTMLElement, dropTarget: HTMLElement) {
+    console.log(shipDom, dropTarget);
+    if (dropTarget.classList.contains("ship-part")) {
+      const boundingRect = dropTarget.getBoundingClientRect();
+      const elementsOnPosition = document.elementsFromPoint(
+        boundingRect.x,
+        boundingRect.y
+      );
+      console.log(elementsOnPosition, "whats on positon");
+      for (const item of elementsOnPosition) {
+        if (item.classList.contains("game-square")) {
+          console.log(item);
+          return item;
+        }
+      }
+      // return elementsOnPosition[1]
     }
+    return dropTarget;
   }
   private addDClick() {
     const doubleClick = (e: any) => {
@@ -177,7 +182,7 @@ class BoardSetup {
       e.preventDefault();
       console.log("dropping to dock");
       const id = e.dataTransfer!.getData("text/plain");
-      if(this.checkIfVaildDrop(id)){
+      if (this.checkIfVaildDrop(id)) {
         const restOfData = this.getDropData(id);
         const shipDom: HTMLElement = document.getElementById(restOfData)!;
         dockyard.append(shipDom);
@@ -197,7 +202,7 @@ class BoardSetup {
     randomShips.forEach((ship, index) => {
       if (this.shipsDOM) {
         const shipDom = this.shipsDOM[index];
-        const {startPosition, endPosition } = ship;
+        const { startPosition, endPosition } = ship;
         const squareToAppendTo = gameSquares[startPosition];
         shipDom.setAttribute("start", startPosition.toString());
         shipDom.setAttribute("end", endPosition.toString());
