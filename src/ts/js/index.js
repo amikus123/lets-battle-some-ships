@@ -28,6 +28,7 @@ startButton === null || startButton === void 0 ? void 0 : startButton.addEventLi
     if (humanBoardSetup.canStart()) {
         animatedBigModal.phase(2);
         humanBoardSetup.start();
+        animatedGameText.type("Attack! \n The Enemy ");
     }
     else {
         // modal or some shit

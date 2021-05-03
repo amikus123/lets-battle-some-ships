@@ -5,10 +5,12 @@
     max-width: 120rem;
     margin: 5rem 2rem;
     #tips{
-        width: 30rem;
-        #helpetText{
-        width: 30rem;
+        outline: solid 1px red;
 
+        width: 300px;
+        #helpetText{    
+            top:30%;
+            width: auto;
         }
     }
 }

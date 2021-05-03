@@ -18,6 +18,7 @@ export default class AnimatedText {
   }
   public phase(phaseNumber: number) {
     let phaseString = "";
+    this.reset()
     if (phaseNumber === 1) {
       phaseString = `Phase one: \n  Setup `;
       this.modal?.classList.toggle("hide");
@@ -43,16 +44,38 @@ export default class AnimatedText {
   }
 
   public type(text: string) {
-    this.displayTarget?.classList.toggle("hide");
+    this.reset()
+    this.displayTarget?.classList.remove("hide");
     setupTypewriter(this.displayTarget, text);
     setTimeout(() => {
       //   this.modal?.classList.toggle("hide");
     }, 5000);
   }
+  public tpye() {}
+  private reset() {
+    const elementToReplace = this.displayTarget;
+    console.log(
+      elementToReplace.classList,
+      elementToReplace.id,
+      elementToReplace.tagName
+    );
+    const newElement = document.createElement(
+      elementToReplace.tagName.toLowerCase()
+    );
+    newElement.id = elementToReplace.id;
+    const classArray = elementToReplace.classList.value.split(" ");
+    classArray.forEach((item) => {
+      newElement.classList.add(item);
+    });
+    console.log(newElement);
+    elementToReplace.parentElement?.append(newElement);
+    elementToReplace.remove();
+    this.displayTarget = newElement;
+  }
   public typeTips() {
     setTimeout(() => {
-      const text = 
-      `Drag ships to move them        \nDobule click on ship to rotate `;
+      this.reset();
+      const text = `Drag ships to move them        \nDobule click on ship to rotate `;
       this.displayTarget?.classList.toggle("hide");
       setupTypewriter(this.displayTarget, text);
     }, 5000);

@@ -16,6 +16,7 @@ class AnimatedText {
     phase(phaseNumber) {
         var _a, _b, _c;
         let phaseString = "";
+        this.reset();
         if (phaseNumber === 1) {
             phaseString = `Phase one: \n  Setup `;
             (_a = this.modal) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
@@ -45,15 +46,33 @@ class AnimatedText {
     }
     type(text) {
         var _a;
-        (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
+        this.reset();
+        (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.remove("hide");
         temp_1.default(this.displayTarget, text);
         setTimeout(() => {
             //   this.modal?.classList.toggle("hide");
         }, 5000);
     }
+    tpye() { }
+    reset() {
+        var _a;
+        const elementToReplace = this.displayTarget;
+        console.log(elementToReplace.classList, elementToReplace.id, elementToReplace.tagName);
+        const newElement = document.createElement(elementToReplace.tagName.toLowerCase());
+        newElement.id = elementToReplace.id;
+        const classArray = elementToReplace.classList.value.split(" ");
+        classArray.forEach((item) => {
+            newElement.classList.add(item);
+        });
+        console.log(newElement);
+        (_a = elementToReplace.parentElement) === null || _a === void 0 ? void 0 : _a.append(newElement);
+        elementToReplace.remove();
+        this.displayTarget = newElement;
+    }
     typeTips() {
         setTimeout(() => {
             var _a;
+            this.reset();
             const text = `Drag ships to move them        \nDobule click on ship to rotate `;
             (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
             temp_1.default(this.displayTarget, text);

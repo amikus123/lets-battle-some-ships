@@ -229,7 +229,6 @@ ul {
   height: 20rem;
   position: relative;
   width: 420px;
-  overflow: hidden;
 }
 .setup .tips pre {
   position: absolute;
@@ -276,10 +275,12 @@ header h1 {
   margin: 5rem 2rem;
 }
 .game #tips {
-  width: 30rem;
+  outline: solid 1px red;
+  width: 300px;
 }
 .game #tips #helpetText {
-  width: 30rem;
+  top: 30%;
+  width: auto;
 }
 
 .hide {
