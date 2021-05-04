@@ -1,19 +1,31 @@
-@use  "../abstracts" as *;
-.game{
+@use "../abstracts" as *;
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+  #tips {
+    // outline: solid 1px red;
+    // border: solid 1px blue;
+    padding-left: 2rem;
+    width: 20rem;
+    box-sizing: border-box;
+    height: 100px;
     display: flex;
+    justify-content: center;
+    align-self: center;
+    #helpetText {
+           
+      width: auto;
+    }
+  }
+  @include laptopScreen {
     flex-direction: row;
-    max-width: 120rem;
-    margin: 5rem 2rem;
+    justify-content: space-around;
+    margin-top: 5rem;
     #tips{
-        outline: solid 1px red;
-
-        width: 300px;
-        #helpetText{    
-            top:30%;
-            width: auto;
-        }
+        margin: 0;
     }
-    @include wideScreen{
-        
-    }
+  }
 }

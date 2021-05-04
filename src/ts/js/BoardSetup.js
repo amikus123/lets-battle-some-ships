@@ -245,15 +245,23 @@ class BoardSetup {
         const botBoard = document.getElementById("copmuterBoardWrap");
         const humanWrap = document.getElementById("gameboard-human-wrap");
         const tips = document.getElementById("tips");
+        const tip1 = document.getElementById("tip1");
+        const tip2 = document.getElementById("tip2");
+        const helperText = document.getElementById("helperText");
         const options = document.getElementById("options");
         const gameDiv = document.getElementById("game-div");
         if (this.canStart()) {
-            humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("dev");
+            humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("setup-board");
+            humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("game-board");
             botBoard.classList.toggle("hide");
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(humanWrap);
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(tips);
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(botBoard);
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.add("game");
+            gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.remove("dev");
+            tip1.classList.toggle("hide");
+            tip2.classList.toggle("hide");
+            helperText.classList.toggle("hide");
             dockyard.classList.add("hide");
             options.classList.add("hide");
             (_a = this.shipsDOM) === null || _a === void 0 ? void 0 : _a.forEach(item => {

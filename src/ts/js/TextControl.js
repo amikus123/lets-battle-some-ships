@@ -39,5 +39,9 @@ class TextControl {
             sibling === null || sibling === void 0 ? void 0 : sibling.classList.remove("hide");
         }, this.modalSpeed);
     }
+    typeTips() {
+        this.animatedTip1.type("Drag ships to place them ");
+        this.animatedTip2.type("Dobule click on ship to rotate ");
+    }
 }
 exports.default = TextControl;

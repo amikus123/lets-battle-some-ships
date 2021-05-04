@@ -258,15 +258,25 @@ class BoardSetup {
     const botBoard = document.getElementById("copmuterBoardWrap")!;
     const humanWrap = document.getElementById("gameboard-human-wrap")!
     const tips = document.getElementById("tips")!
+    const tip1 = document.getElementById("tip1")!;
+    const tip2 = document.getElementById("tip2")!;
+    const helperText = document.getElementById("helperText")!;
+
     const options = document.getElementById("options")!
     const gameDiv = document.getElementById("game-div")!
     if(this.canStart()){
-      humanBoard?.classList.toggle("dev")
+      humanBoard?.classList.toggle("setup-board")
+      humanBoard?.classList.toggle("game-board")
+
       botBoard.classList.toggle("hide")
       gameDiv?.appendChild(humanWrap)
       gameDiv?.appendChild(tips)
       gameDiv?.appendChild(botBoard)
       gameDiv?.classList.add("game")
+      gameDiv?.classList.remove("dev")
+      tip1.classList.toggle("hide")
+      tip2.classList.toggle("hide")
+      helperText.classList.toggle("hide")
       dockyard.classList.add("hide")
       options.classList.add("hide")
       this.shipsDOM?.forEach(item=>{

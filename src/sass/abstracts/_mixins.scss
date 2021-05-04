@@ -2,8 +2,14 @@
     display: none!important;
 }
 
-@mixin wideScreen {
-    @media screen and (max-width:110rem) {
+@mixin tabletScreen {
+    @media screen and (min-width:768px) {
+        @content
+    }
+}
+
+@mixin laptopScreen {
+    @media screen and (min-width:1024px) {
         @content
     }
 }

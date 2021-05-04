@@ -1,3 +1,5 @@
+@use  "../abstracts" as *;
+
 .game-wrap {
   position: relative;
   display: flex;
@@ -9,23 +11,29 @@
     margin: 2rem;
   }
 
-  .main-setup-wrap {
+  .dev{
     display: flex;
     justify-content: space-around;
     flex-direction: column;
     align-items: center;
+    margin-right: 1rem;
+    @include tabletScreen{
+    flex-direction: row;
+      
+    }
     .dockyard {
       box-sizing: border-box;
       margin-top: 3rem;
-      width: 50%;
+      margin-left: 3rem;
+      width: 30rem;
       display: flex;
-      height: 360px;
+      height: 36rem;
       justify-content: center;
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
       padding: 0.5rem;
-      border:  1px solid lime ;
+      border: 1px solid lime;
       .ship {
         margin: 0.5rem;
       }
@@ -36,37 +44,45 @@
         }
       }
 
-      .gameboard-setup {
-        width: 50%;
-      }
+      
     }
   }
 
   .tips {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin:  auto ;
-    height: 20rem;
+    align-items: center;
+    margin: auto;
     position: relative;
-    width: 100%;
+    width: 90vw;
     max-width: 500px;
+    margin: 2rem auto 3rem;
+    @include tabletScreen{
+      margin: 5rem auto;
+        
+      }
     // overflow: hidden;
-    * {
+    p {
+      margin: 0 0 1rem 2rem;
+      max-width: 30rem;
       font-size: 1.5rem;
-      margin-bottom: 1rem;
     }
   }
-
 }
 .options {
   display: flex;
   justify-content: space-around;
   margin: 0 auto;
-  // min-width: 30rem
   width: 80%;
-  max-width: 100rem;
+  flex-direction: column;
+  *{
+   margin-bottom: 2rem; 
+  }
+  @include tabletScreen{
+    flex-direction: row;
+      
+    }
 }
 .setup-option {
   background-color: inherit;
@@ -74,6 +90,7 @@
   font-family: joystix;
   font-size: 1.8rem;
   transition: all 0.2s ease-in;
+  
   &:hover {
     cursor: pointer;
     color: #f83b3a;

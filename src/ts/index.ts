@@ -48,7 +48,7 @@ console.log(computer);
 const textControl = new TextControl;
 textControl.changePhase(1)
 textControl.typeLogo()
-
+textControl.typeTips()
 
 
 // animatedGameText.typeTips()
