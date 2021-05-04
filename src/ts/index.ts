@@ -1,9 +1,8 @@
 import Player from "./Player";
 import GameFlow from "./GameFlow";
 import BoardSetup from "./BoardSetup";
-import AnimatedText from "./AnimatedText";
 import { audioToggle } from "./Buttons";
-
+import TextControl from "./TextControl"
 const human = new Player(false);
 const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
@@ -25,10 +24,9 @@ resetButton?.addEventListener("click", () => {
 });
 startButton?.addEventListener("click", () => {
   if(humanBoardSetup.canStart()){
+    textControl.changePhase(2)
 
-    animatedBigModal.phase(2);
     humanBoardSetup.start();
-    animatedGameText.type("Attack! \n The Enemy ")
   }else{
     // modal or some shit
   }
@@ -47,18 +45,10 @@ humanBoardSetup.updateBoard();
 console.log(human);
 console.log(computer);
 
-const modalBigText = document.getElementById("modalBigText")!;
-const bigModal = document.getElementById("modalBig")!;
-const modalSmallText = document.getElementById("modalSmallText")!;
-const smallModal = document.getElementById("modalSmall")!;
-const logo = document.getElementById("logo")!;
-const helperText = document.getElementById("helpetText")!;
-const animatedSmallModal = new AnimatedText(modalSmallText, smallModal);
-const animatedBigModal = new AnimatedText(modalBigText, bigModal);
-const animatedGameText = new AnimatedText(helperText);
-const animatedLogo = new AnimatedText(logo);
+const textControl = new TextControl;
+textControl.changePhase(1)
+textControl.typeLogo()
 
-animatedLogo.type("BATTLESHIPS RETRO ");
 
-animatedBigModal.phase(1);
-animatedGameText.typeTips()
+
+// animatedGameText.typeTips()

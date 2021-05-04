@@ -243,7 +243,6 @@ class BoardSetup {
         const dockyard = document.getElementById("dockyard");
         const humanBoard = document.getElementById("human--board");
         const botBoard = document.getElementById("copmuterBoardWrap");
-        const boardsContainer = document.getElementById("gameboard-setup");
         const humanWrap = document.getElementById("gameboard-human-wrap");
         const tips = document.getElementById("tips");
         const options = document.getElementById("options");
@@ -255,11 +254,11 @@ class BoardSetup {
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(tips);
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(botBoard);
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.add("game");
-            boardsContainer.remove();
-            dockyard.remove();
-            options.remove();
+            dockyard.classList.add("hide");
+            options.classList.add("hide");
             (_a = this.shipsDOM) === null || _a === void 0 ? void 0 : _a.forEach(item => {
-                item.remove();
+                item.classList.add("hide");
+                dockyard.appendChild(item);
             });
             // console.log(boardsContainer,botBoard)
             // change class or some shit  

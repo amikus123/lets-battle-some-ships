@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Player_1 = __importDefault(require("./Player"));
 const BoardSetup_1 = __importDefault(require("./BoardSetup"));
-const AnimatedText_1 = __importDefault(require("./AnimatedText"));
 const Buttons_1 = require("./Buttons");
+const TextControl_1 = __importDefault(require("./TextControl"));
 const human = new Player_1.default(false);
 const computer = new Player_1.default(true);
 const humanBoard = document.getElementById("human--board");
@@ -26,9 +26,8 @@ resetButton === null || resetButton === void 0 ? void 0 : resetButton.addEventLi
 });
 startButton === null || startButton === void 0 ? void 0 : startButton.addEventListener("click", () => {
     if (humanBoardSetup.canStart()) {
-        animatedBigModal.phase(2);
+        textControl.changePhase(2);
         humanBoardSetup.start();
-        animatedGameText.type("Attack! \n The Enemy ");
     }
     else {
         // modal or some shit
@@ -45,16 +44,7 @@ computer.randomizeShips();
 humanBoardSetup.updateBoard();
 console.log(human);
 console.log(computer);
-const modalBigText = document.getElementById("modalBigText");
-const bigModal = document.getElementById("modalBig");
-const modalSmallText = document.getElementById("modalSmallText");
-const smallModal = document.getElementById("modalSmall");
-const logo = document.getElementById("logo");
-const helperText = document.getElementById("helpetText");
-const animatedSmallModal = new AnimatedText_1.default(modalSmallText, smallModal);
-const animatedBigModal = new AnimatedText_1.default(modalBigText, bigModal);
-const animatedGameText = new AnimatedText_1.default(helperText);
-const animatedLogo = new AnimatedText_1.default(logo);
-animatedLogo.type("BATTLESHIPS RETRO ");
-animatedBigModal.phase(1);
-animatedGameText.typeTips();
+const textControl = new TextControl_1.default;
+textControl.changePhase(1);
+textControl.typeLogo();
+// animatedGameText.typeTips()

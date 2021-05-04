@@ -3,7 +3,7 @@ export default class AnimatedText {
   displayTarget: HTMLElement;
   typeSpeed: number;
   modal: HTMLElement | null;
-
+  lastTimeoutId: number | null;
   constructor(
     element: HTMLElement,
     modal: HTMLElement | null = null,
@@ -12,53 +12,51 @@ export default class AnimatedText {
     this.displayTarget = element;
     this.typeSpeed = speed;
     this.modal = modal;
+    this.lastTimeoutId = null;
   }
   public setSpeed(newSpeed: number) {
     this.typeSpeed = newSpeed;
   }
-  public phase(phaseNumber: number) {
-    let phaseString = "";
-    this.reset()
-    if (phaseNumber === 1) {
-      phaseString = `Phase one: \n  Setup `;
-      this.modal?.classList.toggle("hide");
-      // this.displayTarget.innerText ="";
-      setTimeout(() => {
-        this.displayTarget?.classList.toggle("hide");
-        setupTypewriter(this.displayTarget, phaseString);
-        setTimeout(() => {
-          this.modal?.classList.toggle("hide");
-          this.displayTarget?.classList.toggle("hide");
-        }, 2500);
-      }, 2500);
-    } else {
-      phaseString = `Phase two: \n  Battle `;
-      this.modal?.classList.toggle("hide");
-      this.displayTarget?.classList.toggle("hide");
-      setupTypewriter(this.displayTarget, phaseString);
-      setTimeout(() => {
-        this.modal?.classList.toggle("hide");
-        this.displayTarget?.classList.toggle("hide");
-      }, 2500);
+  private removePreviousTimeout = () => {
+    if (this.lastTimeoutId !== null) {
+      clearTimeout(this.lastTimeoutId);
+      this.lastTimeoutId = null;
     }
-  }
-
-  public type(text: string) {
-    this.reset()
+  };
+  public typeTemporary(text: string, removeAfter: number = 2500) {
+    this.resetText();
+    this.removePreviousTimeout();
     this.displayTarget?.classList.remove("hide");
+    if (this.modal) {
+      this.modal?.classList.remove("hide");
+    }
     setupTypewriter(this.displayTarget, text);
     setTimeout(() => {
-      //   this.modal?.classList.toggle("hide");
-    }, 5000);
+      this.displayTarget?.classList.add("hide");
+      if (this.modal) {
+        this.modal?.classList.add("hide");
+      }
+    }, removeAfter);
   }
-  public tpye() {}
-  private reset() {
+  public type(text: string) {
+    this.resetText();
+    this.removePreviousTimeout();
+    this.displayTarget?.classList.remove("hide");
+    if (this.modal) {
+      this.modal?.classList.remove("hide");
+    }
+    setupTypewriter(this.displayTarget, text);
+  }
+  public hide() {
+    this.displayTarget.classList.add("hide")
+    if(this.modal){
+      this.modal?.classList.add("hide");
+
+    }
+  }
+  private resetText() {
     const elementToReplace = this.displayTarget;
-    console.log(
-      elementToReplace.classList,
-      elementToReplace.id,
-      elementToReplace.tagName
-    );
+    
     const newElement = document.createElement(
       elementToReplace.tagName.toLowerCase()
     );
@@ -67,17 +65,12 @@ export default class AnimatedText {
     classArray.forEach((item) => {
       newElement.classList.add(item);
     });
-    console.log(newElement);
-    elementToReplace.parentElement?.append(newElement);
+    if(elementToReplace.nextElementSibling === null){
+      elementToReplace.parentElement?.append(newElement);
+    }else{
+      elementToReplace.parentElement?.insertBefore(newElement,elementToReplace.nextElementSibling)
+    }
     elementToReplace.remove();
     this.displayTarget = newElement;
-  }
-  public typeTips() {
-    setTimeout(() => {
-      this.reset();
-      const text = `Drag ships to move them        \nDobule click on ship to rotate `;
-      this.displayTarget?.classList.toggle("hide");
-      setupTypewriter(this.displayTarget, text);
-    }, 5000);
   }
 }

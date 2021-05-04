@@ -1,5 +1,5 @@
+@use  "../abstracts" as *;
 .game{
-
     display: flex;
     flex-direction: row;
     max-width: 120rem;
@@ -12,5 +12,8 @@
             top:30%;
             width: auto;
         }
+    }
+    @include wideScreen{
+        
     }
 }

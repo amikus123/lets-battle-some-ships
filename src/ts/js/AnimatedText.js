@@ -6,77 +6,71 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const temp_1 = __importDefault(require("./temp"));
 class AnimatedText {
     constructor(element, modal = null, speed = 10) {
+        this.removePreviousTimeout = () => {
+            if (this.lastTimeoutId !== null) {
+                clearTimeout(this.lastTimeoutId);
+                this.lastTimeoutId = null;
+            }
+        };
         this.displayTarget = element;
         this.typeSpeed = speed;
         this.modal = modal;
+        this.lastTimeoutId = null;
     }
     setSpeed(newSpeed) {
         this.typeSpeed = newSpeed;
     }
-    phase(phaseNumber) {
-        var _a, _b, _c;
-        let phaseString = "";
-        this.reset();
-        if (phaseNumber === 1) {
-            phaseString = `Phase one: \n  Setup `;
-            (_a = this.modal) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
-            // this.displayTarget.innerText ="";
-            setTimeout(() => {
-                var _a;
-                (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
-                temp_1.default(this.displayTarget, phaseString);
-                setTimeout(() => {
-                    var _a, _b;
-                    (_a = this.modal) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
-                    (_b = this.displayTarget) === null || _b === void 0 ? void 0 : _b.classList.toggle("hide");
-                }, 2500);
-            }, 2500);
-        }
-        else {
-            phaseString = `Phase two: \n  Battle `;
-            (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.toggle("hide");
-            (_c = this.displayTarget) === null || _c === void 0 ? void 0 : _c.classList.toggle("hide");
-            temp_1.default(this.displayTarget, phaseString);
-            setTimeout(() => {
-                var _a, _b;
-                (_a = this.modal) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
-                (_b = this.displayTarget) === null || _b === void 0 ? void 0 : _b.classList.toggle("hide");
-            }, 2500);
-        }
-    }
-    type(text) {
-        var _a;
-        this.reset();
+    typeTemporary(text, removeAfter = 2500) {
+        var _a, _b;
+        this.resetText();
+        this.removePreviousTimeout();
         (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.remove("hide");
+        if (this.modal) {
+            (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.remove("hide");
+        }
         temp_1.default(this.displayTarget, text);
         setTimeout(() => {
-            //   this.modal?.classList.toggle("hide");
-        }, 5000);
+            var _a, _b;
+            (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.add("hide");
+            if (this.modal) {
+                (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.add("hide");
+            }
+        }, removeAfter);
     }
-    tpye() { }
-    reset() {
+    type(text) {
+        var _a, _b;
+        this.resetText();
+        this.removePreviousTimeout();
+        (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.remove("hide");
+        if (this.modal) {
+            (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.remove("hide");
+        }
+        temp_1.default(this.displayTarget, text);
+    }
+    hide() {
         var _a;
+        this.displayTarget.classList.add("hide");
+        if (this.modal) {
+            (_a = this.modal) === null || _a === void 0 ? void 0 : _a.classList.add("hide");
+        }
+    }
+    resetText() {
+        var _a, _b;
         const elementToReplace = this.displayTarget;
-        console.log(elementToReplace.classList, elementToReplace.id, elementToReplace.tagName);
         const newElement = document.createElement(elementToReplace.tagName.toLowerCase());
         newElement.id = elementToReplace.id;
         const classArray = elementToReplace.classList.value.split(" ");
         classArray.forEach((item) => {
             newElement.classList.add(item);
         });
-        console.log(newElement);
-        (_a = elementToReplace.parentElement) === null || _a === void 0 ? void 0 : _a.append(newElement);
+        if (elementToReplace.nextElementSibling === null) {
+            (_a = elementToReplace.parentElement) === null || _a === void 0 ? void 0 : _a.append(newElement);
+        }
+        else {
+            (_b = elementToReplace.parentElement) === null || _b === void 0 ? void 0 : _b.insertBefore(newElement, elementToReplace.nextElementSibling);
+        }
         elementToReplace.remove();
         this.displayTarget = newElement;
-    }
-    typeTips() {
-        setTimeout(() => {
-            var _a;
-            this.reset();
-            const text = `Drag ships to move them        \nDobule click on ship to rotate `;
-            (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.toggle("hide");
-            temp_1.default(this.displayTarget, text);
-        }, 5000);
     }
 }
 exports.default = AnimatedText;

@@ -1,6 +1,4 @@
-.setup {
-  max-width: 95%;
-  margin: 0 auto;
+.game-wrap {
   position: relative;
   display: flex;
   justify-content: center;
@@ -14,20 +12,22 @@
   .main-setup-wrap {
     display: flex;
     justify-content: space-around;
-
+    flex-direction: column;
+    align-items: center;
     .dockyard {
+      box-sizing: border-box;
+      margin-top: 3rem;
       width: 50%;
       display: flex;
-      height: 330px;
-      margin-left: 5rem;
+      height: 360px;
       justify-content: center;
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
-      padding: 1rem;
+      padding: 0.5rem;
       border:  1px solid lime ;
       .ship {
-        margin: 1rem;
+        margin: 0.5rem;
       }
       .ship-container {
         span {
@@ -45,40 +45,37 @@
   .tips {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin:  auto ;
     height: 20rem;
     position: relative;
-    width: 420px;
+    width: 100%;
+    max-width: 500px;
     // overflow: hidden;
-    pre {
-      position: absolute;
-      top:50%;
-      left: 50%;
-      transform: translate(-50%,-50%);
-      // transform: translateX(50%);
-      width: 420px;
+    * {
       font-size: 1.5rem;
       margin-bottom: 1rem;
     }
   }
 
-  .options {
-    display: flex;
-    justify-content: space-around;
-    margin: 0 auto;
-    // min-width: 30rem
-    width: 80%;
-    max-width: 100rem;
-    .setup-option {
-      background-color: inherit;
-      color: inherit;
-      font-family: joystix;
-      font-size: 1.8rem;
-      transition: all 0.2s ease-in;
-      &:hover {
-        cursor: pointer;
-        color: #f83b3a;
-      }
-    }
+}
+.options {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  // min-width: 30rem
+  width: 80%;
+  max-width: 100rem;
+}
+.setup-option {
+  background-color: inherit;
+  color: inherit;
+  font-family: joystix;
+  font-size: 1.8rem;
+  transition: all 0.2s ease-in;
+  &:hover {
+    cursor: pointer;
+    color: #f83b3a;
   }
 }

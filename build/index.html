@@ -11,55 +11,77 @@
     var exports = {};
   </script>
 </head>
-
 <body>
- 
-
-  <div>
     <header >
     <h1 id="logo" class="hide"></h1>
-    <!-- <button class="setup-option" id="audioIcon">Emoni</button> -->
+    <button class="setup-option" id="audioIcon">audio on</button>
+
     </header>
       <div class="modal modal-big hide text-box" id="modalBig">
       <pre class="animated hide"id="modalBigText"></pre>
     </div>
     
-  <div class="setup">
-
+  <main class="game-wrap">
     <div class="modal modal-small text-box hide " id="modalSmall">
       <pre class="animated hide"id="modalSmallText"></pre>
     </div>
-      <!-- <h2 id="sd">Arrange your board</h2> -->
       <div class="main-setup-wrap" id="game-div" >
-        <div class="gameboard-setup" id="gameboard-setup">
-          <div class="gameboard-wrap" id="gameboard-human-wrap">
-            <div class="letters side">
-              <div class="letter">A</div>
-              <div class="letter">B</div>
-              <div class="letter">C</div>
-              <div class="letter">D</div>
-              <div class="letter">E</div>
-              <div class="letter">F</div>
-              <div class="letter">G</div>
-              <div class="letter">H</div>
-              <div class="letter">I</div>
-              <div class="letter">J</div>
-            </div>
-            <div class="numbers side">
-              <div class="letter">1 </div>
-              <div class="letter">2 </div>
-              <div class="letter">3 </div>
-              <div class="letter">4 </div>
-              <div class="letter">5 </div>
-              <div class="letter">6 </div>
-              <div class="letter">7 </div>
-              <div class="letter">8 </div>
-              <div class="letter">9 </div>
-              <div class="letter">10 </div>
-            </div>
-            <div id="human--board" class="gameboard gird dev" ></div>
+        <div class="gameboard-wrap" id="gameboard-human-wrap">
+          <div class="letters side">
+            <div class="letter">A</div>
+            <div class="letter">B</div>
+            <div class="letter">C</div>
+            <div class="letter">D</div>
+            <div class="letter">E</div>
+            <div class="letter">F</div>
+            <div class="letter">G</div>
+            <div class="letter">H</div>
+            <div class="letter">I</div>
+            <div class="letter">J</div>
           </div>
+          <div class="numbers side">
+            <div class="letter">1 </div>
+            <div class="letter">2 </div>
+            <div class="letter">3 </div>
+            <div class="letter">4 </div>
+            <div class="letter">5 </div>
+            <div class="letter">6 </div>
+            <div class="letter">7 </div>
+            <div class="letter">8 </div>
+            <div class="letter">9 </div>
+            <div class="letter">10 </div>
+          </div>
+          <div id="human--board" class="gameboard gird dev" ></div>
         </div>
+        <div class="gameboard-wrap hide" id="copmuterBoardWrap">
+          <div class="letters side">
+            <div class="letter">A</div>
+            <div class="letter">B</div>
+            <div class="letter">C</div>
+            <div class="letter">D</div>
+            <div class="letter">E</div>
+            <div class="letter">F</div>
+            <div class="letter">G</div>
+            <div class="letter">H</div>
+            <div class="letter">I</div>
+            <div class="letter">J</div>
+          </div>
+          <div class="numbers side">
+            <div class="letter">1</div>
+            <div class="letter">2</div>
+            <div class="letter">3</div>
+            <div class="letter">4</div>
+            <div class="letter">5</div>
+            <div class="letter">6</div>
+            <div class="letter">7</div>
+            <div class="letter">8</div>
+            <div class="letter">9</div>
+            <div class="letter">10</div>
+          </div>
+          <div id="computer--board" class="gameboard gird"></div>
+          </div>
+        <pre class="animated hide" id="helpetText" > asdasd</pre>
+
         <div class="dockyard" id="dockyard">
           <div class="ship" draggable="true" id="1" length="4">
             <div class="ship-part"></div>
@@ -107,12 +129,13 @@
             <div class="ship-part"></div>
           </div>
         </div>
-      </div>
-      <div class="boards-wrap" id="boards-wrap"> 
 
       </div>
+  
       <div class="tips" id="tips">
-        <pre class="animated hide" id="helpetText" > asdasd</pre>
+        <p class="animated hide" id="tip1" ></p>
+        <p class="animated hide" id="tip2" ></p>
+        
       </div>
 
       <div class="options" id="options"> 
@@ -121,70 +144,10 @@
         <button class="setup-option" id="start">Start</button>
         <button class="setup-option" id="audio">Audio</button>
       </div>
-      <div class="gameboard-wrap hide" id="copmuterBoardWrap">
-        <div class="letters side">
-          <div class="letter">A</div>
-          <div class="letter">B</div>
-          <div class="letter">C</div>
-          <div class="letter">D</div>
-          <div class="letter">E</div>
-          <div class="letter">F</div>
-          <div class="letter">G</div>
-          <div class="letter">H</div>
-          <div class="letter">I</div>
-          <div class="letter">J</div>
-        </div>
-        <div class="numbers side">
-          <div class="letter">1</div>
-          <div class="letter">2</div>
-          <div class="letter">3</div>
-          <div class="letter">4</div>
-          <div class="letter">5</div>
-          <div class="letter">6</div>
-          <div class="letter">7</div>
-          <div class="letter">8</div>
-          <div class="letter">9</div>
-          <div class="letter">10</div>
-        </div>
-        <div id="computer--board" class="gameboard gird"></div>
-      </div>
 
-    <script src="./main.js"></script>
-    <!-- <script src="./temp.js"></script> -->
-
+ 
+      </main>
+     
 </body>
-
+<script src="./main.js"></script>
 </html>
-
-
-<!-- </p>
-      <div class="boards-wrapper">
-        <div class="gameboard-wrap">
-          <div class="letters side">
-            <div class="letter">A</div>
-            <div class="letter">B</div>
-            <div class="letter">C</div>
-            <div class="letter">D</div>
-            <div class="letter">E</div>
-            <div class="letter">F</div>
-            <div class="letter">G</div>
-            <div class="letter">H</div>
-            <div class="letter">I</div>
-            <div class="letter">J</div>
-          </div>
-          <div class="numbers side">
-            <div class="letter">1</div>
-            <div class="letter">2</div>
-            <div class="letter">3</div>
-            <div class="letter">4</div>
-            <div class="letter">5</div>
-            <div class="letter">6</div>
-            <div class="letter">7</div>
-            <div class="letter">8</div>
-            <div class="letter">9</div>
-            <div class="letter">10</div>
-          </div>
-          <div id="human--board"  class="gameboard gird"></div>
-        </div>
-
-      </div> -->
