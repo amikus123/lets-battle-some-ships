@@ -14,17 +14,23 @@
       background-color: yellow;
     }
   }
-  .hit{
+  .ship-hit{
       background-color: cyan;
   }
-  .missed{
+  .ship-afloat{
       background-color: beige;
   }
-  .sunk{
+  .empty-hit{
       background-color: red;
   }
   .empty{
     background-color: rgb(25,25,25);
+  }
+  #copmuter--board{
+
+  }
+  #human--board{
+
   }
   .ship {
     height: 30px;
@@ -44,5 +50,5 @@
         background-color: lime;
         // border: 4px solid rgb(1, 169, 1);
     }
-    
+
 }

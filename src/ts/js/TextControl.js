@@ -40,8 +40,10 @@ class TextControl {
         }, this.modalSpeed);
     }
     typeTips() {
-        this.animatedTip1.type("Drag ships to place them ");
-        this.animatedTip2.type("Dobule click on ship to rotate ");
+        setTimeout(() => {
+            this.animatedTip1.type("Drag ships to place them ");
+            this.animatedTip2.type("Dobule click on ship to rotate ");
+        }, this.modalSpeed);
     }
 }
 exports.default = TextControl;

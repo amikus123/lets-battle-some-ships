@@ -1,4 +1,4 @@
-import setupTypewriter from "./temp";
+import setupTypewriter from "./animateText";
 export default class AnimatedText {
   displayTarget: HTMLElement;
   typeSpeed: number;

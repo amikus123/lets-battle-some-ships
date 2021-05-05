@@ -156,15 +156,15 @@ ul {
   background-color: yellow;
 }
 
-.hit {
+.ship-hit {
   background-color: cyan;
 }
 
-.missed {
+.ship-afloat {
   background-color: beige;
 }
 
-.sunk {
+.empty-hit {
   background-color: red;
 }
 
@@ -242,12 +242,13 @@ ul {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   margin: auto;
   position: relative;
   width: 90vw;
   max-width: 500px;
   margin: 2rem auto 3rem;
+  width: fit-content;
 }
 @media screen and (min-width: 768px) {
   .game-wrap .tips {
@@ -256,8 +257,12 @@ ul {
 }
 .game-wrap .tips p {
   margin: 0 0 1rem 2rem;
-  max-width: 30rem;
   font-size: 1.5rem;
+}
+@media screen and (min-width: 1024px) {
+  .game-wrap .tips {
+    align-items: flex-start;
+  }
 }
 
 .options {
@@ -324,10 +329,18 @@ header h1 {
   .game {
     flex-direction: row;
     justify-content: space-around;
-    margin-top: 5rem;
+    margin: 5rem 0 0;
+    max-width: 100rem;
+    width: 100%;
+    align-self: center;
   }
   .game #tips {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0;
+    padding: 0;
+    text-align: center;
   }
 }
 

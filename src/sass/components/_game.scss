@@ -23,9 +23,18 @@
   @include laptopScreen {
     flex-direction: row;
     justify-content: space-around;
-    margin-top: 5rem;
+    margin: 5rem 0 0;
+    max-width: 100rem;
+    width: 100%;
+    align-self: center;
+    
     #tips{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin: 0;
+        padding: 0;
+        text-align: center;
     }
   }
 }

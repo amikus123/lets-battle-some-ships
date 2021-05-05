@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Player_1 = __importDefault(require("./Player"));
 const BoardSetup_1 = __importDefault(require("./BoardSetup"));
-const Buttons_1 = require("./Buttons");
 const TextControl_1 = __importDefault(require("./TextControl"));
 const human = new Player_1.default(false);
 const computer = new Player_1.default(true);
@@ -28,13 +27,15 @@ startButton === null || startButton === void 0 ? void 0 : startButton.addEventLi
     if (humanBoardSetup.canStart()) {
         textControl.changePhase(2);
         humanBoardSetup.start();
+        human.addOnClick();
     }
     else {
         // modal or some shit
     }
 });
-audioButton === null || audioButton === void 0 ? void 0 : audioButton.addEventListener("click", Buttons_1.audioToggle);
-audioIcon === null || audioIcon === void 0 ? void 0 : audioIcon.addEventListener("click", Buttons_1.audioToggle);
+const audioToggle = () => { };
+audioButton === null || audioButton === void 0 ? void 0 : audioButton.addEventListener("click", audioToggle);
+audioIcon === null || audioIcon === void 0 ? void 0 : audioIcon.addEventListener("click", audioToggle);
 human.setEnemy(computer);
 computer.setEnemy(human);
 humanBoardSetup.addSquares();

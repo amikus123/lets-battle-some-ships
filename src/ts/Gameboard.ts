@@ -60,16 +60,12 @@ class Gameboard {
     console.log(this.ships.length,"po")
   }
   public recieveAttack(posistion: number) {
-    if (this.getPosition(posistion).ship === null) {
-      this.getPosition(posistion).ship?.receiveHit(posistion);
-      return false;
-    } else {
-      this.getPosition(posistion).isHit = true;
-      this.getPosition(posistion).ship?.receiveHit(posistion);
-      return true;
-    }
+    this.boardState.recieveAttack(posistion)
   }
 
+  public getPositionPossibleToAttack(){
+   return this.boardState.getPositionPossibleToAttack()
+  }
   public randomShipSetup() {
     this.resetGameboard();
     this.shipsSizes.forEach((length) => {

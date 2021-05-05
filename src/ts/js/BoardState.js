@@ -11,17 +11,41 @@ class BoardState {
         }
         return ret;
     }
-    getSquareState(index) {
-        const result = this.positions[index];
-        if (result.ship !== undefined) {
-            return "afloat";
-        }
-        else if (!result.canPlace) {
-            return "unplaceable";
+    getSquareState(position) {
+        const square = this.positions[position];
+        let result = "";
+        if (square.ship !== undefined) {
+            if (square.isHit) {
+                result += "ship-hit ";
+            }
+            else {
+                result += "ship-afloat ";
+            }
         }
         else {
-            return "empty";
+            if (square.isHit) {
+                result += "empty-hit ";
+            }
+            else {
+                result += "empty ";
+            }
         }
+        if (!square.canPlace) {
+            result += " unplaceable";
+        }
+        return result;
+    }
+    getPositionPossibleToAttack() {
+        const possibleToAttack = this.positions.filter((item) => {
+            console.log(item);
+            return item.isHit;
+        });
+        console.log(possibleToAttack);
+        return possibleToAttack;
+    }
+    recieveAttack(position) {
+        this.positions[position].isHit = true;
+        console.log("hit");
     }
     addShip(ship) {
         for (const point of ship.hull) {
@@ -34,22 +58,9 @@ class BoardState {
     }
     removeShip(ships) {
         this.positions = this.initalSetup();
-        ships.forEach(ship => {
+        ships.forEach((ship) => {
             this.addShip(ship);
         });
-    }
-    setHit(position) {
-        if (typeof position === "number") {
-            this.addToHitList(position);
-        }
-        else {
-            for (const num of position) {
-                this.addToHitList(num);
-            }
-        }
-    }
-    addToHitList(position) {
-        this.positions[position].isHit = true;
     }
     isHit(position) {
         return this.positions[position].isHit ? true : false;

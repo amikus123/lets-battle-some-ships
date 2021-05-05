@@ -56,16 +56,10 @@ class Gameboard {
         console.log(this.ships.length, "po");
     }
     recieveAttack(posistion) {
-        var _a, _b;
-        if (this.getPosition(posistion).ship === null) {
-            (_a = this.getPosition(posistion).ship) === null || _a === void 0 ? void 0 : _a.receiveHit(posistion);
-            return false;
-        }
-        else {
-            this.getPosition(posistion).isHit = true;
-            (_b = this.getPosition(posistion).ship) === null || _b === void 0 ? void 0 : _b.receiveHit(posistion);
-            return true;
-        }
+        this.boardState.recieveAttack(posistion);
+    }
+    getPositionPossibleToAttack() {
+        return this.boardState.getPositionPossibleToAttack();
     }
     randomShipSetup() {
         this.resetGameboard();

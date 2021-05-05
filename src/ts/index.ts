@@ -1,7 +1,6 @@
 import Player from "./Player";
 import GameFlow from "./GameFlow";
 import BoardSetup from "./BoardSetup";
-import { audioToggle } from "./Buttons";
 import TextControl from "./TextControl"
 const human = new Player(false);
 const computer = new Player(true);
@@ -25,12 +24,15 @@ resetButton?.addEventListener("click", () => {
 startButton?.addEventListener("click", () => {
   if(humanBoardSetup.canStart()){
     textControl.changePhase(2)
-
     humanBoardSetup.start();
+    human.addOnClick()
+    
   }else{
     // modal or some shit
   }
 });
+
+const audioToggle = ()=>{}
 audioButton?.addEventListener("click", audioToggle);
 audioIcon?.addEventListener("click", audioToggle);
 

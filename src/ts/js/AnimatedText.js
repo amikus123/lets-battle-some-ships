@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const temp_1 = __importDefault(require("./temp"));
+const animateText_1 = __importDefault(require("./animateText"));
 class AnimatedText {
     constructor(element, modal = null, speed = 10) {
         this.removePreviousTimeout = () => {
@@ -28,7 +28,7 @@ class AnimatedText {
         if (this.modal) {
             (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.remove("hide");
         }
-        temp_1.default(this.displayTarget, text);
+        animateText_1.default(this.displayTarget, text);
         setTimeout(() => {
             var _a, _b;
             (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.add("hide");
@@ -45,7 +45,7 @@ class AnimatedText {
         if (this.modal) {
             (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.remove("hide");
         }
-        temp_1.default(this.displayTarget, text);
+        animateText_1.default(this.displayTarget, text);
     }
     hide() {
         var _a;

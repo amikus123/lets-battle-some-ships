@@ -18,16 +18,41 @@ class BoardState {
     }
     return ret;
   }
-  public getSquareState(index: number): string {
-    const result = this.positions[index];
-    if (result.ship !== undefined) {
-      return "afloat";
-    } else if (!result.canPlace) {
-      return "unplaceable";
+  public getSquareState(position: number): string {
+    const square = this.positions[position];
+    let result = "";
+
+    if (square.ship !== undefined) {
+      if(square.isHit){
+        result += "ship-hit "
+      }else{
+        result += "ship-afloat "
+      }
     } else {
-      return "empty";
+      if(square.isHit){
+        result += "empty-hit "
+      }else{
+        result+="empty "
+      }
     }
+    if(!square.canPlace){
+      result +=" unplaceable"
+    }
+    return result;
   }
+  public getPositionPossibleToAttack() {
+    const possibleToAttack = this.positions.filter((item) => {
+      console.log(item);
+      return item.isHit!;
+    });
+    console.log(possibleToAttack);
+    return possibleToAttack;
+  }
+  public recieveAttack(position: number) {
+    this.positions[position].isHit = true;
+    console.log("hit");
+  }
+
   public addShip(ship: Ship) {
     for (const point of ship.hull) {
       this.positions[point.position].ship = ship;
@@ -37,24 +62,13 @@ class BoardState {
       this.positions[index].canPlace = false;
     }
   }
-  public removeShip(ships:Ship[]){
-    this.positions =  this.initalSetup()
-    ships.forEach(ship=>{
-      this.addShip(ship)
-    })
+  public removeShip(ships: Ship[]) {
+    this.positions = this.initalSetup();
+    ships.forEach((ship) => {
+      this.addShip(ship);
+    });
   }
-  public setHit(position: number | number[]) {
-    if (typeof position === "number") {
-      this.addToHitList(position);
-    } else {
-      for (const num of position) {
-        this.addToHitList(num);
-      }
-    }
-  }
-  private addToHitList(position: number) {
-    this.positions[position].isHit = true;
-  }
+
   public isHit(position: number) {
     return this.positions[position].isHit ? true : false;
   }

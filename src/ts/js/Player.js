@@ -29,26 +29,46 @@ class Player {
         this.gameboard.randomShipSetup();
     }
     beginAttack(posistion) {
-        var _a;
-        const hasHit = (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);
-        // ai should do something wit that info   
-    }
-    choosePositionToAttack(posistion) {
-        var _a;
-        if ((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.isPositionHit(posistion)) {
-            this.beginAttack(posistion);
+        var _a, _b;
+        const attackedPosition = this.getPosition(posistion);
+        if (attackedPosition.isHit) {
         }
         else {
-            //
+            (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);
         }
+        (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.updateBoard();
     }
-    takeAction() {
+    updateBoard() {
+        let id = "";
         if (this.isComputer) {
-            //
+            id = "computer--board";
         }
         else {
-            //
+            id = "human--board";
         }
+        const gameboardDOM = document.getElementById(id);
+        const gameSquares = Array.from(gameboardDOM.children);
+        for (let i = 0; i < 100; i++) {
+            gameSquares[i].className = `game-square ${this.gameboard.boardState.getSquareState(i)}`;
+        }
+    }
+    addOnClick() {
+        const enemyBoardDOM = document.getElementById("computer--board");
+        Array.from(enemyBoardDOM === null || enemyBoardDOM === void 0 ? void 0 : enemyBoardDOM.children).forEach((square, index) => {
+            square.addEventListener("click", () => this.beginAttack(index));
+        });
+        this.getPositionPossibleToAttack();
+    }
+    getPositionPossibleToAttack() {
+        var _a;
+        console.log(this.enemy);
+        console.log((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPositionPossibleToAttack());
+        this.getPosition(11);
+    }
+    getPosition(positon) {
+        var _a, _b;
+        console.log((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPosition(positon), "adsasd");
+        return (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.gameboard.getPosition(positon);
     }
     humanAction() { }
     computerAction() { }
