@@ -1,13 +1,15 @@
 import Player from "./Player";
 import GameFlow from "./GameFlow";
 import BoardSetup from "./BoardSetup";
-import TextControl from "./TextControl"
+import TextControl from "./TextControl";
 const human = new Player(false);
 const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
 const computerBoard: HTMLElement = document.getElementById("computer--board")!;
 const computerBoardSetup = new BoardSetup(computer, computerBoard);
 const humanBoardSetup = new BoardSetup(human, humanBoard);
+const textControl = new TextControl();
+const gameFlow = new GameFlow(human,humanBoardSetup, computer,textControl);
 
 const resetButton = document.getElementById("reset");
 const radomButton = document.getElementById("random");
@@ -22,35 +24,25 @@ resetButton?.addEventListener("click", () => {
   humanBoardSetup.reset();
 });
 startButton?.addEventListener("click", () => {
-  if(humanBoardSetup.canStart()){
-    textControl.changePhase(2)
-    humanBoardSetup.start();
-    human.addOnClick()
-    
-  }else{
+  if (humanBoardSetup.canStart()) {
+    gameFlow.beginBattle();
+  } else {
     // modal or some shit
   }
 });
 
-const audioToggle = ()=>{}
+const audioToggle = () => {};
 audioButton?.addEventListener("click", audioToggle);
 audioIcon?.addEventListener("click", audioToggle);
-
-human.setEnemy(computer);
-computer.setEnemy(human);
-
+gameFlow.inittializeBoard()
+gameFlow.beginSetup();
 humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
+
 computer.randomizeShips();
-// computerBoardSetup.updateBoard();
 humanBoardSetup.updateBoard();
 console.log(human);
 console.log(computer);
-
-const textControl = new TextControl;
-textControl.changePhase(1)
-textControl.typeLogo()
-textControl.typeTips()
 
 
 // animatedGameText.typeTips()

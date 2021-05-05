@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Player_1 = __importDefault(require("./Player"));
+const GameFlow_1 = __importDefault(require("./GameFlow"));
 const BoardSetup_1 = __importDefault(require("./BoardSetup"));
 const TextControl_1 = __importDefault(require("./TextControl"));
 const human = new Player_1.default(false);
@@ -12,6 +13,8 @@ const humanBoard = document.getElementById("human--board");
 const computerBoard = document.getElementById("computer--board");
 const computerBoardSetup = new BoardSetup_1.default(computer, computerBoard);
 const humanBoardSetup = new BoardSetup_1.default(human, humanBoard);
+const textControl = new TextControl_1.default();
+const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl);
 const resetButton = document.getElementById("reset");
 const radomButton = document.getElementById("random");
 const startButton = document.getElementById("start");
@@ -25,9 +28,7 @@ resetButton === null || resetButton === void 0 ? void 0 : resetButton.addEventLi
 });
 startButton === null || startButton === void 0 ? void 0 : startButton.addEventListener("click", () => {
     if (humanBoardSetup.canStart()) {
-        textControl.changePhase(2);
-        humanBoardSetup.start();
-        human.addOnClick();
+        gameFlow.beginBattle();
     }
     else {
         // modal or some shit
@@ -36,17 +37,12 @@ startButton === null || startButton === void 0 ? void 0 : startButton.addEventLi
 const audioToggle = () => { };
 audioButton === null || audioButton === void 0 ? void 0 : audioButton.addEventListener("click", audioToggle);
 audioIcon === null || audioIcon === void 0 ? void 0 : audioIcon.addEventListener("click", audioToggle);
-human.setEnemy(computer);
-computer.setEnemy(human);
+gameFlow.inittializeBoard();
+gameFlow.beginSetup();
 humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
 computer.randomizeShips();
-// computerBoardSetup.updateBoard();
 humanBoardSetup.updateBoard();
 console.log(human);
 console.log(computer);
-const textControl = new TextControl_1.default;
-textControl.changePhase(1);
-textControl.typeLogo();
-textControl.typeTips();
 // animatedGameText.typeTips()

@@ -148,27 +148,30 @@ ul {
   transition: all 0.3s ease 0s;
 }
 
-.afloat {
+.dev .unplaceable {
+  background-color: yellow !important;
+}
+
+#human--board .ship-afloat {
   background-color: lime !important;
 }
-
-.dev .unplaceable {
-  background-color: yellow;
-}
-
-.ship-hit {
+#human--board .ship-hit {
   background-color: cyan;
 }
-
-.ship-afloat {
-  background-color: beige;
-}
-
-.empty-hit {
+#human--board .empty-hit {
   background-color: red;
 }
+#human--board .empty {
+  background-color: #191919;
+}
 
-.empty {
+#computer--board .ship-hit {
+  background-color: cyan;
+}
+#computer--board .empty-hit {
+  background-color: red;
+}
+#computer--board .empty {
   background-color: #191919;
 }
 

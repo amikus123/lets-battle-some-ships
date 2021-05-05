@@ -30,7 +30,11 @@ class Player {
     return this.gameboard.areShipsSunk();
   }
   private recieveAttack(posistion: number) {
+    console.log(this.getPositionPossibleToAttack())
+
     this.gameboard.recieveAttack(posistion);
+    this.updateBoard()
+
   }
   public randomizeShips() {
     this.gameboard.randomShipSetup();
@@ -41,7 +45,14 @@ class Player {
     } else {
       this.enemy?.recieveAttack(posistion);
     }
+    console.log(this.getPositionPossibleToAttack())
     this.enemy?.updateBoard();
+  }
+  private computerMove(){
+    const options = this.getPositionPossibleToAttack()!;
+    const randomPositon = Math.floor(Math.random() *( options?.length +1))
+    console.log(randomPositon)
+    this.beginAttack(randomPositon);
   }
   public updateBoard() {
     let id = "";
@@ -69,16 +80,13 @@ class Player {
   }
 
   public getPositionPossibleToAttack() {
-    console.log(this.enemy);
-    console.log(this.enemy?.gameboard.getPositionPossibleToAttack());
-    this.getPosition(11);
+    console.log(this.enemy?.gameboard.getPositionPossibleToAttack()),"pssiube";
+    return this.enemy?.gameboard.getPositionPossibleToAttack()
   }
   public getPosition(positon: number) {
     console.log(this.enemy?.gameboard.getPosition(positon), "adsasd");
     return this.enemy?.gameboard.getPosition(positon);
   }
 
-  private humanAction() {}
-  private computerAction() {}
 }
 export default Player;

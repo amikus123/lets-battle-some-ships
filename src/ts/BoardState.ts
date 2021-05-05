@@ -21,7 +21,6 @@ class BoardState {
   public getSquareState(position: number): string {
     const square = this.positions[position];
     let result = "";
-
     if (square.ship !== undefined) {
       if(square.isHit){
         result += "ship-hit "
@@ -41,11 +40,12 @@ class BoardState {
     return result;
   }
   public getPositionPossibleToAttack() {
+
     const possibleToAttack = this.positions.filter((item) => {
-      console.log(item);
-      return item.isHit!;
+      // console.log(item);
+      return item.isHit === false;
     });
-    console.log(possibleToAttack);
+    console.log(possibleToAttack,"pisss",this.positions,"aaa");
     return possibleToAttack;
   }
   public recieveAttack(position: number) {

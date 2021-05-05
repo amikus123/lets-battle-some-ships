@@ -23,7 +23,9 @@ class Player {
         return this.gameboard.areShipsSunk();
     }
     recieveAttack(posistion) {
+        console.log(this.getPositionPossibleToAttack());
         this.gameboard.recieveAttack(posistion);
+        this.updateBoard();
     }
     randomizeShips() {
         this.gameboard.randomShipSetup();
@@ -36,7 +38,14 @@ class Player {
         else {
             (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);
         }
+        console.log(this.getPositionPossibleToAttack());
         (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.updateBoard();
+    }
+    computerMove() {
+        const options = this.getPositionPossibleToAttack();
+        const randomPositon = Math.floor(Math.random() * ((options === null || options === void 0 ? void 0 : options.length) + 1));
+        console.log(randomPositon);
+        this.beginAttack(randomPositon);
     }
     updateBoard() {
         let id = "";
@@ -60,17 +69,14 @@ class Player {
         this.getPositionPossibleToAttack();
     }
     getPositionPossibleToAttack() {
-        var _a;
-        console.log(this.enemy);
-        console.log((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPositionPossibleToAttack());
-        this.getPosition(11);
+        var _a, _b;
+        console.log((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPositionPossibleToAttack()), "pssiube";
+        return (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.gameboard.getPositionPossibleToAttack();
     }
     getPosition(positon) {
         var _a, _b;
         console.log((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPosition(positon), "adsasd");
         return (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.gameboard.getPosition(positon);
     }
-    humanAction() { }
-    computerAction() { }
 }
 exports.default = Player;

@@ -37,10 +37,10 @@ class BoardState {
     }
     getPositionPossibleToAttack() {
         const possibleToAttack = this.positions.filter((item) => {
-            console.log(item);
-            return item.isHit;
+            // console.log(item);
+            return item.isHit === false;
         });
-        console.log(possibleToAttack);
+        console.log(possibleToAttack, "pisss", this.positions, "aaa");
         return possibleToAttack;
     }
     recieveAttack(position) {

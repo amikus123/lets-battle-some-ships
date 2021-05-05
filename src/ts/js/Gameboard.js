@@ -57,6 +57,19 @@ class Gameboard {
     }
     recieveAttack(posistion) {
         this.boardState.recieveAttack(posistion);
+        this.ships.forEach(ship => {
+            ship.hull.forEach(point => {
+                if (point.position == posistion) {
+                    point.isHit = true;
+                }
+            });
+            if (ship.isSunk()) {
+                console.log("sunk");
+                ship.adjecentPositions.forEach(index => {
+                    this.boardState.recieveAttack(index);
+                });
+            }
+        });
     }
     getPositionPossibleToAttack() {
         return this.boardState.getPositionPossibleToAttack();
