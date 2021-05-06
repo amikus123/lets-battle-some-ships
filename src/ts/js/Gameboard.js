@@ -23,12 +23,12 @@ class Gameboard {
         }
         return true;
     }
-    tryToPlaceShip(startPosistion, endPosistion) {
+    tryToPlaceShip(startPosistion, endPosistion, shouldPlace = true) {
         const createdShip = new Ship_1.default(startPosistion, endPosistion);
-        console.log(createdShip);
-        // horizontal
-        if (this.boardState.checkCanBePlaced(createdShip)) {
-            this.finishPlacingShip(createdShip);
+        if (this.boardState.checkCanBePlaced(createdShip) && endPosistion <= 99) {
+            if (shouldPlace) {
+                this.finishPlacingShip(createdShip);
+            }
             return true;
         }
         else {
@@ -41,23 +41,45 @@ class Gameboard {
     getPosition(posistion) {
         return this.boardState.positions[posistion];
     }
+    removeShip(start, end) {
+        let indexToRemove = -1;
+        console.log(this.ships.length, "przed");
+        this.ships.forEach((ship, inedx) => {
+            if (ship.startPosition == start) {
+                indexToRemove = inedx;
+            }
+        });
+        if (indexToRemove !== -1) {
+            this.ships.splice(indexToRemove, 1);
+        }
+        this.boardState.removeShip(this.ships);
+        console.log(this.ships.length, "po");
+    }
     recieveAttack(posistion) {
-        var _a, _b;
-        if (this.getPosition(posistion).ship === null) {
-            (_a = this.getPosition(posistion).ship) === null || _a === void 0 ? void 0 : _a.receiveHit(posistion);
-            return false;
-        }
-        else {
-            this.getPosition(posistion).isHit = true;
-            (_b = this.getPosition(posistion).ship) === null || _b === void 0 ? void 0 : _b.receiveHit(posistion);
-            return true;
-        }
+        this.boardState.recieveAttack(posistion);
+        this.ships.forEach(ship => {
+            ship.hull.forEach(point => {
+                if (point.position == posistion) {
+                    point.isHit = true;
+                }
+            });
+            if (ship.isSunk()) {
+                console.log("sunk");
+                ship.adjecentPositions.forEach(index => {
+                    this.boardState.recieveAttack(index);
+                });
+            }
+        });
+    }
+    getPositionPossibleToAttack() {
+        return this.boardState.getPositionPossibleToAttack();
     }
     randomShipSetup() {
         this.resetGameboard();
         this.shipsSizes.forEach((length) => {
             this.createRadnomShip(length);
         });
+        return this.ships;
     }
     createRadnomShip(lenght) {
         while (true) {
@@ -79,9 +101,7 @@ class Gameboard {
         if (validStarts.length !== 0) {
             const randomStart = validStarts[Math.floor(Math.random() * validStarts.length)];
             const newShip = new Ship_1.default(randomStart, randomStart + (length - 1) * 10);
-            // console.log("srodek", newShip);
             if (true || this.boardState.checkCanBePlaced(newShip)) {
-                // console.log(randomColumn, validStarts, newShip, randomStart, "err");
                 this.finishPlacingShip(newShip);
                 return true;
             }
@@ -90,7 +110,6 @@ class Gameboard {
     }
     getValidVerticalStarts(column, length) {
         const possibleStarts = [];
-        // console.log("kolumna", column);
         for (let i = 0; i < 11 - length; i++) {
             let canInsert = true;
             for (let j = 0; j < length; j++) {
@@ -100,13 +119,11 @@ class Gameboard {
                     canInsert = false;
                     break;
                 }
-                // console.log(this.boardState.positions[(i + j) * 10 + column]);
             }
             if (canInsert) {
                 possibleStarts.push(i * 10 + column);
             }
         }
-        // console.log(possibleStarts, column, length);
         return possibleStarts;
     }
     randomHorizontalShip(length) {
@@ -123,7 +140,6 @@ class Gameboard {
     }
     getValidHorizontalStarts(row, length) {
         const possibleStarts = [];
-        // console.log("kolumna", row);
         for (let i = 0; i < 11 - length; i++) {
             let canInsert = true;
             for (let j = 0; j < length; j++) {
@@ -131,13 +147,11 @@ class Gameboard {
                     canInsert = false;
                     break;
                 }
-                // console.log(this.boardState.positions[i + j + row]);
             }
             if (canInsert) {
                 possibleStarts.push(i + row);
             }
         }
-        // console.log(possibleStarts, row, length);
         return possibleStarts;
     }
     finishPlacingShip(createdShip) {

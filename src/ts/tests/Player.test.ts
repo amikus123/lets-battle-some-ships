@@ -11,12 +11,12 @@ afterEach(() => {
 
 test("cheking manual placement of ships", () => {
   expect(human.gameboard.ships.length).toBe(0);
-  human.setShip(1, 21);
+  human.tryToPlaceShip(1, 21);
   expect(human.gameboard.ships.length).toBe(1);
 });
 
 test("checking loss detection", () => {
-  human.setShip(1, 21);
+  human.tryToPlaceShip(1, 21);
   computer.beginAttack(1);
   expect(human.hasLost()).toBe(false);
   computer.beginAttack(11);

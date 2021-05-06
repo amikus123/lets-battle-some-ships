@@ -4,7 +4,9 @@
   font-weight: normal;
   font-style: normal;
 }
-*, ::after, ::before {
+*,
+::after,
+::before {
   padding: 0;
   margin: 0;
   border: 0;
@@ -16,32 +18,57 @@ html {
 }
 
 body {
-  line-height: 1;
+  line-height: 1.7;
   font-family: joystix;
   background: #191919;
   color: lime;
+  position: relative;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
-/* Google Fonts */
+.modal-big {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  bottom: 0;
+  right: 0;
+  background-color: #191919;
+  z-index: 10;
+}
+.modal-big pre {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+}
 .text-box {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-#typewriter {
+.animated {
   color: lime;
   font-size: 2em;
   margin: 0;
   font-family: joystix;
 }
-#typewriter:after {
+.animated:after {
   content: "|";
   animation: blink 500ms linear infinite alternate;
+}
+
+.static {
+  color: lime;
+  font-size: 2em;
+  margin: 0;
+  font-family: joystix;
 }
 
 @-webkit-keyframes blink {
@@ -121,27 +148,30 @@ ol, ul {
   transition: all 0.3s ease 0s;
 }
 
-.afloat {
-  background-color: green !important;
+.dev .unplaceable {
+  background-color: yellow !important;
 }
 
-.unplaceable {
-  background-color: yellow;
+#human--board .ship-afloat {
+  background-color: lime !important;
 }
-
-.hit {
+#human--board .ship-hit {
   background-color: cyan;
 }
-
-.missed {
-  background-color: beige;
-}
-
-.sunk {
+#human--board .empty-hit {
   background-color: red;
 }
+#human--board .empty {
+  background-color: #191919;
+}
 
-.empty {
+#computer--board .ship-hit {
+  background-color: cyan;
+}
+#computer--board .empty-hit {
+  background-color: red;
+}
+#computer--board .empty {
   background-color: #191919;
 }
 
@@ -150,7 +180,6 @@ ol, ul {
   width: fit-content;
   display: flex;
   background-color: red;
-  z-index: 100;
 }
 .ship-vertical {
   height: fit-content;
@@ -162,66 +191,160 @@ ol, ul {
   width: 30px;
   height: 30px;
   background-color: lime;
-  border: 4px solid #01a901;
 }
 
-.setup {
-  width: 75%;
-  margin: 0 auto;
+.hide {
+  display: none !important;
 }
-.setup h2 {
+
+.game-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.game-wrap h2 {
   font-size: 3rem;
   text-align: center;
   margin: 2rem;
 }
-.setup .main-setup-wrap {
+.game-wrap .dev {
   display: flex;
   justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 1rem;
 }
-.setup .main-setup-wrap .dockyard {
-  width: 50%;
+@media screen and (min-width: 768px) {
+  .game-wrap .dev {
+    flex-direction: row;
+  }
+}
+.game-wrap .dev .dockyard {
+  box-sizing: border-box;
+  margin-top: 3rem;
+  margin-left: 3rem;
+  width: 30rem;
   display: flex;
-  margin-left: 5rem;
+  height: 36rem;
   justify-content: center;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
+  border: 1px solid lime;
 }
-.setup .main-setup-wrap .dockyard .ship {
-  margin: 1rem;
+.game-wrap .dev .dockyard .ship {
+  margin: 0.5rem;
 }
-.setup .main-setup-wrap .dockyard .ship-container span {
+.game-wrap .dev .dockyard .ship-container span {
   font-size: 2rem;
   padding-right: 1rem;
 }
-.setup .main-setup-wrap .dockyard .gameboard-setup {
-  width: 50%;
-}
-.setup .tips {
+.game-wrap .tips {
   display: flex;
   flex-direction: column;
-  margin: 2rem auto 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin: auto;
+  position: relative;
+  width: 90vw;
+  max-width: 500px;
+  margin: 2rem auto 3rem;
   width: fit-content;
 }
-.setup .tips span {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+@media screen and (min-width: 768px) {
+  .game-wrap .tips {
+    margin: 5rem auto;
+  }
 }
-.setup .options {
+.game-wrap .tips p {
+  margin: 0 0 1rem 2rem;
+  font-size: 1.5rem;
+}
+@media screen and (min-width: 1024px) {
+  .game-wrap .tips {
+    align-items: flex-start;
+  }
+}
+
+.options {
   display: flex;
   justify-content: space-around;
+  margin: 0 auto;
+  width: 80%;
+  flex-direction: column;
 }
-.setup .options .setup-option {
+.options * {
+  margin-bottom: 2rem;
+}
+@media screen and (min-width: 768px) {
+  .options {
+    flex-direction: row;
+  }
+}
+
+.setup-option {
   background-color: inherit;
   color: inherit;
   font-family: joystix;
   font-size: 1.8rem;
   transition: all 0.2s ease-in;
 }
-.setup .options .setup-option:hover {
+.setup-option:hover {
   cursor: pointer;
   color: #f83b3a;
+}
+
+header {
+  padding: 3rem 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+header h1 {
+  margin-bottom: 2rem;
+  font-size: 3rem;
+  z-index: 100;
+  text-align: center;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+.game #tips {
+  padding-left: 2rem;
+  width: 20rem;
+  box-sizing: border-box;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+.game #tips #helpetText {
+  width: auto;
+}
+@media screen and (min-width: 1024px) {
+  .game {
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 5rem 0 0;
+    max-width: 100rem;
+    width: 100%;
+    align-self: center;
+  }
+  .game #tips {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

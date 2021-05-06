@@ -1,40 +1,48 @@
 import Player from "./Player";
 import GameFlow from "./GameFlow";
-import BoardSetup from "./BoardSetup"
-
+import BoardSetup from "./BoardSetup";
+import TextControl from "./TextControl";
 const human = new Player(false);
 const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
 const computerBoard: HTMLElement = document.getElementById("computer--board")!;
-const humanBoardSetup = new BoardSetup(human,humanBoard);
-const updateBoard = (player: Player) => {
-  const shipsAfloat = player.getAfloat();
-  let suffix = "";
-  suffix = player.isComputer ? "com_" : "hum_";
-  console.log(suffix);
-  for (const point of shipsAfloat) {
-    const afloat = document.getElementById(suffix + point);
-    afloat?.classList.add("afloat");
-  }
-};
-humanBoardSetup.addSquares()
-human.setEnemy(computer);
-computer.setEnemy(human);
-humanBoardSetup.updateBoard()
+const computerBoardSetup = new BoardSetup(computer, computerBoard);
+const humanBoardSetup = new BoardSetup(human, humanBoard);
+const textControl = new TextControl();
+const gameFlow = new GameFlow(human,humanBoardSetup, computer,textControl);
 
-updateBoard(human);
-updateBoard(computer);
-console.log(human.gameboard);
-// console.log(human);
-// console.log(computer);
-function dragStart(e: any) {
-  e.dataTransfer.setData("text/plain", e.target.id);
-  console.log(e.dataTransfer);
-}
-const ships = document.getElementsByClassName("ship");
+const resetButton = document.getElementById("reset");
+const radomButton = document.getElementById("random");
+const startButton = document.getElementById("start");
+const audioButton = document.getElementById("audio");
+const audioIcon = document.getElementById("audioIcon");
 
-const arr = Array.from(ships);
-console.log(arr);
-arr.forEach((item) => {
-  item.addEventListener("dragstart", dragStart);
+radomButton?.addEventListener("click", () => {
+  humanBoardSetup.randomSetup();
 });
+resetButton?.addEventListener("click", () => {
+  humanBoardSetup.reset();
+});
+startButton?.addEventListener("click", () => {
+  if (humanBoardSetup.canStart()) {
+    gameFlow.beginBattle();
+  } else {
+    // modal or some shit
+  }
+});
+
+const audioToggle = () => {};
+audioButton?.addEventListener("click", audioToggle);
+audioIcon?.addEventListener("click", audioToggle);
+gameFlow.inittializeBoard()
+gameFlow.beginSetup();
+humanBoardSetup.addSquares();
+computerBoardSetup.addSquares();
+
+computer.randomizeShips();
+humanBoardSetup.updateBoard();
+console.log(human);
+console.log(computer);
+
+
+// animatedGameText.typeTips()

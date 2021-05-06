@@ -1,28 +1,41 @@
-.setup {
-  width: 75%;
-  margin: 0 auto;
+@use  "../abstracts" as *;
 
+.game-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   h2 {
     font-size: 3rem;
     text-align: center;
     margin: 2rem;
   }
 
-  .main-setup-wrap {
+  .dev{
     display: flex;
     justify-content: space-around;
-
+    flex-direction: column;
+    align-items: center;
+    margin-right: 1rem;
+    @include tabletScreen{
+    flex-direction: row;
+      
+    }
     .dockyard {
-      width: 50%;
+      box-sizing: border-box;
+      margin-top: 3rem;
+      margin-left: 3rem;
+      width: 30rem;
       display: flex;
-      margin-left: 5rem;
+      height: 36rem;
       justify-content: center;
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
-      padding: 1rem;
+      padding: 0.5rem;
+      border: 1px solid lime;
       .ship {
-        margin: 1rem;
+        margin: 0.5rem;
       }
       .ship-container {
         span {
@@ -31,36 +44,58 @@
         }
       }
 
-      .gameboard-setup {
-        width: 50%;
-      }
+      
     }
   }
 
   .tips {
     display: flex;
     flex-direction: column;
-    margin: 2rem auto 2rem;
+    justify-content: center;
+    align-items: flex-start;
+    margin: auto;
+    position: relative;
+    width: 90vw;
+    max-width: 500px;
+    margin: 2rem auto 3rem;
     width: fit-content;
-    span {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+    @include tabletScreen{
+      margin: 5rem auto;        
+      }
+    // overflow: hidden;
+    p {
+      margin: 0 0 1rem 2rem;
+      font-size: 1.5rem;
+    }
+    @include laptopScreen{
+      align-items: flex-start;
     }
   }
 
-  .options {
-    display: flex;
-    justify-content: space-around;
-    .setup-option {
-      background-color: inherit;
-      color: inherit;
-      font-family: joystix;
-      font-size: 1.8rem;
-      transition: all 0.2s ease-in;
-      &:hover {
-        cursor: pointer;
-        color: #f83b3a;
-      }
+}
+.options {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  width: 80%;
+  flex-direction: column;
+  *{
+   margin-bottom: 2rem; 
+  }
+  @include tabletScreen{
+    flex-direction: row;
+      
     }
+}
+.setup-option {
+  background-color: inherit;
+  color: inherit;
+  font-family: joystix;
+  font-size: 1.8rem;
+  transition: all 0.2s ease-in;
+  
+  &:hover {
+    cursor: pointer;
+    color: #f83b3a;
   }
 }

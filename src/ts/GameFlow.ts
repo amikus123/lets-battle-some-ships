@@ -1,17 +1,40 @@
+import Player from "./Player";
+import BoardSetup from "./BoardSetup";
+import TextControl from "./TextControl";
+
 class GameFlow {
-  textDisplay : HTMLElement;
-  message:string 
-  constructor(){
-    this.textDisplay = document.getElementById("game-info")!;
-    this.message = "";
+  human: Player;
+  computer: Player;
+  textControl: TextControl;
+  humanBoardSetup: BoardSetup;
+  humanTurn: boolean;
+
+  constructor(
+    human: Player,
+    humanBoardSetup: BoardSetup,
+    computer: Player,
+    textControl: TextControl
+  ) {
+    this.human = human;
+    this.computer = computer;
+    this.textControl = textControl;
+    this.humanBoardSetup = humanBoardSetup;
+    this.humanTurn = true;
   }
-  private changeDisplayed(){
-    this.textDisplay.innerHTML = this.message;
-  }
-  beginShot(){
-    this.textDisplay.innerHTML = this.message;
+  public beginBattle() {
+    this.textControl.changePhase(2);
+    this.humanBoardSetup.start();
+    this.human.addOnClick();
     
   }
 
+  public beginSetup() {}
+  public inittializeBoard() {
+    this.human.setEnemy(this.computer);
+    this.computer.setEnemy(this.human);
+    this.textControl.typeLogo();
+      this.textControl.changePhase(1);
+      this.textControl.typeTips();
+  }
 }
 export default GameFlow;
