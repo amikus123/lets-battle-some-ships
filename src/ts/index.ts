@@ -9,7 +9,9 @@ const computerBoard: HTMLElement = document.getElementById("computer--board")!;
 const computerBoardSetup = new BoardSetup(computer, computerBoard);
 const humanBoardSetup = new BoardSetup(human, humanBoard);
 const textControl = new TextControl();
-const gameFlow = new GameFlow(human,humanBoardSetup, computer,textControl);
+const gameFlow = new GameFlow(human, humanBoardSetup, computer, textControl);
+human.setGameFlow(gameFlow);
+computer.setGameFlow(gameFlow);
 
 const resetButton = document.getElementById("reset");
 const radomButton = document.getElementById("random");
@@ -34,7 +36,7 @@ startButton?.addEventListener("click", () => {
 const audioToggle = () => {};
 audioButton?.addEventListener("click", audioToggle);
 audioIcon?.addEventListener("click", audioToggle);
-gameFlow.inittializeBoard()
+gameFlow.inittializeBoard();
 gameFlow.beginSetup();
 humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
@@ -43,6 +45,5 @@ computer.randomizeShips();
 humanBoardSetup.updateBoard();
 console.log(human);
 console.log(computer);
-
 
 // animatedGameText.typeTips()

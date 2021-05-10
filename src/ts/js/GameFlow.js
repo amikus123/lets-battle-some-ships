@@ -13,6 +13,9 @@ class GameFlow {
         this.humanBoardSetup.start();
         this.human.addOnClick();
     }
+    toggleTurn() {
+        this.humanTurn = !this.humanTurn;
+    }
     beginSetup() { }
     inittializeBoard() {
         this.human.setEnemy(this.computer);

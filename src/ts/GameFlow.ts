@@ -25,9 +25,10 @@ class GameFlow {
     this.textControl.changePhase(2);
     this.humanBoardSetup.start();
     this.human.addOnClick();
-    
   }
-
+  public toggleTurn(){
+    this.humanTurn = !this.humanTurn;
+  }
   public beginSetup() {}
   public inittializeBoard() {
     this.human.setEnemy(this.computer);

@@ -9,6 +9,13 @@ class Player {
         this.isComputer = isCoomputer;
         this.gameboard = new Gameboard_1.default();
         this.enemy = null;
+        this.gameFlow = null;
+    }
+    setGameFlow(gameFlow) {
+        this.gameFlow = gameFlow;
+    }
+    setEnemy(enemy) {
+        this.enemy = enemy;
     }
     resetGameboard() {
         this.gameboard.resetGameboard();
@@ -16,8 +23,8 @@ class Player {
     tryToPlaceShip(startPosistion, endPosistion, shouldPlace = true) {
         return this.gameboard.tryToPlaceShip(startPosistion, endPosistion, shouldPlace);
     }
-    setEnemy(enemy) {
-        this.enemy = enemy;
+    randomizeShips() {
+        this.gameboard.randomShipSetup();
     }
     hasLost() {
         return this.gameboard.areShipsSunk();
@@ -27,8 +34,13 @@ class Player {
         this.gameboard.recieveAttack(posistion);
         this.updateBoard();
     }
-    randomizeShips() {
-        this.gameboard.randomShipSetup();
+    addOnClick() {
+        var _a;
+        const enemyBoardDOM = document.getElementById("computer--board");
+        Array.from(enemyBoardDOM === null || enemyBoardDOM === void 0 ? void 0 : enemyBoardDOM.children).forEach((square, index) => {
+            square.addEventListener("click", () => this.userClick(square, index));
+        });
+        (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.updateBoard();
     }
     beginAttack(posistion) {
         var _a, _b;
@@ -41,11 +53,22 @@ class Player {
         console.log(this.getPositionPossibleToAttack());
         (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.updateBoard();
     }
+    userClick(square, index) {
+        var _a;
+        if (!square.classList.contains("ship-hit") &&
+            !square.classList.contains("empty-hit") &&
+            ((_a = this.gameFlow) === null || _a === void 0 ? void 0 : _a.humanTurn)) {
+            this.beginAttack(index);
+            this.gameFlow.toggleTurn();
+            setTimeout(() => { this.enemy.computerMove(); }, 1000);
+        }
+    }
     computerMove() {
         const options = this.getPositionPossibleToAttack();
         const randomPositon = Math.floor(Math.random() * ((options === null || options === void 0 ? void 0 : options.length) + 1));
         console.log(randomPositon);
         this.beginAttack(randomPositon);
+        this.gameFlow.toggleTurn();
     }
     updateBoard() {
         let id = "";
@@ -60,13 +83,6 @@ class Player {
         for (let i = 0; i < 100; i++) {
             gameSquares[i].className = `game-square ${this.gameboard.boardState.getSquareState(i)}`;
         }
-    }
-    addOnClick() {
-        const enemyBoardDOM = document.getElementById("computer--board");
-        Array.from(enemyBoardDOM === null || enemyBoardDOM === void 0 ? void 0 : enemyBoardDOM.children).forEach((square, index) => {
-            square.addEventListener("click", () => this.beginAttack(index));
-        });
-        this.getPositionPossibleToAttack();
     }
     getPositionPossibleToAttack() {
         var _a, _b;

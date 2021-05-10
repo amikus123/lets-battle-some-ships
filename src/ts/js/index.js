@@ -15,6 +15,8 @@ const computerBoardSetup = new BoardSetup_1.default(computer, computerBoard);
 const humanBoardSetup = new BoardSetup_1.default(human, humanBoard);
 const textControl = new TextControl_1.default();
 const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl);
+human.setGameFlow(gameFlow);
+computer.setGameFlow(gameFlow);
 const resetButton = document.getElementById("reset");
 const radomButton = document.getElementById("random");
 const startButton = document.getElementById("start");
