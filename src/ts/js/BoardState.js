@@ -37,15 +37,12 @@ class BoardState {
     }
     getPositionPossibleToAttack() {
         const possibleToAttack = this.positions.filter((item) => {
-            // console.log(item);
             return item.isHit === false;
         });
-        console.log(possibleToAttack, "pisss", this.positions, "aaa");
         return possibleToAttack;
     }
     recieveAttack(position) {
         this.positions[position].isHit = true;
-        console.log("hit");
     }
     addShip(ship) {
         for (const point of ship.hull) {
@@ -63,7 +60,8 @@ class BoardState {
         });
     }
     isHit(position) {
-        return this.positions[position].isHit ? true : false;
+        // return this.positions[position].isHit ? true : false;
+        return this.positions[position].isHit;
     }
     checkCanBePlaced(ship) {
         if (ship.endPosition > 99) {

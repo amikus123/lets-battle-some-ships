@@ -24,5 +24,8 @@ class GameFlow {
         this.textControl.changePhase(1);
         this.textControl.typeTips();
     }
+    displayBattleMessage(msg) {
+        this.textControl.typeBattleMessage(msg);
+    }
 }
 exports.default = GameFlow;

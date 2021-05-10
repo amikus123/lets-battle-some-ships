@@ -325,7 +325,8 @@ header h1 {
   justify-content: center;
   align-self: center;
 }
-.game #tips #helpetText {
+.game #tips #helperText {
+  font-size: 2rem;
   width: auto;
 }
 @media screen and (min-width: 1024px) {

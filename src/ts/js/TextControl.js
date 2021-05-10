@@ -11,7 +11,7 @@ class TextControl {
         const modalSmallText = document.getElementById("modalSmallText");
         const smallModal = document.getElementById("modalSmall");
         const logo = document.getElementById("logo");
-        const helperText = document.getElementById("helpetText");
+        const helperText = document.getElementById("helperText");
         const tip1 = document.getElementById("tip1");
         const tip2 = document.getElementById("tip2");
         this.animatedSmallModal = new AnimatedText_1.default(modalSmallText, smallModal);
@@ -44,6 +44,9 @@ class TextControl {
             this.animatedTip1.type("Drag ships to place them ");
             this.animatedTip2.type("Dobule click on ship to rotate ");
         }, this.modalSpeed);
+    }
+    typeBattleMessage(msg) {
+        this.animatedGameText.type(msg);
     }
 }
 exports.default = TextControl;

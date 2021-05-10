@@ -1,3 +1,4 @@
+import { boardPosition } from "./BoardState";
 import Gameboard from "./Gameboard";
 import GameFlow from "./GameFlow";
 class Player {
@@ -11,35 +12,34 @@ class Player {
     this.enemy = null;
     this.gameFlow = null;
   }
-  public setGameFlow(gameFlow: GameFlow) {
+  public setGameFlow(gameFlow: GameFlow):void {
     this.gameFlow = gameFlow;
   }
-  public setEnemy(enemy: Player) {
+  public setEnemy(enemy: Player):void {
     this.enemy = enemy;
   }
-  public resetGameboard() {
+  public resetGameboard():void {
     this.gameboard.resetGameboard();
   }
   public tryToPlaceShip(
     startPosistion: number,
     endPosistion: number,
     shouldPlace: boolean = true
-  ) {
+  ) :boolean {
     return this.gameboard.tryToPlaceShip(
       startPosistion,
       endPosistion,
       shouldPlace
     );
   }
-  public randomizeShips() {
+  public randomizeShips() :void {
     this.gameboard.randomShipSetup();
   }
 
-  public hasLost() {
+  public hasLost() :boolean{
     return this.gameboard.areShipsSunk();
   }
-  private recieveAttack(posistion: number) {
-    console.log(this.getPositionPossibleToAttack());
+  private recieveAttack(posistion: number):void {
     this.gameboard.recieveAttack(posistion);
     this.updateBoard();
   }
@@ -51,13 +51,28 @@ class Player {
     this.enemy?.updateBoard();
   }
   public beginAttack(posistion: number) {
-    const attackedPosition = this.getPosition(posistion)!;
-    if (attackedPosition.isHit) {
-    } else {
-      this.enemy?.recieveAttack(posistion);
-    }
-    console.log(this.getPositionPossibleToAttack());
+    const attackedPosition :boardPosition = this.getPosition(posistion)!;
+    console.log(attackedPosition, "attacked");
+    this.enemy?.recieveAttack(posistion);
+    const message :string= this.getMessageToDisply(attackedPosition)
+    this.gameFlow!.displayBattleMessage(message);
+    // console.log(this.getPositionPossibleToAttack());
     this.enemy?.updateBoard();
+  }
+  public getMessageToDisply(posistion:boardPosition){
+    const name = this.isComputer?"Enemy has ":"You have ";
+    let action = ""
+    if(posistion.ship === undefined){
+      action = "missed!"
+    }
+    else if(posistion.ship.isSunk()){
+      action = "sunk a ship!"
+    }else{
+      action = "hit a ship!"
+    }
+    
+    return name + action;
+
   }
   public userClick(square: Element, index: number) {
     if (
@@ -67,9 +82,12 @@ class Player {
     ) {
       this.beginAttack(index);
       this.gameFlow.toggleTurn();
-      setTimeout(()=>{this.enemy!.computerMove()},1000)
+      setTimeout(() => {
+        this.enemy!.computerMove();
+      }, 1000);
     }
   }
+
   private computerMove() {
     const options = this.getPositionPossibleToAttack()!;
     const randomPositon = Math.floor(Math.random() * (options?.length + 1));
@@ -96,7 +114,7 @@ class Player {
   }
 
   public getPositionPossibleToAttack() {
-    console.log(this.enemy?.gameboard.getPositionPossibleToAttack()), "pssiube";
+    // console.log(this.enemy?.gameboard.getPositionPossibleToAttack()), "pssiube";
     return this.enemy?.gameboard.getPositionPossibleToAttack();
   }
   public getPosition(positon: number) {

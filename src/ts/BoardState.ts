@@ -11,7 +11,7 @@ class BoardState {
   constructor() {
     this.positions = this.initalSetup();
   }
-  private initalSetup() {
+  private initalSetup() :boardPosition[] {
     const ret: boardPosition[] = [];
     for (let i = 0; i < 100; i++) {
       ret.push({ isHit: false, ship: undefined, canPlace: true });
@@ -39,21 +39,17 @@ class BoardState {
     }
     return result;
   }
-  public getPositionPossibleToAttack() {
-
+  public getPositionPossibleToAttack() :boardPosition[] {
     const possibleToAttack = this.positions.filter((item) => {
-      // console.log(item);
       return item.isHit === false;
     });
-    console.log(possibleToAttack,"pisss",this.positions,"aaa");
     return possibleToAttack;
   }
-  public recieveAttack(position: number) {
+  public recieveAttack(position: number):void {
     this.positions[position].isHit = true;
-    console.log("hit");
   }
 
-  public addShip(ship: Ship) {
+  public addShip(ship: Ship) :void{
     for (const point of ship.hull) {
       this.positions[point.position].ship = ship;
       this.positions[point.position].canPlace = false;
@@ -62,17 +58,19 @@ class BoardState {
       this.positions[index].canPlace = false;
     }
   }
-  public removeShip(ships: Ship[]) {
+  public removeShip(ships: Ship[]):void {
     this.positions = this.initalSetup();
     ships.forEach((ship) => {
       this.addShip(ship);
     });
   }
 
-  public isHit(position: number) {
-    return this.positions[position].isHit ? true : false;
+  public isHit(position: number):boolean {
+    // return this.positions[position].isHit ? true : false;
+      return this.positions[position].isHit;
+
   }
-  public checkCanBePlaced(ship: Ship) {
+  public checkCanBePlaced(ship: Ship) :boolean {
     if (ship.endPosition > 99) {
       return false;
     }

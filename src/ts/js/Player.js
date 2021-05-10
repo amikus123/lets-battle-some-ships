@@ -30,7 +30,6 @@ class Player {
         return this.gameboard.areShipsSunk();
     }
     recieveAttack(posistion) {
-        console.log(this.getPositionPossibleToAttack());
         this.gameboard.recieveAttack(posistion);
         this.updateBoard();
     }
@@ -45,13 +44,26 @@ class Player {
     beginAttack(posistion) {
         var _a, _b;
         const attackedPosition = this.getPosition(posistion);
-        if (attackedPosition.isHit) {
+        console.log(attackedPosition, "attacked");
+        (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);
+        const message = this.getMessageToDisply(attackedPosition);
+        this.gameFlow.displayBattleMessage(message);
+        // console.log(this.getPositionPossibleToAttack());
+        (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.updateBoard();
+    }
+    getMessageToDisply(posistion) {
+        const name = this.isComputer ? "Enemy has " : "You have ";
+        let action = "";
+        if (posistion.ship === undefined) {
+            action = "missed!";
+        }
+        else if (posistion.ship.isSunk()) {
+            action = "sunk a ship!";
         }
         else {
-            (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);
+            action = "hit a ship!";
         }
-        console.log(this.getPositionPossibleToAttack());
-        (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.updateBoard();
+        return name + action;
     }
     userClick(square, index) {
         var _a;
@@ -60,7 +72,9 @@ class Player {
             ((_a = this.gameFlow) === null || _a === void 0 ? void 0 : _a.humanTurn)) {
             this.beginAttack(index);
             this.gameFlow.toggleTurn();
-            setTimeout(() => { this.enemy.computerMove(); }, 1000);
+            setTimeout(() => {
+                this.enemy.computerMove();
+            }, 1000);
         }
     }
     computerMove() {
@@ -85,9 +99,9 @@ class Player {
         }
     }
     getPositionPossibleToAttack() {
-        var _a, _b;
-        console.log((_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPositionPossibleToAttack()), "pssiube";
-        return (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.gameboard.getPositionPossibleToAttack();
+        var _a;
+        // console.log(this.enemy?.gameboard.getPositionPossibleToAttack()), "pssiube";
+        return (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPositionPossibleToAttack();
     }
     getPosition(positon) {
         var _a, _b;

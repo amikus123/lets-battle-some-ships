@@ -16,7 +16,7 @@ class Ship {
     this.endPosition = endPosition;
     this.adjecentPositions = this.setAdjecentPositions(this.hull);
   }
-  private setHull(length: number, startPosition: number, endPosition: number) {
+  private setHull(length: number, startPosition: number, endPosition: number) :point[] {
     //  eP - sP is smaller than 10? then it is horizontal
     const hull: point[] = [];
     if (endPosition - startPosition < 10) {
@@ -30,7 +30,7 @@ class Ship {
     }
     return hull;
   }
-  private setAdjecentPositions(hull: point[]) {
+  private setAdjecentPositions(hull: point[]) :number[] {
     let positionsToCheck: number[] = [];
     for (const point of hull) {
       positionsToCheck = positionsToCheck.concat(
@@ -39,7 +39,7 @@ class Ship {
     }
     return [...new Set(positionsToCheck)];
   }
-  private getAdjecentToPosition(position: number) {
+  private getAdjecentToPosition(position: number) :number[]{
     const positions: number[] = [position];
     if (position == 10) {
       positions.push(0);
@@ -70,7 +70,7 @@ class Ship {
     }
     return positions;
   }
-  private setLength(startPosition: number, endPosition: number) {
+  private setLength(startPosition: number, endPosition: number) :number {
     if (endPosition - startPosition < 10) {
       //horizotnal
       return endPosition - startPosition + 1;
@@ -79,11 +79,11 @@ class Ship {
     }
   }
 
-  public receiveHit(hitPosition: number) {
+  public receiveHit(hitPosition: number) :void{
     this.getPoint(hitPosition)!.isHit = true;
   }
 
-  public getPoint(posistion: number) {
+  public getPoint(posistion: number) :point {
     for (const point of this.hull) {
       if (point.position == posistion) {
         return point;
@@ -92,7 +92,7 @@ class Ship {
     return this.hull[0];
   }
 
-  public isSunk() {
+  public isSunk() :boolean {
     for (const point of this.hull) {
       if (!point.isHit) {
         return false;
