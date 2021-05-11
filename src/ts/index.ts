@@ -2,6 +2,7 @@ import Player from "./Player";
 import GameFlow from "./GameFlow";
 import BoardSetup from "./BoardSetup";
 import TextControl from "./TextControl";
+import AudioControl from "./AudioControl";
 const human = new Player(false);
 const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
@@ -9,6 +10,7 @@ const computerBoard: HTMLElement = document.getElementById("computer--board")!;
 const computerBoardSetup = new BoardSetup(computer, computerBoard);
 const humanBoardSetup = new BoardSetup(human, humanBoard);
 const textControl = new TextControl();
+const audioControl = new AudioControl();
 const gameFlow = new GameFlow(human, humanBoardSetup, computer, textControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
@@ -33,14 +35,16 @@ startButton?.addEventListener("click", () => {
   }
 });
 
-const audioToggle = () => {};
+const audioToggle = () => {
+audioControl.toggleMute();
+
+};
 audioButton?.addEventListener("click", audioToggle);
 audioIcon?.addEventListener("click", audioToggle);
 gameFlow.inittializeBoard();
 gameFlow.beginSetup();
 humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
-
 computer.randomizeShips();
 humanBoardSetup.updateBoard();
 console.log(human);

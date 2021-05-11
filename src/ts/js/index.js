@@ -7,6 +7,7 @@ const Player_1 = __importDefault(require("./Player"));
 const GameFlow_1 = __importDefault(require("./GameFlow"));
 const BoardSetup_1 = __importDefault(require("./BoardSetup"));
 const TextControl_1 = __importDefault(require("./TextControl"));
+const AudioControl_1 = __importDefault(require("./AudioControl"));
 const human = new Player_1.default(false);
 const computer = new Player_1.default(true);
 const humanBoard = document.getElementById("human--board");
@@ -14,6 +15,7 @@ const computerBoard = document.getElementById("computer--board");
 const computerBoardSetup = new BoardSetup_1.default(computer, computerBoard);
 const humanBoardSetup = new BoardSetup_1.default(human, humanBoard);
 const textControl = new TextControl_1.default();
+const audioControl = new AudioControl_1.default();
 const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
@@ -36,7 +38,9 @@ startButton === null || startButton === void 0 ? void 0 : startButton.addEventLi
         // modal or some shit
     }
 });
-const audioToggle = () => { };
+const audioToggle = () => {
+    audioControl.toggleMute();
+};
 audioButton === null || audioButton === void 0 ? void 0 : audioButton.addEventListener("click", audioToggle);
 audioIcon === null || audioIcon === void 0 ? void 0 : audioIcon.addEventListener("click", audioToggle);
 gameFlow.inittializeBoard();
