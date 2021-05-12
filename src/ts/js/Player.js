@@ -4,6 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Gameboard_1 = __importDefault(require("./Gameboard"));
+const messages = {
+    sunk: "sunk a ship! ",
+    hit: "hit a ship! ",
+    miss: "missed! ",
+};
 class Player {
     constructor(isCoomputer) {
         this.isComputer = isCoomputer;
@@ -11,6 +16,8 @@ class Player {
         this.enemy = null;
         this.gameFlow = null;
         this.audioControl = null;
+        this.nextMoves = [];
+        this.messages = messages;
     }
     setGameFlow(gameFlow) {
         this.gameFlow = gameFlow;
@@ -53,22 +60,89 @@ class Player {
         (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);
         const message = this.getMessageToDisply(attackedPosition);
         this.gameFlow.displayBattleMessage(message);
-        // console.log(this.getPositionPossibleToAttack());
         (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.updateBoard();
     }
     getMessageToDisply(posistion) {
         const name = this.isComputer ? "Enemy has " : "You have ";
-        let action = "";
+        const action = this.getAction(posistion);
+        return name + action;
+    }
+    getAction(posistion) {
         if (posistion.ship === undefined) {
-            action = "missed! ";
+            return this.messages.miss;
         }
         else if (posistion.ship.isSunk()) {
-            action = "sunk a ship! ";
+            return this.messages.sunk;
         }
         else {
-            action = "hit a ship! ";
+            return this.messages.hit;
         }
-        return name + action;
+    }
+    computerMove() {
+        console.log(this.nextMoves, "przed ruchem");
+        if (this.nextMoves.length === 0) {
+            const options = this.getPositionPossibleToAttack();
+            const randomPositon = Math.floor(Math.random() * ((options === null || options === void 0 ? void 0 : options.length) + 1));
+            this.tryToAddPossibleMoves(randomPositon);
+            this.beginAttack(randomPositon);
+            console.log(this.nextMoves, "possible moves");
+        }
+        else if (this.nextMoves.length === 1) {
+            console.log("fisrt path");
+        }
+        else {
+            console.log("third path");
+        }
+        this.gameFlow.toggleTurn();
+    }
+    chooseNextTarget() {
+        var _a;
+        // ignore first index
+        // losuje jeden z nicg, potem, jelsi ok to kontuuje
+        // liczba z zakresu 1 do length -1
+        const randomIndex = Math.floor(Math.random() * this.nextMoves.length - 1) + 1;
+        const positionIndex = this.nextMoves[randomIndex];
+        this.beginAttack(positionIndex);
+        if (((_a = this.getPosition(positionIndex)) === null || _a === void 0 ? void 0 : _a.ship) !== undefined) {
+            // hit
+        }
+        else {
+            // miss
+        }
+    }
+    getAdjecentToPosition(position) {
+        const positions = [position];
+        if (position == 10) {
+            positions.push(0);
+        }
+        if (position % 10 !== 9) {
+            positions.push(position + 1);
+        }
+        if (position % 10 !== 0) {
+            positions.push(position - 1);
+        }
+        if (position > 10) {
+            positions.push(position - 10);
+        }
+        if (position < 90) {
+            positions.push(position + 10);
+        }
+        return positions;
+    }
+    // posti
+    tryToAddPossibleMoves(positionIndex) {
+        const postion = this.getPosition(positionIndex);
+        // if we miss or sunk a ship there is no need to add next moves
+        if (this.getAction(postion) === this.messages.hit) {
+            const indexesToCheck = this.getAdjecentToPosition(positionIndex);
+            console.log(indexesToCheck, "to check");
+            indexesToCheck.forEach((item) => {
+                var _a;
+                if (!((_a = this.getPosition(item)) === null || _a === void 0 ? void 0 : _a.isHit)) {
+                    this.nextMoves.push(item);
+                }
+            });
+        }
     }
     userClick(square, index) {
         var _a, _b;
@@ -84,13 +158,6 @@ class Player {
         else {
             (_b = this.audioControl) === null || _b === void 0 ? void 0 : _b.playErrorSound();
         }
-    }
-    computerMove() {
-        const options = this.getPositionPossibleToAttack();
-        const randomPositon = Math.floor(Math.random() * ((options === null || options === void 0 ? void 0 : options.length) + 1));
-        console.log(randomPositon);
-        this.beginAttack(randomPositon);
-        this.gameFlow.toggleTurn();
     }
     updateBoard() {
         console.log("XDDDD");
@@ -109,7 +176,6 @@ class Player {
     }
     getPositionPossibleToAttack() {
         var _a;
-        // console.log(this.enemy?.gameboard.getPositionPossibleToAttack()), "pssiube";
         return (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.gameboard.getPositionPossibleToAttack();
     }
     getPosition(positon) {
