@@ -8,9 +8,10 @@
   grid-template-rows: repeat(11, 3rem);
 }
 .game-square {
-  border: 1px solid white;
+  outline: 1px solid white;
   height: 100%;
   width: 100%;
+  box-sizing:border-box;
 }
 .gameboard {
     display: grid;

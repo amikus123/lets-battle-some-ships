@@ -44,6 +44,7 @@ class Player {
             square.addEventListener("click", () => this.userClick(square, index));
         });
         (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.updateBoard();
+        this.updateBoard();
     }
     beginAttack(posistion) {
         var _a, _b;
@@ -92,6 +93,7 @@ class Player {
         this.gameFlow.toggleTurn();
     }
     updateBoard() {
+        console.log("XDDDD");
         let id = "";
         if (this.isComputer) {
             id = "computer--board";

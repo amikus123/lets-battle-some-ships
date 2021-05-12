@@ -104,9 +104,10 @@ ul {
 }
 
 .game-square {
-  border: 1px solid white;
+  outline: 1px solid white;
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .gameboard {
@@ -151,9 +152,6 @@ ul {
   background-color: yellow !important;
 }
 
-#human--board .ship-part {
-  border: 0px solid white;
-}
 #human--board .ship-afloat {
   background-color: lime !important;
 }
@@ -166,9 +164,12 @@ ul {
 #human--board .empty {
   background-color: #191919;
 }
+#human--board .ship-part {
+  outline: 1px solid white;
+}
 
-#computer--board .ship-part {
-  border: 0px solid white;
+#computer--board {
+  cursor: not-allowed;
 }
 #computer--board .ship-hit {
   background-color: cyan;
@@ -176,7 +177,8 @@ ul {
 #computer--board .empty-hit {
   background-color: red;
 }
-#computer--board .empty {
+#computer--board .empty, #computer--board .ship-afloat {
+  cursor: crosshair;
   background-color: #191919;
 }
 
@@ -195,8 +197,9 @@ ul {
   box-sizing: border-box;
   width: 30px;
   height: 30px;
+  outline: 2px solid white;
   background-color: lime;
-  border: 1px solid white;
+  z-index: 5;
 }
 
 .hide {
