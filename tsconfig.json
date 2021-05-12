@@ -26,7 +26,7 @@
 
     /* Strict Type-Checking Options */
     "strict": true,
-     /* Enable all strict type-checking options. */
+    /* Enable all strict type-checking options. */
     // "noImplicitAny": true,                       /* Raise error on expressions and declarations with an implied 'any' type. */
     // "strictNullChecks": true,                    /* Enable strict null checks. */
     // "strictFunctionTypes": true,                 /* Enable strict checking of function types. */
@@ -66,8 +66,11 @@
     // "emitDecoratorMetadata": true,               /* Enables experimental support for emitting type metadata for decorators. */
 
     /* Advanced Options */
+    // "baseUrl": "types",
+    // "typeRoots": ["types"],
+
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["src/ts/tests"],
+  // "exclude": ["src/ts/tests"]
 }

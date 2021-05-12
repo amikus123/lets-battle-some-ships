@@ -12,14 +12,15 @@ const humanBoardSetup = new BoardSetup(human, humanBoard);
 const textControl = new TextControl();
 const audioControl = new AudioControl();
 const gameFlow = new GameFlow(human, humanBoardSetup, computer, textControl);
+human.setAudioControl(audioControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
 
-const resetButton = document.getElementById("reset");
-const radomButton = document.getElementById("random");
-const startButton = document.getElementById("start");
-const audioButton = document.getElementById("audio");
-const audioIcon = document.getElementById("audioIcon");
+const resetButton = document.getElementById("reset")!;
+const radomButton = document.getElementById("random")!;
+const startButton = document.getElementById("start")!;
+const audioButton = document.getElementById("audio")!;
+const audioIcon = document.getElementById("audioIcon")!;
 
 radomButton?.addEventListener("click", () => {
   humanBoardSetup.randomSetup();
@@ -31,12 +32,22 @@ startButton?.addEventListener("click", () => {
   if (humanBoardSetup.canStart()) {
     gameFlow.beginBattle();
   } else {
-    // modal or some shit
+    audioControl.playErrorSound()
   }
 });
 
 const audioToggle = () => {
 audioControl.toggleMute();
+let text = ""
+if(audioControl.isMuted){
+  text = "audio off"
+}else{
+ text = "audio on"
+}
+audioButton.innerHTML = text
+audioIcon.innerText = text
+audioButton.classList.toggle("muted")
+audioIcon.classList.toggle("muted")
 
 };
 audioButton?.addEventListener("click", audioToggle);

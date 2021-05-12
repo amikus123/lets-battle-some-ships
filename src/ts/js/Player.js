@@ -10,12 +10,16 @@ class Player {
         this.gameboard = new Gameboard_1.default();
         this.enemy = null;
         this.gameFlow = null;
+        this.audioControl = null;
     }
     setGameFlow(gameFlow) {
         this.gameFlow = gameFlow;
     }
     setEnemy(enemy) {
         this.enemy = enemy;
+    }
+    setAudioControl(audio) {
+        this.audioControl = audio;
     }
     resetGameboard() {
         this.gameboard.resetGameboard();
@@ -55,18 +59,18 @@ class Player {
         const name = this.isComputer ? "Enemy has " : "You have ";
         let action = "";
         if (posistion.ship === undefined) {
-            action = "missed!";
+            action = "missed! ";
         }
         else if (posistion.ship.isSunk()) {
-            action = "sunk a ship!";
+            action = "sunk a ship! ";
         }
         else {
-            action = "hit a ship!";
+            action = "hit a ship! ";
         }
         return name + action;
     }
     userClick(square, index) {
-        var _a;
+        var _a, _b;
         if (!square.classList.contains("ship-hit") &&
             !square.classList.contains("empty-hit") &&
             ((_a = this.gameFlow) === null || _a === void 0 ? void 0 : _a.humanTurn)) {
@@ -74,7 +78,10 @@ class Player {
             this.gameFlow.toggleTurn();
             setTimeout(() => {
                 this.enemy.computerMove();
-            }, 1000);
+            }, 2000);
+        }
+        else {
+            (_b = this.audioControl) === null || _b === void 0 ? void 0 : _b.playErrorSound();
         }
     }
     computerMove() {

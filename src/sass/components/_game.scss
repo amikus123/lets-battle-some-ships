@@ -9,7 +9,7 @@
     // outline: solid 1px red;
     // border: solid 1px blue;
     padding-left: 2rem;
-    width: 20rem;
+    width: 30rem;
     box-sizing: border-box;
     height: 100px;
     display: flex;
@@ -18,14 +18,14 @@
     #helperText {
       font-size:2rem;
 
-      width: auto;
+      // width: auto;
     }
   }
   @include laptopScreen {
     flex-direction: row;
     justify-content: space-around;
     margin: 5rem 0 0;
-    max-width: 100rem;
+    max-width: 120rem;
     width: 100%;
     align-self: center;
     

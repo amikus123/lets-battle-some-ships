@@ -63,9 +63,12 @@
       margin: 5rem auto;        
       }
     // overflow: hidden;
-    p {
+    .tip {
       margin: 0 0 1rem 2rem;
       font-size: 1.5rem;
+    }
+    #helperText{
+      
     }
     @include laptopScreen{
       align-items: flex-start;
@@ -93,9 +96,15 @@
   font-family: joystix;
   font-size: 1.8rem;
   transition: all 0.2s ease-in;
-  
+  width: auto;
+  margin:0 auto;
+  outline: none;
   &:hover {
     cursor: pointer;
-    color: #f83b3a;
+    // color: rgb(255, 255, 0);
   }
+ 
+}
+.muted{
+  color: #f83b3a !important;;
 }

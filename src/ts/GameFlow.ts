@@ -25,6 +25,8 @@ class GameFlow {
     this.textControl.changePhase(2);
     this.humanBoardSetup.start();
     this.human.addOnClick();
+    this.textControl.typeBattleMessage("Attack enemy board!")
+
   }
   public toggleTurn(){
     this.humanTurn = !this.humanTurn;

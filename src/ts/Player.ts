@@ -1,3 +1,4 @@
+import AudioControl from "./AudioControl";
 import { boardPosition } from "./BoardState";
 import Gameboard from "./Gameboard";
 import GameFlow from "./GameFlow";
@@ -6,17 +7,22 @@ class Player {
   gameboard: Gameboard;
   enemy: Player | null;
   gameFlow: GameFlow | null;
+  audioControl : AudioControl | null;
   constructor(isCoomputer: boolean) {
     this.isComputer = isCoomputer;
     this.gameboard = new Gameboard();
     this.enemy = null;
     this.gameFlow = null;
+    this.audioControl = null
   }
   public setGameFlow(gameFlow: GameFlow):void {
     this.gameFlow = gameFlow;
   }
   public setEnemy(enemy: Player):void {
     this.enemy = enemy;
+  }
+  public setAudioControl(audio:AudioControl){
+    this.audioControl = audio;
   }
   public resetGameboard():void {
     this.gameboard.resetGameboard();
@@ -63,12 +69,12 @@ class Player {
     const name = this.isComputer?"Enemy has ":"You have ";
     let action = ""
     if(posistion.ship === undefined){
-      action = "missed!"
+      action = "missed! "
     }
     else if(posistion.ship.isSunk()){
-      action = "sunk a ship!"
+      action = "sunk a ship! "
     }else{
-      action = "hit a ship!"
+      action = "hit a ship! "
     }
     
     return name + action;
@@ -84,7 +90,9 @@ class Player {
       this.gameFlow.toggleTurn();
       setTimeout(() => {
         this.enemy!.computerMove();
-      }, 1000);
+      },2000);
+    }else{
+      this.audioControl?.playErrorSound()
     }
   }
 

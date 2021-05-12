@@ -103,6 +103,12 @@ ul {
   grid-template-rows: repeat(11, 3rem);
 }
 
+.game-square {
+  border: 1px solid white;
+  height: 100%;
+  width: 100%;
+}
+
 .gameboard {
   display: grid;
   grid-template-rows: repeat(10, 3rem);
@@ -141,17 +147,13 @@ ul {
   align-items: center;
 }
 
-.game-square {
-  border: 1px solid white;
-  height: 100%;
-  width: 100%;
-  transition: all 0.3s ease 0s;
-}
-
 .dev .unplaceable {
   background-color: yellow !important;
 }
 
+#human--board .ship-part {
+  border: 0px solid white;
+}
 #human--board .ship-afloat {
   background-color: lime !important;
 }
@@ -165,6 +167,9 @@ ul {
   background-color: #191919;
 }
 
+#computer--board .ship-part {
+  border: 0px solid white;
+}
 #computer--board .ship-hit {
   background-color: cyan;
 }
@@ -179,7 +184,7 @@ ul {
   height: 30px;
   width: fit-content;
   display: flex;
-  background-color: red;
+  cursor: grab;
 }
 .ship-vertical {
   height: fit-content;
@@ -191,6 +196,7 @@ ul {
   width: 30px;
   height: 30px;
   background-color: lime;
+  border: 1px solid white;
 }
 
 .hide {
@@ -258,7 +264,7 @@ ul {
     margin: 5rem auto;
   }
 }
-.game-wrap .tips p {
+.game-wrap .tips .tip {
   margin: 0 0 1rem 2rem;
   font-size: 1.5rem;
 }
@@ -290,10 +296,16 @@ ul {
   font-family: joystix;
   font-size: 1.8rem;
   transition: all 0.2s ease-in;
+  width: auto;
+  margin: 0 auto;
+  outline: none;
 }
 .setup-option:hover {
   cursor: pointer;
-  color: #f83b3a;
+}
+
+.muted {
+  color: #f83b3a !important;
 }
 
 header {
@@ -318,7 +330,7 @@ header h1 {
 }
 .game #tips {
   padding-left: 2rem;
-  width: 20rem;
+  width: 30rem;
   box-sizing: border-box;
   height: 100px;
   display: flex;
@@ -327,14 +339,13 @@ header h1 {
 }
 .game #tips #helperText {
   font-size: 2rem;
-  width: auto;
 }
 @media screen and (min-width: 1024px) {
   .game {
     flex-direction: row;
     justify-content: space-around;
     margin: 5rem 0 0;
-    max-width: 100rem;
+    max-width: 120rem;
     width: 100%;
     align-self: center;
   }

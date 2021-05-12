@@ -17,6 +17,7 @@ const humanBoardSetup = new BoardSetup_1.default(human, humanBoard);
 const textControl = new TextControl_1.default();
 const audioControl = new AudioControl_1.default();
 const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl);
+human.setAudioControl(audioControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
 const resetButton = document.getElementById("reset");
@@ -35,11 +36,22 @@ startButton === null || startButton === void 0 ? void 0 : startButton.addEventLi
         gameFlow.beginBattle();
     }
     else {
-        // modal or some shit
+        audioControl.playErrorSound();
     }
 });
 const audioToggle = () => {
     audioControl.toggleMute();
+    let text = "";
+    if (audioControl.isMuted) {
+        text = "audio off";
+    }
+    else {
+        text = "audio on";
+    }
+    audioButton.innerHTML = text;
+    audioIcon.innerText = text;
+    audioButton.classList.toggle("muted");
+    audioIcon.classList.toggle("muted");
 };
 audioButton === null || audioButton === void 0 ? void 0 : audioButton.addEventListener("click", audioToggle);
 audioIcon === null || audioIcon === void 0 ? void 0 : audioIcon.addEventListener("click", audioToggle);
