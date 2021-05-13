@@ -18,8 +18,6 @@ class Player {
     goUp: boolean;
     add: boolean;
     baseHit: number;
-    previous: number;
-    next: number;
   };
   messages: { sunk: string; hit: string; miss: string };
   constructor(isCoomputer: boolean) {
@@ -33,8 +31,6 @@ class Player {
       goUp: true,
       add: true,
       baseHit: -1,
-      previous: -1,
-      next: -1,
     };
     this.messages = messages;
   }
@@ -103,29 +99,29 @@ class Player {
       return this.messages.hit;
     }
   }
+
   private computerMove() {
     if (this.nextMoves.moves.length === 0) {
       const options = this.getPositionPossibleToAttack()!;
-      let randomPositon = Math.floor(Math.random() * options?.length);
-      this.beginAttack(options[randomPositon]);
-      this.tryToAddPossibleMoves(options[randomPositon]);
-      console.log(this.nextMoves, "possible moves");
+      let randomPositonIndex = Math.floor(Math.random() * options?.length);
+      this.beginAttack(options[randomPositonIndex]);
+      this.tryToAddPossibleMoves(options[randomPositonIndex]);
     } else if (this.nextMoves.moves.length === 1) {
-      console.log("one way", this.nextMoves);
-
+      // we know the row or column, so we check ony one axis
       if (!this.getPosition(this.nextMoves.moves[0])?.isHit) {
+        // checking if base position was hit
         this.beginAttack(this.nextMoves.moves[0]);
       } else {
         this.nextMoves.goUp =
           Math.abs(this.nextMoves.baseHit - this.nextMoves.moves[0]) >= 10;
-        this.handleOneDirection();
+        // this.handleOneDirection();
+        console.log("one directon")
+        this.handleOneDirection2()
       }
     } else {
-      console.log(
-        "two waus",
-        this.nextMoves.moves,
-        this.nextMoves.moves.length
-      );
+      // we are checking positions in up to 4 direction
+      console.log("four")
+
       this.chooseNextTarget();
     }
 
@@ -138,71 +134,103 @@ class Player {
       this.handleSide();
     }
   }
+  private checkIfOutsideRowOfAxis(dynamicIndex: number) {
+    const baseIndex = this.nextMoves.moves[0];
+
+    if (this.nextMoves.goUp) {
+      return (dynamicIndex < 0 || dynamicIndex > 99);
+    } else {
+      return (
+        baseIndex - (baseIndex % 10) !== dynamicIndex - (dynamicIndex % 10)
+      );
+    }
+  }
+  private handleOneDirection2() {
+    const baseIndex = this.nextMoves.moves[0];
+    let indexToCheck = this.nextMoves.moves[0];
+    let goUp = true;
+    const additionNumber = this.nextMoves.goUp ? 10 : 1;
+    if (this.getPosition(baseIndex)?.ship?.isSunk()) {
+      this.nextMoves.moves = [];
+    } else {
+      while (true) {
+        indexToCheck += goUp ? additionNumber : -additionNumber;
+        console.log(indexToCheck);
+        if (
+         this.checkIfOutsideRowOfAxis(indexToCheck)
+        ) {
+          console.log("outisde");
+          goUp = !goUp;
+        } else if (
+          this.getPosition(indexToCheck)?.isHit &&
+          this.getPosition(indexToCheck)?.ship !== undefined
+        ) {
+          //go nex
+        } else if (
+          this.getPosition(indexToCheck)?.isHit &&
+          this.getPosition(indexToCheck)?.ship === undefined
+        ) {
+          //go back
+          goUp = !goUp;
+        } else if (!this.getPosition(indexToCheck)?.isHit) {
+          break;
+          //go nex
+        }
+      }
+      const position = this.getPosition(indexToCheck)!;
+      console.log(this.nextMoves, indexToCheck, this.getAction(position));
+      this.beginAttack(indexToCheck);
+      if (this.getAction(position) === this.messages.hit) {
+        this.nextMoves.moves[0] = indexToCheck;
+      } else if (this.getAction(position) === this.messages.sunk) {
+        this.nextMoves.moves = [];
+      } else {
+      }
+    }
+  }
   private handleSide() {
-    console.log("SIDE");
-    console.log(this.nextMoves, this.nextMoves.moves[0]);
+    // console.log(this.nextMoves, this.nextMoves.moves[0]);
     const baseIndex = this.nextMoves.moves[0];
     let indexToCheck = this.nextMoves.moves[0];
     let goRight = true;
-    // go right by deafult
-    // if posistion is hit and a ship - continue
-    // is position is hit and not a ship go back
-    // if positon is not hti go next
-    // if chanegd the row - go previous direction
-    if(this.getPosition(baseIndex)?.ship?.isSunk()){
-    
-      console.log("zatopiony",this.getPosition(baseIndex)?.ship,this.getPosition(baseIndex)?.ship?.isSunk())
-      this.nextMoves.moves = [];
-
-    }else{
-
-    let i = 0;
-    while (true) {
-      indexToCheck += goRight ? 1 : -1;
-      console.log(indexToCheck)
-      i++
-      if(i===100){
-        alert("XDDD")
-        debugger;
-
-      }
-      if (baseIndex - (baseIndex % 10) !== indexToCheck - (indexToCheck % 10)) {
-        console.log("outisde")
-
-        goRight = !goRight;
-      } else if (
-        this.getPosition(indexToCheck)?.isHit &&
-        this.getPosition(indexToCheck)?.ship !== undefined
-      ) {
-        //go nex
-        console.log("next")
-
-      } else if (
-        this.getPosition(indexToCheck)?.isHit &&
-        this.getPosition(indexToCheck)?.ship === undefined
-      ) {
-        //go back
-        console.log("back")
-
-        goRight = !goRight;
-      } else if (!this.getPosition(indexToCheck)?.isHit) {
-        console.log("broke")
-
-        break;
-        //go nex
-      }
-    }
-    const position = this.getPosition(indexToCheck)!;
-    console.log(this.nextMoves, indexToCheck, this.getAction(position));
-    this.beginAttack(indexToCheck);
-    if (this.getAction(position) === this.messages.hit) {
-      this.nextMoves.moves[0] = indexToCheck;
-    } else if (this.getAction(position) === this.messages.sunk) {
+    if (this.getPosition(baseIndex)?.ship?.isSunk()) {
       this.nextMoves.moves = [];
     } else {
+      while (true) {
+        indexToCheck += goRight ? 1 : -1;
+        console.log(indexToCheck);
+        if (
+          baseIndex - (baseIndex % 10) !==
+          indexToCheck - (indexToCheck % 10)
+        ) {
+          console.log("outisde");
+          goRight = !goRight;
+        } else if (
+          this.getPosition(indexToCheck)?.isHit &&
+          this.getPosition(indexToCheck)?.ship !== undefined
+        ) {
+          //go nex
+        } else if (
+          this.getPosition(indexToCheck)?.isHit &&
+          this.getPosition(indexToCheck)?.ship === undefined
+        ) {
+          //go back
+          goRight = !goRight;
+        } else if (!this.getPosition(indexToCheck)?.isHit) {
+          break;
+          //go nex
+        }
+      }
+      const position = this.getPosition(indexToCheck)!;
+      console.log(this.nextMoves, indexToCheck, this.getAction(position));
+      this.beginAttack(indexToCheck);
+      if (this.getAction(position) === this.messages.hit) {
+        this.nextMoves.moves[0] = indexToCheck;
+      } else if (this.getAction(position) === this.messages.sunk) {
+        this.nextMoves.moves = [];
+      } else {
+      }
     }
-  }
-
   }
   private handleUp() {
     console.log("UP");
@@ -214,52 +242,50 @@ class Player {
     // if posistion is hit and a ship - continue
     // is position is hit and not a ship go back
     // if positon is not hti go next
-    
-    // if chanegd the row - go previous direction
-    if(this.getPosition(baseIndex)?.ship?.isSunk()){
-      console.log("zatopiony",this.getPosition(baseIndex)?.ship,this.getPosition(baseIndex)?.ship?.isSunk())
-      this.nextMoves.moves = [];
 
-    }else{
-    let i =0;
-    while (true) {
-          i++
-      if(i===100){
-        alert("XDDD")
-        debugger;
-      }
-      indexToCheck += goUp ? 10 : -10;
-      console.log(indexToCheck)
-      if (indexToCheck<0 || indexToCheck>99) {
-        goUp = !goUp;
-      } else if (
-        this.getPosition(indexToCheck)?.isHit &&
-        this.getPosition(indexToCheck)?.ship !== undefined
-      ) {
-        //go nex
-      } else if (
-        this.getPosition(indexToCheck)?.isHit &&
-        this.getPosition(indexToCheck)?.ship === undefined
-      ) {
-        //go back
-        goUp = !goUp;
-      } else if (!this.getPosition(indexToCheck)?.isHit) {
-        break;
-        //go nex
-      }
-    }
-    const position = this.getPosition(indexToCheck)!;
-    console.log(this.nextMoves, indexToCheck, this.getAction(position));
-    this.beginAttack(indexToCheck);
-    if (this.getAction(position) === this.messages.hit) {
-      this.nextMoves.moves[0] = indexToCheck;
-    } else if (this.getAction(position) === this.messages.miss) {
-      // this.nextMoves.add = !this.nextMoves.add;
-    } else {
+    // if chanegd the row - go previous direction
+    if (this.getPosition(baseIndex)?.ship?.isSunk()) {
+      console.log(
+        "zatopiony",
+        this.getPosition(baseIndex)?.ship,
+        this.getPosition(baseIndex)?.ship?.isSunk()
+      );
       this.nextMoves.moves = [];
+    } else {
+      while (true) {
+        indexToCheck += goUp ? 10 : -10;
+        console.log(indexToCheck);
+        if (indexToCheck < 0 || indexToCheck > 99) {
+          goUp = !goUp;
+        } else if (
+          this.getPosition(indexToCheck)?.isHit &&
+          this.getPosition(indexToCheck)?.ship !== undefined
+        ) {
+          //go nex
+        } else if (
+          this.getPosition(indexToCheck)?.isHit &&
+          this.getPosition(indexToCheck)?.ship === undefined
+        ) {
+          //go back
+          goUp = !goUp;
+        } else if (!this.getPosition(indexToCheck)?.isHit) {
+          break;
+          //go nex
+        }
+      }
+      const position = this.getPosition(indexToCheck)!;
+      console.log(this.nextMoves, indexToCheck, this.getAction(position));
+      this.beginAttack(indexToCheck);
+      if (this.getAction(position) === this.messages.hit) {
+        this.nextMoves.moves[0] = indexToCheck;
+      } else if (this.getAction(position) === this.messages.miss) {
+        // this.nextMoves.add = !this.nextMoves.add;
+      } else {
+        this.nextMoves.moves = [];
+      }
     }
   }
-  }
+
   private chooseNextTarget() {
     const randomIndex = Math.floor(Math.random() * this.nextMoves.moves.length);
     const positionIndex = this.nextMoves.moves[randomIndex];
@@ -267,9 +293,7 @@ class Player {
     console.log(randomIndex, positionIndex, position, this.nextMoves, "XDDD");
     this.beginAttack(positionIndex);
     if (this.getAction(position) === this.messages.hit) {
-      console.log("HIT @ WAT");
       //determining direction
-      console.log("wynik", (this.nextMoves.baseHit - positionIndex) % 10 === 0);
       if ((this.nextMoves.baseHit - positionIndex) % 10 === 0) {
         this.nextMoves.goUp = true;
       } else {
@@ -278,21 +302,13 @@ class Player {
       this.nextMoves.add = true;
       this.nextMoves.moves = [positionIndex];
     } else if (this.getAction(position) === this.messages.miss) {
-      // miss
-      console.log("RENOVING", this.nextMoves.moves, positionIndex, position);
-      // we have to check other possibilities
-      const newShit = this.nextMoves.moves.filter(
-        (item) => item != positionIndex
-      );
+      // miss, we are removing this position
       this.nextMoves.moves = this.nextMoves.moves.filter(
         (item) => item != positionIndex
       );
-      console.log("REMOVED", this.nextMoves.moves, newShit);
     } else {
-      // sunk
-      // we have to remove this tomfoolery
+      // ship was sunk, we have to reset
       this.nextMoves.moves = [];
-      console.log("SUNK INB CHOOSE BNEXT", this.nextMoves.moves);
     }
   }
 
@@ -315,10 +331,8 @@ class Player {
     }
     return positions;
   }
-  // posti
   private tryToAddPossibleMoves(positionIndex: number) {
     const postion = this.getPosition(positionIndex)!;
-    console.log("what happend,", this.getAction(postion), postion);
     if (this.getAction(postion) === this.messages.hit) {
       let indexesToCheck = this.getAdjecentToPosition(positionIndex);
       this.nextMoves.baseHit = positionIndex;
@@ -369,9 +383,6 @@ class Player {
         i
       )}`;
     }
-  }
-  private checkIfCanBeHti(positionIndex: number) {
-    return this.enemy?.gameboard.boardState.positions[positionIndex].isHit;
   }
   public getPositionPossibleToAttack() {
     return this.enemy?.gameboard.getPositionPossibleToAttack();
