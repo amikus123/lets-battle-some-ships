@@ -61,6 +61,4 @@ humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
 computer.randomizeShips();
 humanBoardSetup.updateBoard();
-console.log(human);
-console.log(computer);
 // animatedGameText.typeTips()

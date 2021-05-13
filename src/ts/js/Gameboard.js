@@ -43,7 +43,6 @@ class Gameboard {
     }
     removeShip(start, end) {
         let indexToRemove = -1;
-        console.log(this.ships.length, "przed");
         this.ships.forEach((ship, inedx) => {
             if (ship.startPosition == start) {
                 indexToRemove = inedx;
@@ -53,7 +52,6 @@ class Gameboard {
             this.ships.splice(indexToRemove, 1);
         }
         this.boardState.removeShip(this.ships);
-        console.log(this.ships.length, "po");
     }
     recieveAttack(posistion) {
         this.boardState.recieveAttack(posistion);
@@ -64,7 +62,6 @@ class Gameboard {
                 }
             });
             if (ship.isSunk()) {
-                console.log("sunk");
                 ship.adjecentPositions.forEach(index => {
                     this.boardState.recieveAttack(index);
                 });

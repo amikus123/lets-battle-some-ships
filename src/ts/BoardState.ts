@@ -39,11 +39,15 @@ class BoardState {
     }
     return result;
   }
-  public getPositionPossibleToAttack() :boardPosition[] {
-    const possibleToAttack = this.positions.filter((item) => {
-      return item.isHit === false;
+  public getPositionPossibleToAttack() :number[] {
+    const res :number[] =[]
+
+     this.positions.forEach((item,index) => {
+       if(!item.isHit){
+         res.push(index)
+       }
     });
-    return possibleToAttack;
+    return res;
   }
   public recieveAttack(position: number):void {
     this.positions[position].isHit = true;

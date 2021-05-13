@@ -156,7 +156,7 @@ ul {
   background-color: lime !important;
 }
 #human--board .ship-hit {
-  background-color: cyan;
+  background-color: white;
 }
 #human--board .empty-hit {
   background-color: red;
@@ -172,7 +172,7 @@ ul {
   cursor: not-allowed;
 }
 #computer--board .ship-hit {
-  background-color: cyan;
+  background-color: white;
 }
 #computer--board .empty-hit {
   background-color: red;

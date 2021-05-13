@@ -36,10 +36,13 @@ class BoardState {
         return result;
     }
     getPositionPossibleToAttack() {
-        const possibleToAttack = this.positions.filter((item) => {
-            return item.isHit === false;
+        const res = [];
+        this.positions.forEach((item, index) => {
+            if (!item.isHit) {
+                res.push(index);
+            }
         });
-        return possibleToAttack;
+        return res;
     }
     recieveAttack(position) {
         this.positions[position].isHit = true;

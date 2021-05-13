@@ -68,9 +68,7 @@ class BoardSetup {
     if (this.shipsDOM !== null) {
       const dragStart = (e: any) => {
         e.dataTransfer.setData("text/plain", "S" + e.target.id);
-        // console.log(e.target.parentElement, "picked up");
         if (e.target.getAttribute("start") !== null) {
-          // console.log("removing a ship");
           const start = e.target.getAttribute("start");
           const end = e.target.getAttribute("end");
           this.player.gameboard.removeShip(start, end);
@@ -85,23 +83,19 @@ class BoardSetup {
   private ShipDOMDrop() {
     const dropShip = (e: any) => {
       e.preventDefault();
-      // console.log(e);
       let id: string = e.dataTransfer!.getData("text/plain");
       if (this.checkIfVaildDrop(id)) {
         const restOfData = this.getDropData(id);
         const shipDom: HTMLElement = document.getElementById(restOfData)!;
         const previousParent = shipDom.parentElement;
         const dropTarget: Element = this.getDropSquare(shipDom, e.target);
-        // console.log(dropTarget, shipDom,previousParent);
         if (dropTarget.classList.contains("game-square")) {
           const cords = this.getShipDOMStartAndEnd(dropTarget, shipDom);
           if (this.player.tryToPlaceShip(cords[0], cords[1])) {
-            // console.log("placed in new loaction");
             shipDom.setAttribute("start", cords[0].toString());
             shipDom.setAttribute("end", cords[1].toString());
             dropTarget.append(shipDom);
           } else {
-            // console.log("fail");
             const start = Number(shipDom.getAttribute("start"));
             const end = Number(shipDom.getAttribute("end"));
             const length = Number(shipDom.getAttribute("length"));
@@ -114,27 +108,22 @@ class BoardSetup {
           }
         }
         this.updateBoard();
-        // console.log(this.player);
       }
     };
     return dropShip;
   }
   private getDropSquare(shipDom: HTMLElement, dropTarget: HTMLElement) {
-    // console.log(shipDom, dropTarget);
     if (dropTarget.classList.contains("ship-part")) {
       const boundingRect = dropTarget.getBoundingClientRect();
       const elementsOnPosition = document.elementsFromPoint(
         boundingRect.x,
         boundingRect.y
       );
-      // console.log(elementsOnPosition, "whats on positon");
       for (const item of elementsOnPosition) {
         if (item.classList.contains("game-square")) {
-          // console.log(item);
           return item;
         }
       }
-      // return elementsOnPosition[1]
     }
     return dropTarget;
   }
@@ -143,7 +132,6 @@ class BoardSetup {
       const shipDom = e.target.parentElement;
       if (shipDom.parentElement.id === "dockyard") {
         shipDom.classList.toggle("ship-vertical");
-        console.log("DOCK");
       } else {
         const start = Number(shipDom.getAttribute("start"));
         const currentEnd = Number(shipDom.getAttribute("end"));
@@ -154,18 +142,14 @@ class BoardSetup {
         } else {
           newEnd = start + length - 1;
         }
-        console.log(start, currentEnd, newEnd);
         this.player.gameboard.removeShip(start, currentEnd);
         if (this.player.tryToPlaceShip(start, newEnd)) {
           shipDom.classList.toggle("ship-vertical");
-          console.log("succcc");
           shipDom.setAttribute("start", start.toString());
           shipDom.setAttribute("end", newEnd.toString());
         } else {
           this.player.tryToPlaceShip(start, currentEnd);
-          console.log("FAIL");
         }
-        console.log(this.player);
         this.updateBoard();
       }
     };
@@ -180,7 +164,6 @@ class BoardSetup {
     const dockyard = document.getElementById("dockyard")!;
     const dropShipToDockyard = (e: any) => {
       e.preventDefault();
-      // console.log("dropping to dock");
       const id = e.dataTransfer!.getData("text/plain");
       if (this.checkIfVaildDrop(id)) {
         const restOfData = this.getDropData(id);
@@ -198,7 +181,6 @@ class BoardSetup {
   public randomSetup() {
     const randomShips = this.player.gameboard.randomShipSetup();
     const gameSquares = Array.from(this.gameboard.childNodes);
-    // console.log(randomShips);
     randomShips.forEach((ship, index) => {
       if (this.shipsDOM) {
         const shipDom = this.shipsDOM[index];
@@ -283,7 +265,6 @@ class BoardSetup {
         item.classList.add("hide")
         dockyard.appendChild(item)
       })
-      // console.log(boardsContainer,botBoard)
       // change class or some shit  
     }else{
       console.log("cant start")
