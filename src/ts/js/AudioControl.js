@@ -22,6 +22,10 @@ class AudioControl {
     playErrorSound() {
         this.playSound(this.error);
     }
+    playWinMucis() {
+    }
+    playLoseMusic() {
+    }
     toggleMute() {
         this.isMuted = !this.isMuted;
         this.musicPlayerc.muted = this.isMuted;

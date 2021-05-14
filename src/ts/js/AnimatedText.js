@@ -60,17 +60,20 @@ class AnimatedText {
         const newElement = document.createElement(elementToReplace.tagName.toLowerCase());
         newElement.id = elementToReplace.id;
         const classArray = elementToReplace.classList.value.split(" ");
-        classArray.forEach((item) => {
-            newElement.classList.add(item);
-        });
-        if (elementToReplace.nextElementSibling === null) {
-            (_a = elementToReplace.parentElement) === null || _a === void 0 ? void 0 : _a.append(newElement);
+        console.log(classArray);
+        if (classArray[0] !== "") {
+            classArray.forEach((item) => {
+                newElement.classList.add(item);
+            });
+            if (elementToReplace.nextElementSibling === null) {
+                (_a = elementToReplace.parentElement) === null || _a === void 0 ? void 0 : _a.append(newElement);
+            }
+            else {
+                (_b = elementToReplace.parentElement) === null || _b === void 0 ? void 0 : _b.insertBefore(newElement, elementToReplace.nextElementSibling);
+            }
+            elementToReplace.remove();
+            this.displayTarget = newElement;
         }
-        else {
-            (_b = elementToReplace.parentElement) === null || _b === void 0 ? void 0 : _b.insertBefore(newElement, elementToReplace.nextElementSibling);
-        }
-        elementToReplace.remove();
-        this.displayTarget = newElement;
     }
 }
 exports.default = AnimatedText;

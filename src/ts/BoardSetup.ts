@@ -1,5 +1,4 @@
 import Player from "./Player";
-import Ship from "./Ship";
 
 class BoardSetup {
   shipsDOM: Element[] | null;
@@ -217,7 +216,6 @@ class BoardSetup {
   }
   public reset() {
     const dockyard = document.getElementById("dockyard")!;
-
     if (this.shipsDOM) {
       this.shipsDOM.forEach((ship) => {
         dockyard.appendChild(ship);
@@ -226,50 +224,55 @@ class BoardSetup {
       });
     }
   }
-  public canStart(){
+  public canStart() {
     const dockyard = document.getElementById("dockyard")!;
-    if(dockyard.childElementCount ===0){
-      return true
-    }else{
-      return false
+    if (dockyard.childElementCount === 0) {
+      return true;
+    } else {
+      return false;
     }
   }
-  public start(){
+  public start() {
     const dockyard = document.getElementById("dockyard")!;
-    const humanBoard = document.getElementById("human--board")
+    const humanBoard = document.getElementById("human--board");
     const botBoard = document.getElementById("copmuterBoardWrap")!;
-    const humanWrap = document.getElementById("gameboard-human-wrap")!
-    const tips = document.getElementById("tips")!
+    const humanWrap = document.getElementById("gameboard-human-wrap")!;
+    const tips = document.getElementById("tips")!;
     const tip1 = document.getElementById("tip1")!;
     const tip2 = document.getElementById("tip2")!;
     const helperText = document.getElementById("helperText")!;
+    const options = document.getElementById("options")!;
+    const gameDiv = document.getElementById("game-div")!;
+    // if(this.canStart()){
 
-    const options = document.getElementById("options")!
-    const gameDiv = document.getElementById("game-div")!
-    if(this.canStart()){
-      humanBoard?.classList.toggle("setup-board")
-      humanBoard?.classList.toggle("game-board")
+    humanBoard?.classList.toggle("setup-board");
+    humanBoard?.classList.toggle("game-board");
+    botBoard.classList.toggle("hide");
 
-      botBoard.classList.toggle("hide")
-      gameDiv?.appendChild(humanWrap)
-      gameDiv?.appendChild(tips)
-      gameDiv?.appendChild(botBoard)
-      gameDiv?.classList.add("game")
-      gameDiv?.classList.remove("dev")
-      tip1.classList.toggle("hide")
-      tip2.classList.toggle("hide")
-      helperText.classList.toggle("hide")
-      dockyard.classList.add("hide")
-      options.classList.add("hide")
-      this.shipsDOM?.forEach(item=>{
-        item.classList.add("hide")
-        dockyard.appendChild(item)
-      })
-      // change class or some shit  
-    }else{
-      console.log("cant start")
-    }
-
+    gameDiv?.classList.toggle("game");
+    gameDiv?.classList.toggle("dev");
+    tip1.classList.toggle("hide");
+    tip2.classList.toggle("hide");
+    helperText.classList.toggle("hide");
+    dockyard.classList.toggle("hide");
+    options.classList.toggle("hide");
+    this.shipsDOM?.forEach((item) => {
+      item.classList.toggle("hide");
+      dockyard.appendChild(item);
+    });
+    if (gameDiv.classList.contains("game")) {
+      gameDiv?.appendChild(humanWrap);
+      gameDiv?.appendChild(tips);
+      gameDiv?.appendChild(botBoard);
+    } else {
+      gameDiv.appendChild(dockyard);
+      gameDiv.parentElement?.appendChild(tips); 
+      gameDiv.parentElement?.append(options)
+    } 
+    // change class or some shit
+    // }else{
+    //   console.log("cant start")
+    // }
   }
 }
 export default BoardSetup;

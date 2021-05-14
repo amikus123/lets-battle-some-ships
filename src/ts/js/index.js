@@ -16,7 +16,7 @@ const computerBoardSetup = new BoardSetup_1.default(computer, computerBoard);
 const humanBoardSetup = new BoardSetup_1.default(human, humanBoard);
 const textControl = new TextControl_1.default();
 const audioControl = new AudioControl_1.default();
-const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl);
+const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl, audioControl);
 human.setAudioControl(audioControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
@@ -25,6 +25,7 @@ const radomButton = document.getElementById("random");
 const startButton = document.getElementById("start");
 const audioButton = document.getElementById("audio");
 const audioIcon = document.getElementById("audioIcon");
+const restartButton = document.getElementById("restart");
 radomButton === null || radomButton === void 0 ? void 0 : radomButton.addEventListener("click", () => {
     humanBoardSetup.randomSetup();
 });
@@ -38,6 +39,15 @@ startButton === null || startButton === void 0 ? void 0 : startButton.addEventLi
     else {
         audioControl.playErrorSound();
     }
+});
+restartButton.addEventListener("click", () => {
+    gameFlow.restartGame();
+    humanBoardSetup.reset();
+    human.resetGameboard();
+    human.updateBoard();
+    computer.resetGameboard();
+    computer.randomizeShips();
+    computer.updateBoard();
 });
 const audioToggle = () => {
     audioControl.toggleMute();
@@ -56,7 +66,6 @@ const audioToggle = () => {
 audioButton === null || audioButton === void 0 ? void 0 : audioButton.addEventListener("click", audioToggle);
 audioIcon === null || audioIcon === void 0 ? void 0 : audioIcon.addEventListener("click", audioToggle);
 gameFlow.inittializeBoard();
-gameFlow.beginSetup();
 humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
 computer.randomizeShips();

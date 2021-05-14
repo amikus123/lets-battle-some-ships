@@ -48,29 +48,33 @@ export default class AnimatedText {
     setupTypewriter(this.displayTarget, text);
   }
   public hide() {
-    this.displayTarget.classList.add("hide")
-    if(this.modal){
+    this.displayTarget.classList.add("hide");
+    if (this.modal) {
       this.modal?.classList.add("hide");
-
     }
   }
   private resetText() {
     const elementToReplace = this.displayTarget;
-    
     const newElement = document.createElement(
       elementToReplace.tagName.toLowerCase()
     );
     newElement.id = elementToReplace.id;
     const classArray = elementToReplace.classList.value.split(" ");
-    classArray.forEach((item) => {
-      newElement.classList.add(item);
-    });
-    if(elementToReplace.nextElementSibling === null){
-      elementToReplace.parentElement?.append(newElement);
-    }else{
-      elementToReplace.parentElement?.insertBefore(newElement,elementToReplace.nextElementSibling)
+    console.log(classArray);
+    if (classArray[0] !== "") {
+      classArray.forEach((item) => {
+        newElement.classList.add(item);
+      });
+      if (elementToReplace.nextElementSibling === null) {
+        elementToReplace.parentElement?.append(newElement);
+      } else {
+        elementToReplace.parentElement?.insertBefore(
+          newElement,
+          elementToReplace.nextElementSibling
+        );
+      }
+      elementToReplace.remove();
+      this.displayTarget = newElement;
     }
-    elementToReplace.remove();
-    this.displayTarget = newElement;
   }
 }

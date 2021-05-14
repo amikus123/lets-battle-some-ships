@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const AnimatedText_1 = __importDefault(require("./AnimatedText"));
+const animateText_1 = __importDefault(require("./animateText"));
 class TextControl {
     constructor() {
         const modalBigText = document.getElementById("modalBigText");
+        const restart = document.getElementById("restart");
         const bigModal = document.getElementById("modalBig");
         const modalSmallText = document.getElementById("modalSmallText");
         const smallModal = document.getElementById("modalSmall");
@@ -14,6 +16,7 @@ class TextControl {
         const helperText = document.getElementById("helperText");
         const tip1 = document.getElementById("tip1");
         const tip2 = document.getElementById("tip2");
+        this.restartButton = restart;
         this.animatedSmallModal = new AnimatedText_1.default(modalSmallText, smallModal);
         this.animatedBigModal = new AnimatedText_1.default(modalBigText, bigModal);
         this.animatedGameText = new AnimatedText_1.default(helperText);
@@ -29,6 +32,13 @@ class TextControl {
         }
         else {
             textToDisplay = `Phase two \n Battle `;
+        }
+        if (this.animatedBigModal.displayTarget.nextElementSibling !== null) {
+            this.animatedBigModal.displayTarget.nextElementSibling.classList.add("hide");
+        }
+        if (this.animatedBigModal.displayTarget.previousElementSibling !== null) {
+            console.log(this.animatedBigModal.displayTarget.previousElementSibling);
+            this.animatedBigModal.displayTarget.previousElementSibling.classList.add("hide");
         }
         this.animatedBigModal.typeTemporary(textToDisplay, this.modalSpeed);
     }
@@ -47,6 +57,13 @@ class TextControl {
     }
     typeBattleMessage(msg) {
         this.animatedGameText.type(msg);
+    }
+    showGameOverModal(msg) {
+        this.animatedBigModal.type(msg);
+        setTimeout(() => {
+            this.restartButton.classList.remove("hide");
+            animateText_1.default(this.restartButton, "play again ");
+        }, 1000);
     }
 }
 exports.default = TextControl;

@@ -11,7 +11,13 @@ const computerBoardSetup = new BoardSetup(computer, computerBoard);
 const humanBoardSetup = new BoardSetup(human, humanBoard);
 const textControl = new TextControl();
 const audioControl = new AudioControl();
-const gameFlow = new GameFlow(human, humanBoardSetup, computer, textControl);
+const gameFlow = new GameFlow(
+  human,
+  humanBoardSetup,
+  computer,
+  textControl,
+  audioControl
+);
 human.setAudioControl(audioControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
@@ -21,6 +27,7 @@ const radomButton = document.getElementById("random")!;
 const startButton = document.getElementById("start")!;
 const audioButton = document.getElementById("audio")!;
 const audioIcon = document.getElementById("audioIcon")!;
+const restartButton = document.getElementById("restart")!;
 
 radomButton?.addEventListener("click", () => {
   humanBoardSetup.randomSetup();
@@ -32,28 +39,34 @@ startButton?.addEventListener("click", () => {
   if (humanBoardSetup.canStart()) {
     gameFlow.beginBattle();
   } else {
-    audioControl.playErrorSound()
+    audioControl.playErrorSound();
   }
 });
-
+restartButton.addEventListener("click", () => {
+  gameFlow.restartGame();
+  humanBoardSetup.reset();
+  human.resetGameboard();
+  human.updateBoard();
+  computer.resetGameboard();
+  computer.randomizeShips();
+  computer.updateBoard();
+});
 const audioToggle = () => {
-audioControl.toggleMute();
-let text = ""
-if(audioControl.isMuted){
-  text = "audio off"
-}else{
- text = "audio on"
-}
-audioButton.innerHTML = text
-audioIcon.innerText = text
-audioButton.classList.toggle("muted")
-audioIcon.classList.toggle("muted")
-
+  audioControl.toggleMute();
+  let text = "";
+  if (audioControl.isMuted) {
+    text = "audio off";
+  } else {
+    text = "audio on";
+  }
+  audioButton.innerHTML = text;
+  audioIcon.innerText = text;
+  audioButton.classList.toggle("muted");
+  audioIcon.classList.toggle("muted");
 };
 audioButton?.addEventListener("click", audioToggle);
 audioIcon?.addEventListener("click", audioToggle);
 gameFlow.inittializeBoard();
-gameFlow.beginSetup();
 humanBoardSetup.addSquares();
 computerBoardSetup.addSquares();
 computer.randomizeShips();

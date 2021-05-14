@@ -221,7 +221,7 @@ class BoardSetup {
         }
     }
     start() {
-        var _a;
+        var _a, _b, _c;
         const dockyard = document.getElementById("dockyard");
         const humanBoard = document.getElementById("human--board");
         const botBoard = document.getElementById("copmuterBoardWrap");
@@ -232,29 +232,35 @@ class BoardSetup {
         const helperText = document.getElementById("helperText");
         const options = document.getElementById("options");
         const gameDiv = document.getElementById("game-div");
-        if (this.canStart()) {
-            humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("setup-board");
-            humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("game-board");
-            botBoard.classList.toggle("hide");
+        // if(this.canStart()){
+        humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("setup-board");
+        humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("game-board");
+        botBoard.classList.toggle("hide");
+        gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.toggle("game");
+        gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.toggle("dev");
+        tip1.classList.toggle("hide");
+        tip2.classList.toggle("hide");
+        helperText.classList.toggle("hide");
+        dockyard.classList.toggle("hide");
+        options.classList.toggle("hide");
+        (_a = this.shipsDOM) === null || _a === void 0 ? void 0 : _a.forEach((item) => {
+            item.classList.toggle("hide");
+            dockyard.appendChild(item);
+        });
+        if (gameDiv.classList.contains("game")) {
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(humanWrap);
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(tips);
             gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.appendChild(botBoard);
-            gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.add("game");
-            gameDiv === null || gameDiv === void 0 ? void 0 : gameDiv.classList.remove("dev");
-            tip1.classList.toggle("hide");
-            tip2.classList.toggle("hide");
-            helperText.classList.toggle("hide");
-            dockyard.classList.add("hide");
-            options.classList.add("hide");
-            (_a = this.shipsDOM) === null || _a === void 0 ? void 0 : _a.forEach(item => {
-                item.classList.add("hide");
-                dockyard.appendChild(item);
-            });
-            // change class or some shit  
         }
         else {
-            console.log("cant start");
+            gameDiv.appendChild(dockyard);
+            (_b = gameDiv.parentElement) === null || _b === void 0 ? void 0 : _b.appendChild(tips);
+            (_c = gameDiv.parentElement) === null || _c === void 0 ? void 0 : _c.append(options);
         }
+        // change class or some shit
+        // }else{
+        //   console.log("cant start")
+        // }
     }
 }
 exports.default = BoardSetup;
