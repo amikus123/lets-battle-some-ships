@@ -19,6 +19,7 @@ const gameFlow = new GameFlow(
   audioControl
 );
 human.setAudioControl(audioControl);
+computer.setAudioControl(audioControl)
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
 

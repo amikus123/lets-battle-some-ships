@@ -30,15 +30,18 @@ class BoardSetup {
             newDiv.setAttribute("index", i.toString());
             newDiv.addEventListener("dragover", beginDrag);
             newDiv.addEventListener("drop", dropShip);
-            newDiv.addEventListener("click", () => {
-                var _a;
-                if (newDiv.classList.contains("ship-afloat") &&
-                    ((_a = document.getElementById("game-div")) === null || _a === void 0 ? void 0 : _a.classList.contains("dev"))) {
-                }
-                else {
-                    this.soundControl.playErrorSound();
-                }
-            });
+            if (!this.player.isComputer) {
+                newDiv.addEventListener("click", () => {
+                    var _a;
+                    if (newDiv.classList.contains("ship-afloat") &&
+                        ((_a = document.getElementById("game-div")) === null || _a === void 0 ? void 0 : _a.classList.contains("dev"))) {
+                    }
+                    else {
+                        console.log("click");
+                        this.soundControl.playErrorSound();
+                    }
+                });
+            }
             this.gameboard.appendChild(newDiv);
         }
     }

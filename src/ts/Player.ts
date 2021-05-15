@@ -79,10 +79,11 @@ class Player {
       this.gameFlow?.humanTurn
     ) {
       this.beginAttack(index);
+
       this.gameFlow.toggleTurn();
       setTimeout(() => {
         this.enemy!.computerMove();
-      }, 1);
+      }, 1500);
     } else {
       this.audioControl?.playErrorSound();
     }
@@ -104,9 +105,9 @@ class Player {
       )}`;
     }
   }
-  
+
   public hasLost(): boolean {
-    console.log(this.gameboard)
+    console.log(this.gameboard);
     return this.gameboard.areShipsSunk();
   }
   public getPositionPossibleToAttack() {
@@ -116,21 +117,38 @@ class Player {
     return this.enemy?.gameboard.getPosition(positon);
   }
   private recieveAttack(posistion: number): void {
+    const attackedPosition: boardPosition = this.getPosition(posistion)!;
     this.gameboard.recieveAttack(posistion);
+    console.log("ra",attackedPosition)
+
     this.updateBoard();
-    if(this.hasLost()){
-      this.gameFlow?.endOfBattle(this.isComputer)
+    if (this.hasLost()) {
+      this.gameFlow?.endOfBattle(this.isComputer);
     }
   }
- 
+
+  private playSound(attackedPosition: boardPosition) {
+    const action = this.getAction(attackedPosition);
+    console.log(action, "ps")
+    switch (action) {
+      case this.messages.miss:
+        this.audioControl?.playMissSound();
+        break;
+      case this.messages.hit:
+        this.audioControl?.playHitSound();
+        break;
+      default:
+        this.audioControl?.playSunkSound();
+        break;
+    }
+  }
   public beginAttack(posistion: number) {
     const attackedPosition: boardPosition = this.getPosition(posistion)!;
-    console.log(attackedPosition, "przed");
     this.enemy?.recieveAttack(posistion);
     const message: string = this.getMessageToDisply(attackedPosition);
+    this.enemy?.playSound(attackedPosition);
     this.gameFlow!.displayBattleMessage(message);
     this.enemy?.updateBoard();
-    console.log(attackedPosition, "atakownae");
   }
   private getMessageToDisply(posistion: boardPosition) {
     const name = this.isComputer ? "Enemy has " : "You have ";
@@ -162,24 +180,24 @@ class Player {
         this.nextMoves.goUp =
           Math.abs(this.nextMoves.baseHit - this.nextMoves.moves[0]) >= 10;
         // this.handleOneDirection();
-        console.log("one directon")
-        this.handleOneDirection2()
+        console.log("one directon");
+        this.handleOneDirection2();
       }
     } else {
       // we are checking positions in up to 4 direction
-      console.log("four")
+      console.log("four");
 
       this.chooseNextTarget();
     }
 
     this.gameFlow!.toggleTurn();
   }
- 
+
   private checkIfOutsideRowOfAxis(dynamicIndex: number) {
     const baseIndex = this.nextMoves.moves[0];
 
     if (this.nextMoves.goUp) {
-      return (dynamicIndex < 0 || dynamicIndex > 99);
+      return dynamicIndex < 0 || dynamicIndex > 99;
     } else {
       return (
         baseIndex - (baseIndex % 10) !== dynamicIndex - (dynamicIndex % 10)
@@ -197,9 +215,7 @@ class Player {
       while (true) {
         indexToCheck += goUp ? additionNumber : -additionNumber;
         console.log(indexToCheck);
-        if (
-         this.checkIfOutsideRowOfAxis(indexToCheck)
-        ) {
+        if (this.checkIfOutsideRowOfAxis(indexToCheck)) {
           console.log("outisde");
           goUp = !goUp;
         } else if (
@@ -229,112 +245,7 @@ class Player {
       }
     }
   }
-  // private handleOneDirection() {
-  //   if (this.nextMoves.goUp) {
-  //     this.handleUp();
-  //   } else {
-  //     this.handleSide();
-  //   }
-  // }
-  // private handleSide() {
-  //   // console.log(this.nextMoves, this.nextMoves.moves[0]);
-  //   const baseIndex = this.nextMoves.moves[0];
-  //   let indexToCheck = this.nextMoves.moves[0];
-  //   let goRight = true;
-  //   if (this.getPosition(baseIndex)?.ship?.isSunk()) {
-  //     this.nextMoves.moves = [];
-  //   } else {
-  //     while (true) {
-  //       indexToCheck += goRight ? 1 : -1;
-  //       console.log(indexToCheck);
-  //       if (
-  //         baseIndex - (baseIndex % 10) !==
-  //         indexToCheck - (indexToCheck % 10)
-  //       ) {
-  //         console.log("outisde");
-  //         goRight = !goRight;
-  //       } else if (
-  //         this.getPosition(indexToCheck)?.isHit &&
-  //         this.getPosition(indexToCheck)?.ship !== undefined
-  //       ) {
-  //         //go nex
-  //       } else if (
-  //         this.getPosition(indexToCheck)?.isHit &&
-  //         this.getPosition(indexToCheck)?.ship === undefined
-  //       ) {
-  //         //go back
-  //         goRight = !goRight;
-  //       } else if (!this.getPosition(indexToCheck)?.isHit) {
-  //         break;
-  //         //go nex
-  //       }
-  //     }
-  //     const position = this.getPosition(indexToCheck)!;
-  //     console.log(this.nextMoves, indexToCheck, this.getAction(position));
-  //     this.beginAttack(indexToCheck);
-  //     if (this.getAction(position) === this.messages.hit) {
-  //       this.nextMoves.moves[0] = indexToCheck;
-  //     } else if (this.getAction(position) === this.messages.sunk) {
-  //       this.nextMoves.moves = [];
-  //     } else {
-  //     }
-  //   }
-  // }
-  // private handleUp() {
-  //   console.log("UP");
-  //   console.log(this.nextMoves, this.nextMoves.moves[0]);
-  //   const baseIndex = this.nextMoves.moves[0];
-  //   let indexToCheck = this.nextMoves.moves[0];
-  //   let goUp = true;
-  //   // go right by deafult
-  //   // if posistion is hit and a ship - continue
-  //   // is position is hit and not a ship go back
-  //   // if positon is not hti go next
-
-  //   // if chanegd the row - go previous direction
-  //   if (this.getPosition(baseIndex)?.ship?.isSunk()) {
-  //     console.log(
-  //       "zatopiony",
-  //       this.getPosition(baseIndex)?.ship,
-  //       this.getPosition(baseIndex)?.ship?.isSunk()
-  //     );
-  //     this.nextMoves.moves = [];
-  //   } else {
-  //     while (true) {
-  //       indexToCheck += goUp ? 10 : -10;
-  //       console.log(indexToCheck);
-  //       if (indexToCheck < 0 || indexToCheck > 99) {
-  //         goUp = !goUp;
-  //       } else if (
-  //         this.getPosition(indexToCheck)?.isHit &&
-  //         this.getPosition(indexToCheck)?.ship !== undefined
-  //       ) {
-  //         //go nex
-  //       } else if (
-  //         this.getPosition(indexToCheck)?.isHit &&
-  //         this.getPosition(indexToCheck)?.ship === undefined
-  //       ) {
-  //         //go back
-  //         goUp = !goUp;
-  //       } else if (!this.getPosition(indexToCheck)?.isHit) {
-  //         break;
-  //         //go nex
-  //       }
-  //     }
-  //     const position = this.getPosition(indexToCheck)!;
-  //     console.log(this.nextMoves, indexToCheck, this.getAction(position));
-  //     this.beginAttack(indexToCheck);
-  //     if (this.getAction(position) === this.messages.hit) {
-  //       this.nextMoves.moves[0] = indexToCheck;
-  //     } else if (this.getAction(position) === this.messages.miss) {
-  //       // this.nextMoves.add = !this.nextMoves.add;
-  //     } else {
-  //       this.nextMoves.moves = [];
-  //     }
-  //   }
-  // }
-
-  private chooseNextTarget() {
+   private chooseNextTarget() {
     const randomIndex = Math.floor(Math.random() * this.nextMoves.moves.length);
     const positionIndex = this.nextMoves.moves[randomIndex];
     const position = this.getPosition(positionIndex)!;
@@ -399,9 +310,5 @@ class Player {
       console.log(indexesToCheck, "end");
     }
   }
-
-
-
-
 }
 export default Player;

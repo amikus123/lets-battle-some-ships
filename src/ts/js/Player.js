@@ -61,7 +61,7 @@ class Player {
             this.gameFlow.toggleTurn();
             setTimeout(() => {
                 this.enemy.computerMove();
-            }, 1);
+            }, 1500);
         }
         else {
             (_b = this.audioControl) === null || _b === void 0 ? void 0 : _b.playErrorSound();
@@ -95,21 +95,38 @@ class Player {
     }
     recieveAttack(posistion) {
         var _a;
+        const attackedPosition = this.getPosition(posistion);
         this.gameboard.recieveAttack(posistion);
+        console.log("ra", attackedPosition);
         this.updateBoard();
         if (this.hasLost()) {
             (_a = this.gameFlow) === null || _a === void 0 ? void 0 : _a.endOfBattle(this.isComputer);
         }
     }
+    playSound(attackedPosition) {
+        var _a, _b, _c;
+        const action = this.getAction(attackedPosition);
+        console.log(action, "ps");
+        switch (action) {
+            case this.messages.miss:
+                (_a = this.audioControl) === null || _a === void 0 ? void 0 : _a.playMissSound();
+                break;
+            case this.messages.hit:
+                (_b = this.audioControl) === null || _b === void 0 ? void 0 : _b.playHitSound();
+                break;
+            default:
+                (_c = this.audioControl) === null || _c === void 0 ? void 0 : _c.playSunkSound();
+                break;
+        }
+    }
     beginAttack(posistion) {
-        var _a, _b;
+        var _a, _b, _c;
         const attackedPosition = this.getPosition(posistion);
-        console.log(attackedPosition, "przed");
         (_a = this.enemy) === null || _a === void 0 ? void 0 : _a.recieveAttack(posistion);
         const message = this.getMessageToDisply(attackedPosition);
+        (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.playSound(attackedPosition);
         this.gameFlow.displayBattleMessage(message);
-        (_b = this.enemy) === null || _b === void 0 ? void 0 : _b.updateBoard();
-        console.log(attackedPosition, "atakownae");
+        (_c = this.enemy) === null || _c === void 0 ? void 0 : _c.updateBoard();
     }
     getMessageToDisply(posistion) {
         const name = this.isComputer ? "Enemy has " : "You have ";
@@ -159,7 +176,7 @@ class Player {
     checkIfOutsideRowOfAxis(dynamicIndex) {
         const baseIndex = this.nextMoves.moves[0];
         if (this.nextMoves.goUp) {
-            return (dynamicIndex < 0 || dynamicIndex > 99);
+            return dynamicIndex < 0 || dynamicIndex > 99;
         }
         else {
             return (baseIndex - (baseIndex % 10) !== dynamicIndex - (dynamicIndex % 10));
@@ -209,109 +226,6 @@ class Player {
             }
         }
     }
-    // private handleOneDirection() {
-    //   if (this.nextMoves.goUp) {
-    //     this.handleUp();
-    //   } else {
-    //     this.handleSide();
-    //   }
-    // }
-    // private handleSide() {
-    //   // console.log(this.nextMoves, this.nextMoves.moves[0]);
-    //   const baseIndex = this.nextMoves.moves[0];
-    //   let indexToCheck = this.nextMoves.moves[0];
-    //   let goRight = true;
-    //   if (this.getPosition(baseIndex)?.ship?.isSunk()) {
-    //     this.nextMoves.moves = [];
-    //   } else {
-    //     while (true) {
-    //       indexToCheck += goRight ? 1 : -1;
-    //       console.log(indexToCheck);
-    //       if (
-    //         baseIndex - (baseIndex % 10) !==
-    //         indexToCheck - (indexToCheck % 10)
-    //       ) {
-    //         console.log("outisde");
-    //         goRight = !goRight;
-    //       } else if (
-    //         this.getPosition(indexToCheck)?.isHit &&
-    //         this.getPosition(indexToCheck)?.ship !== undefined
-    //       ) {
-    //         //go nex
-    //       } else if (
-    //         this.getPosition(indexToCheck)?.isHit &&
-    //         this.getPosition(indexToCheck)?.ship === undefined
-    //       ) {
-    //         //go back
-    //         goRight = !goRight;
-    //       } else if (!this.getPosition(indexToCheck)?.isHit) {
-    //         break;
-    //         //go nex
-    //       }
-    //     }
-    //     const position = this.getPosition(indexToCheck)!;
-    //     console.log(this.nextMoves, indexToCheck, this.getAction(position));
-    //     this.beginAttack(indexToCheck);
-    //     if (this.getAction(position) === this.messages.hit) {
-    //       this.nextMoves.moves[0] = indexToCheck;
-    //     } else if (this.getAction(position) === this.messages.sunk) {
-    //       this.nextMoves.moves = [];
-    //     } else {
-    //     }
-    //   }
-    // }
-    // private handleUp() {
-    //   console.log("UP");
-    //   console.log(this.nextMoves, this.nextMoves.moves[0]);
-    //   const baseIndex = this.nextMoves.moves[0];
-    //   let indexToCheck = this.nextMoves.moves[0];
-    //   let goUp = true;
-    //   // go right by deafult
-    //   // if posistion is hit and a ship - continue
-    //   // is position is hit and not a ship go back
-    //   // if positon is not hti go next
-    //   // if chanegd the row - go previous direction
-    //   if (this.getPosition(baseIndex)?.ship?.isSunk()) {
-    //     console.log(
-    //       "zatopiony",
-    //       this.getPosition(baseIndex)?.ship,
-    //       this.getPosition(baseIndex)?.ship?.isSunk()
-    //     );
-    //     this.nextMoves.moves = [];
-    //   } else {
-    //     while (true) {
-    //       indexToCheck += goUp ? 10 : -10;
-    //       console.log(indexToCheck);
-    //       if (indexToCheck < 0 || indexToCheck > 99) {
-    //         goUp = !goUp;
-    //       } else if (
-    //         this.getPosition(indexToCheck)?.isHit &&
-    //         this.getPosition(indexToCheck)?.ship !== undefined
-    //       ) {
-    //         //go nex
-    //       } else if (
-    //         this.getPosition(indexToCheck)?.isHit &&
-    //         this.getPosition(indexToCheck)?.ship === undefined
-    //       ) {
-    //         //go back
-    //         goUp = !goUp;
-    //       } else if (!this.getPosition(indexToCheck)?.isHit) {
-    //         break;
-    //         //go nex
-    //       }
-    //     }
-    //     const position = this.getPosition(indexToCheck)!;
-    //     console.log(this.nextMoves, indexToCheck, this.getAction(position));
-    //     this.beginAttack(indexToCheck);
-    //     if (this.getAction(position) === this.messages.hit) {
-    //       this.nextMoves.moves[0] = indexToCheck;
-    //     } else if (this.getAction(position) === this.messages.miss) {
-    //       // this.nextMoves.add = !this.nextMoves.add;
-    //     } else {
-    //       this.nextMoves.moves = [];
-    //     }
-    //   }
-    // }
     chooseNextTarget() {
         const randomIndex = Math.floor(Math.random() * this.nextMoves.moves.length);
         const positionIndex = this.nextMoves.moves[randomIndex];

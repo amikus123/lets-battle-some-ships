@@ -18,6 +18,7 @@ const humanBoardSetup = new BoardSetup_1.default(human, humanBoard, audioControl
 const textControl = new TextControl_1.default();
 const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl, audioControl);
 human.setAudioControl(audioControl);
+computer.setAudioControl(audioControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
 const resetButton = document.getElementById("reset");
