@@ -8,8 +8,12 @@ const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
 const computerBoard: HTMLElement = document.getElementById("computer--board")!;
 const audioControl = new AudioControl();
-const computerBoardSetup = new BoardSetup(computer, computerBoard,audioControl);
-const humanBoardSetup = new BoardSetup(human, humanBoard,audioControl);
+const computerBoardSetup = new BoardSetup(
+  computer,
+  computerBoard,
+  audioControl
+);
+const humanBoardSetup = new BoardSetup(human, humanBoard, audioControl);
 const textControl = new TextControl();
 const gameFlow = new GameFlow(
   human,
@@ -19,7 +23,7 @@ const gameFlow = new GameFlow(
   audioControl
 );
 human.setAudioControl(audioControl);
-computer.setAudioControl(audioControl)
+computer.setAudioControl(audioControl);
 human.setGameFlow(gameFlow);
 computer.setGameFlow(gameFlow);
 
@@ -32,23 +36,24 @@ const restartButton = document.getElementById("restart")!;
 
 radomButton?.addEventListener("click", () => {
   humanBoardSetup.randomSetup();
-  audioControl.playClickSound()
+  audioControl.playClickSound();
 });
 resetButton?.addEventListener("click", () => {
   humanBoardSetup.reset();
-  audioControl.playClickSound()
-
+  audioControl.playClickSound();
 });
 startButton?.addEventListener("click", () => {
   if (humanBoardSetup.canStart()) {
-  audioControl.playClickSound()
-
+    audioControl.playClickSound();
     gameFlow.beginBattle();
   } else {
-    audioControl.playErrorSound();
+  audioControl.playLoseMusic()
+
+    // audioControl.playErrorSound();
   }
 });
 restartButton.addEventListener("click", () => {
+  audioControl.playClickSound();
   gameFlow.restartGame();
   humanBoardSetup.reset();
   human.resetGameboard();
@@ -56,6 +61,7 @@ restartButton.addEventListener("click", () => {
   computer.resetGameboard();
   computer.randomizeShips();
   computer.updateBoard();
+  audioControl.playDefaultMusic();
 });
 const audioToggle = () => {
   audioControl.toggleMute();

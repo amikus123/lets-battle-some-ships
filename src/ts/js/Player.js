@@ -61,7 +61,7 @@ class Player {
             this.gameFlow.toggleTurn();
             setTimeout(() => {
                 this.enemy.computerMove();
-            }, 1500);
+            }, 1);
         }
         else {
             (_b = this.audioControl) === null || _b === void 0 ? void 0 : _b.playErrorSound();
@@ -100,7 +100,7 @@ class Player {
         console.log("ra", attackedPosition);
         this.updateBoard();
         if (this.hasLost()) {
-            (_a = this.gameFlow) === null || _a === void 0 ? void 0 : _a.endOfBattle(this.isComputer);
+            (_a = this.gameFlow) === null || _a === void 0 ? void 0 : _a.endOfBattle(!this.isComputer);
         }
     }
     playSound(attackedPosition) {

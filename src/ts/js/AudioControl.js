@@ -10,9 +10,10 @@ class AudioControl {
         this.error = "./media/audio/denied.wav";
         this.click = "./media/audio/click1.wav";
         this.miss = "./media/audio/miss.wav";
+        this.lost = "./media/audio/mario2.m4a";
         this.explosion = "./media/audio/explosion.wav";
         this.isMuted = true;
-        this.musicPlayerc.src = this.theme;
+        this.playDefaultMusic();
     }
     playMusic(track) {
         this.musicPlayerc.src = track;
@@ -37,9 +38,16 @@ class AudioControl {
     playSunkSound() {
         this.playSound(this.explosion);
     }
+    playDefaultMusic() {
+        this.playMusic(this.theme);
+    }
     playWinMucis() {
+        console.log("won");
+        this.playMusic(this.happy);
     }
     playLoseMusic() {
+        console.log("lost");
+        this.playMusic(this.lost);
     }
     toggleMute() {
         this.isMuted = !this.isMuted;

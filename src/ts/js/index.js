@@ -41,10 +41,12 @@ startButton === null || startButton === void 0 ? void 0 : startButton.addEventLi
         gameFlow.beginBattle();
     }
     else {
-        audioControl.playErrorSound();
+        audioControl.playLoseMusic();
+        // audioControl.playErrorSound();
     }
 });
 restartButton.addEventListener("click", () => {
+    audioControl.playClickSound();
     gameFlow.restartGame();
     humanBoardSetup.reset();
     human.resetGameboard();
@@ -52,6 +54,7 @@ restartButton.addEventListener("click", () => {
     computer.resetGameboard();
     computer.randomizeShips();
     computer.updateBoard();
+    audioControl.playDefaultMusic();
 });
 const audioToggle = () => {
     audioControl.toggleMute();

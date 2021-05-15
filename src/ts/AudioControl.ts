@@ -9,6 +9,7 @@ class AudioControl {
   click : string;
   miss:string
   explosion: string;
+  lost:string;
   constructor() {
     this.musicPlayerc = document.getElementsByTagName("audio")[0];
     this.soundPlayer = document.getElementsByTagName("audio")[1];
@@ -18,12 +19,14 @@ class AudioControl {
     this.error = "./media/audio/denied.wav";
     this.click = "./media/audio/click1.wav";
     this.miss = "./media/audio/miss.wav"
+    this.lost = "./media/audio/mario2.m4a"
     this.explosion = "./media/audio/explosion.wav"
     this.isMuted = true;
-    this.musicPlayerc.src = this.theme
+    this.playDefaultMusic()
   }
 
   playMusic(track:string):void {
+
     this.musicPlayerc.src = track;
     this.musicPlayerc.play()
 
@@ -49,10 +52,17 @@ class AudioControl {
   playSunkSound(){
     this.playSound(this.explosion)
   }
+  playDefaultMusic(){
+    this.playMusic(this.theme)
+  }
   public playWinMucis(){
-
+    console.log("won")
+    
+    this.playMusic(this.happy)
   }
   public playLoseMusic(){
+    console.log("lost")
+    this.playMusic(this.lost)
 
   }
   toggleMute(){

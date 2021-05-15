@@ -83,7 +83,7 @@ class Player {
       this.gameFlow.toggleTurn();
       setTimeout(() => {
         this.enemy!.computerMove();
-      }, 1500);
+      }, 1);
     } else {
       this.audioControl?.playErrorSound();
     }
@@ -123,7 +123,7 @@ class Player {
 
     this.updateBoard();
     if (this.hasLost()) {
-      this.gameFlow?.endOfBattle(this.isComputer);
+      this.gameFlow?.endOfBattle(!this.isComputer);
     }
   }
 
