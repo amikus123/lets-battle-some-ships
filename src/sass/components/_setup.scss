@@ -83,7 +83,7 @@
   width: 80%;
   flex-direction: column;
   *{
-   margin-bottom: 2rem; 
+   padding-bottom: 2rem; 
   }
   @include tabletScreen{
     flex-direction: row;

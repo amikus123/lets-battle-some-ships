@@ -285,7 +285,7 @@ ul {
   flex-direction: column;
 }
 .options * {
-  margin-bottom: 2rem;
+  padding-bottom: 2rem;
 }
 @media screen and (min-width: 768px) {
   .options {
