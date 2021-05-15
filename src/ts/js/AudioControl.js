@@ -8,6 +8,7 @@ class AudioControl {
         this.shot = "./media/audio/shot.wav";
         this.happy = "./media/audio/happy.wav";
         this.error = "./media/audio/denied.wav";
+        this.click = "./media/audio/click1.wav";
         this.isMuted = true;
         this.musicPlayerc.src = this.theme;
     }
@@ -21,6 +22,9 @@ class AudioControl {
     }
     playErrorSound() {
         this.playSound(this.error);
+    }
+    playClickSound() {
+        this.playSound(this.click);
     }
     playWinMucis() {
     }

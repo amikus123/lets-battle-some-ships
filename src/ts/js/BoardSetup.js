@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class BoardSetup {
-    constructor(player, gameboard) {
+    constructor(player, gameboard, audio) {
         this.player = player;
         this.gameboard = gameboard;
         this.setupPhase = !player.isComputer;
+        this.soundControl = audio;
         if (this.setupPhase) {
             this.shipsDOM = this.setShips();
             this.addDClick();
@@ -29,6 +30,15 @@ class BoardSetup {
             newDiv.setAttribute("index", i.toString());
             newDiv.addEventListener("dragover", beginDrag);
             newDiv.addEventListener("drop", dropShip);
+            newDiv.addEventListener("click", () => {
+                var _a;
+                if (newDiv.classList.contains("ship-afloat") &&
+                    ((_a = document.getElementById("game-div")) === null || _a === void 0 ? void 0 : _a.classList.contains("dev"))) {
+                }
+                else {
+                    this.soundControl.playErrorSound();
+                }
+            });
             this.gameboard.appendChild(newDiv);
         }
     }

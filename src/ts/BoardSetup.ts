@@ -1,15 +1,16 @@
 import Player from "./Player";
-
+import AudioControl from "./AudioControl";
 class BoardSetup {
   shipsDOM: Element[] | null;
   player: Player;
   gameboard: HTMLElement;
   setupPhase: boolean;
-
-  constructor(player: Player, gameboard: HTMLElement) {
+  soundControl: AudioControl;
+  constructor(player: Player, gameboard: HTMLElement, audio: AudioControl) {
     this.player = player;
     this.gameboard = gameboard;
     this.setupPhase = !player.isComputer;
+    this.soundControl = audio;
     if (this.setupPhase) {
       this.shipsDOM = this.setShips();
       this.addDClick();
@@ -33,6 +34,15 @@ class BoardSetup {
       newDiv.setAttribute("index", i.toString());
       newDiv.addEventListener("dragover", beginDrag);
       newDiv.addEventListener("drop", dropShip);
+      newDiv.addEventListener("click", () => {
+        if (
+          newDiv.classList.contains("ship-afloat") &&
+          document.getElementById("game-div")?.classList.contains("dev")
+        ) {
+        } else {
+          this.soundControl.playErrorSound();
+        }
+      });
       this.gameboard.appendChild(newDiv);
     }
   }
@@ -266,9 +276,9 @@ class BoardSetup {
       gameDiv?.appendChild(botBoard);
     } else {
       gameDiv.appendChild(dockyard);
-      gameDiv.parentElement?.appendChild(tips); 
-      gameDiv.parentElement?.append(options)
-    } 
+      gameDiv.parentElement?.appendChild(tips);
+      gameDiv.parentElement?.append(options);
+    }
     // change class or some shit
     // }else{
     //   console.log("cant start")

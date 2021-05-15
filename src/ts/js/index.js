@@ -12,10 +12,10 @@ const human = new Player_1.default(false);
 const computer = new Player_1.default(true);
 const humanBoard = document.getElementById("human--board");
 const computerBoard = document.getElementById("computer--board");
-const computerBoardSetup = new BoardSetup_1.default(computer, computerBoard);
-const humanBoardSetup = new BoardSetup_1.default(human, humanBoard);
-const textControl = new TextControl_1.default();
 const audioControl = new AudioControl_1.default();
+const computerBoardSetup = new BoardSetup_1.default(computer, computerBoard, audioControl);
+const humanBoardSetup = new BoardSetup_1.default(human, humanBoard, audioControl);
+const textControl = new TextControl_1.default();
 const gameFlow = new GameFlow_1.default(human, humanBoardSetup, computer, textControl, audioControl);
 human.setAudioControl(audioControl);
 human.setGameFlow(gameFlow);
@@ -28,12 +28,15 @@ const audioIcon = document.getElementById("audioIcon");
 const restartButton = document.getElementById("restart");
 radomButton === null || radomButton === void 0 ? void 0 : radomButton.addEventListener("click", () => {
     humanBoardSetup.randomSetup();
+    audioControl.playClickSound();
 });
 resetButton === null || resetButton === void 0 ? void 0 : resetButton.addEventListener("click", () => {
     humanBoardSetup.reset();
+    audioControl.playClickSound();
 });
 startButton === null || startButton === void 0 ? void 0 : startButton.addEventListener("click", () => {
     if (humanBoardSetup.canStart()) {
+        audioControl.playClickSound();
         gameFlow.beginBattle();
     }
     else {

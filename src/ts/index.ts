@@ -7,10 +7,10 @@ const human = new Player(false);
 const computer = new Player(true);
 const humanBoard: HTMLElement = document.getElementById("human--board")!;
 const computerBoard: HTMLElement = document.getElementById("computer--board")!;
-const computerBoardSetup = new BoardSetup(computer, computerBoard);
-const humanBoardSetup = new BoardSetup(human, humanBoard);
-const textControl = new TextControl();
 const audioControl = new AudioControl();
+const computerBoardSetup = new BoardSetup(computer, computerBoard,audioControl);
+const humanBoardSetup = new BoardSetup(human, humanBoard,audioControl);
+const textControl = new TextControl();
 const gameFlow = new GameFlow(
   human,
   humanBoardSetup,
@@ -31,12 +31,17 @@ const restartButton = document.getElementById("restart")!;
 
 radomButton?.addEventListener("click", () => {
   humanBoardSetup.randomSetup();
+  audioControl.playClickSound()
 });
 resetButton?.addEventListener("click", () => {
   humanBoardSetup.reset();
+  audioControl.playClickSound()
+
 });
 startButton?.addEventListener("click", () => {
   if (humanBoardSetup.canStart()) {
+  audioControl.playClickSound()
+
     gameFlow.beginBattle();
   } else {
     audioControl.playErrorSound();
