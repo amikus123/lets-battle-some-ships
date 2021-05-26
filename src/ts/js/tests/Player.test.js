@@ -17,14 +17,6 @@ test("cheking manual placement of ships", () => {
     human.tryToPlaceShip(1, 21);
     expect(human.gameboard.ships.length).toBe(1);
 });
-test("checking loss detection", () => {
-    human.tryToPlaceShip(1, 21);
-    computer.beginAttack(1);
-    expect(human.hasLost()).toBe(false);
-    computer.beginAttack(11);
-    computer.beginAttack(21);
-    expect(human.hasLost()).toBe(true);
-});
 test("checking radnom ship setup", () => {
     human.randomizeShips();
     console.log(human.gameboard.ships);
