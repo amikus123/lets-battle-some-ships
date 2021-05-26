@@ -1,4 +1,11 @@
 @use "../abstracts" as *;
+.attr{
+  margin: 2rem auto;
+  a{
+    color:lime;
+  }
+}
+
 .game {
   display: flex;
   flex-direction: column;
