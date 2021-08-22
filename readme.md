@@ -11,7 +11,7 @@
 ## General info
 This project is a game of ships against the AI, with retro aesthetic. Player can toggle sound, drag and drop ships and much more! The game works on mobile, but I suggest playing it using a computer.
 ## Hosting
-This page can be seen live [here](battleships-94025.web.app)
+This page can be seen live [here](https://battleships-94025.web.app)
 	                      
 ## Technologies
 Project is created with:
