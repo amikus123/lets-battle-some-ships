@@ -17,7 +17,7 @@ This project is a game of ships against the AI, with retro aesthetic. Player can
 
 ## Hosting
 
-This page can be seen live [here](https://lets-battle-some-ships.netlify.app/)
+This page can be seen live [here](https://battleships-94025.web.app)
 
 ## Technologies
 
