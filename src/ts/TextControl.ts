@@ -1,5 +1,5 @@
 import AnimatedText from "./AnimatedText";
-import setupTypewriter from "./animateText"
+import setupTypewriter from "./animateText";
 class TextControl {
   animatedSmallModal: AnimatedText;
   animatedGameText: AnimatedText;
@@ -42,7 +42,6 @@ class TextControl {
       );
     }
     if (this.animatedBigModal.displayTarget.previousElementSibling !== null) {
-      console.log(this.animatedBigModal.displayTarget.previousElementSibling)
       this.animatedBigModal.displayTarget.previousElementSibling!.classList.add(
         "hide"
       );
@@ -67,11 +66,10 @@ class TextControl {
   }
   public showGameOverModal(msg: string) {
     this.animatedBigModal.type(msg);
-    setTimeout(()=>{
+    setTimeout(() => {
       this.restartButton.classList.remove("hide");
-      setupTypewriter(this.restartButton,"play again ")
-
-    },1000)
+      setupTypewriter(this.restartButton, "play again ");
+    }, 1000);
   }
 }
 export default TextControl;

@@ -37,7 +37,6 @@ class TextControl {
             this.animatedBigModal.displayTarget.nextElementSibling.classList.add("hide");
         }
         if (this.animatedBigModal.displayTarget.previousElementSibling !== null) {
-            console.log(this.animatedBigModal.displayTarget.previousElementSibling);
             this.animatedBigModal.displayTarget.previousElementSibling.classList.add("hide");
         }
         this.animatedBigModal.typeTemporary(textToDisplay, this.modalSpeed);
@@ -62,7 +61,7 @@ class TextControl {
         this.animatedBigModal.type(msg);
         setTimeout(() => {
             this.restartButton.classList.remove("hide");
-            animateText_1.default(this.restartButton, "play again ");
+            (0, animateText_1.default)(this.restartButton, "play again ");
         }, 1000);
     }
 }

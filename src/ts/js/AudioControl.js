@@ -42,11 +42,9 @@ class AudioControl {
         this.playMusic(this.theme);
     }
     playWinMucis() {
-        console.log("won");
         this.playMusic(this.happy);
     }
     playLoseMusic() {
-        console.log("lost");
         this.playMusic(this.lost);
     }
     toggleMute() {

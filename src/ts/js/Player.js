@@ -82,7 +82,6 @@ class Player {
         }
     }
     hasLost() {
-        console.log(this.gameboard);
         return this.gameboard.areShipsSunk();
     }
     getPositionPossibleToAttack() {
@@ -97,7 +96,6 @@ class Player {
         var _a;
         const attackedPosition = this.getPosition(posistion);
         this.gameboard.recieveAttack(posistion);
-        console.log("ra", attackedPosition);
         this.updateBoard();
         if (this.hasLost()) {
             (_a = this.gameFlow) === null || _a === void 0 ? void 0 : _a.endOfBattle(!this.isComputer);
@@ -106,7 +104,6 @@ class Player {
     playSound(attackedPosition) {
         var _a, _b, _c;
         const action = this.getAction(attackedPosition);
-        console.log(action, "ps");
         switch (action) {
             case this.messages.miss:
                 (_a = this.audioControl) === null || _a === void 0 ? void 0 : _a.playMissSound();
@@ -162,13 +159,11 @@ class Player {
                 this.nextMoves.goUp =
                     Math.abs(this.nextMoves.baseHit - this.nextMoves.moves[0]) >= 10;
                 // this.handleOneDirection();
-                console.log("one directon");
                 this.handleOneDirection2();
             }
         }
         else {
             // we are checking positions in up to 4 direction
-            console.log("four");
             this.chooseNextTarget();
         }
         this.gameFlow.toggleTurn();
@@ -194,9 +189,7 @@ class Player {
         else {
             while (true) {
                 indexToCheck += goUp ? additionNumber : -additionNumber;
-                console.log(indexToCheck);
                 if (this.checkIfOutsideRowOfAxis(indexToCheck)) {
-                    console.log("outisde");
                     goUp = !goUp;
                 }
                 else if (((_c = this.getPosition(indexToCheck)) === null || _c === void 0 ? void 0 : _c.isHit) &&
@@ -214,7 +207,6 @@ class Player {
                 }
             }
             const position = this.getPosition(indexToCheck);
-            console.log(this.nextMoves, indexToCheck, this.getAction(position));
             this.beginAttack(indexToCheck);
             if (this.getAction(position) === this.messages.hit) {
                 this.nextMoves.moves[0] = indexToCheck;
@@ -230,7 +222,6 @@ class Player {
         const randomIndex = Math.floor(Math.random() * this.nextMoves.moves.length);
         const positionIndex = this.nextMoves.moves[randomIndex];
         const position = this.getPosition(positionIndex);
-        console.log(randomIndex, positionIndex, position, this.nextMoves, "XDDD");
         this.beginAttack(positionIndex);
         if (this.getAction(position) === this.messages.hit) {
             //determining direction
@@ -276,21 +267,18 @@ class Player {
         if (this.getAction(postion) === this.messages.hit) {
             let indexesToCheck = this.getAdjecentToPosition(positionIndex);
             this.nextMoves.baseHit = positionIndex;
-            console.log(indexesToCheck, "to check");
             indexesToCheck = indexesToCheck.filter((item) => {
                 var _a;
                 if (!((_a = this.getPosition(item)) === null || _a === void 0 ? void 0 : _a.isHit)) {
                     return item;
                 }
             });
-            console.log(indexesToCheck, "after");
             indexesToCheck.forEach((item) => {
                 var _a;
                 if (!((_a = this.getPosition(item)) === null || _a === void 0 ? void 0 : _a.isHit)) {
                     this.nextMoves.moves.push(item);
                 }
             });
-            console.log(indexesToCheck, "end");
         }
     }
 }

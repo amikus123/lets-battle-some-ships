@@ -34,18 +34,18 @@ class BoardSetup {
       newDiv.setAttribute("index", i.toString());
       newDiv.addEventListener("dragover", beginDrag);
       newDiv.addEventListener("drop", dropShip);
-      if(!this.player.isComputer){
+      if (!this.player.isComputer) {
         newDiv.addEventListener("click", () => {
           if (
             newDiv.classList.contains("ship-afloat") &&
             document.getElementById("game-div")?.classList.contains("dev")
-            ) {
-            } else {
-              console.log("click")
-              this.soundControl.playErrorSound();
-            }
-          });
-        }
+          ) {
+          } else {
+            console.log("click");
+            this.soundControl.playErrorSound();
+          }
+        });
+      }
       this.gameboard.appendChild(newDiv);
     }
   }
@@ -115,7 +115,6 @@ class BoardSetup {
             } else {
               this.player.tryToPlaceShip(start, end);
               previousParent?.append(shipDom);
-              console.log(this);
             }
           }
         }
@@ -216,7 +215,7 @@ class BoardSetup {
     const restOfData = id.substring(1);
     if (
       firstLetter === "S" &&
-      Number(restOfData) !== NaN &&
+      !Number.isNaN(Number(restOfData)) &&
       restOfData !== ""
     ) {
       return true;
@@ -256,7 +255,6 @@ class BoardSetup {
     const helperText = document.getElementById("helperText")!;
     const options = document.getElementById("options")!;
     const gameDiv = document.getElementById("game-div")!;
-    // if(this.canStart()){
 
     humanBoard?.classList.toggle("setup-board");
     humanBoard?.classList.toggle("game-board");
@@ -282,10 +280,6 @@ class BoardSetup {
       gameDiv.parentElement?.appendChild(tips);
       gameDiv.parentElement?.append(options);
     }
-    // change class or some shit
-    // }else{
-    //   console.log("cant start")
-    // }
   }
 }
 export default BoardSetup;

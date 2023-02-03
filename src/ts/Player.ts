@@ -107,7 +107,6 @@ class Player {
   }
 
   public hasLost(): boolean {
-    console.log(this.gameboard);
     return this.gameboard.areShipsSunk();
   }
   public getPositionPossibleToAttack() {
@@ -119,7 +118,6 @@ class Player {
   private recieveAttack(posistion: number): void {
     const attackedPosition: boardPosition = this.getPosition(posistion)!;
     this.gameboard.recieveAttack(posistion);
-    console.log("ra",attackedPosition)
 
     this.updateBoard();
     if (this.hasLost()) {
@@ -129,7 +127,6 @@ class Player {
 
   private playSound(attackedPosition: boardPosition) {
     const action = this.getAction(attackedPosition);
-    console.log(action, "ps")
     switch (action) {
       case this.messages.miss:
         this.audioControl?.playMissSound();
@@ -180,13 +177,10 @@ class Player {
         this.nextMoves.goUp =
           Math.abs(this.nextMoves.baseHit - this.nextMoves.moves[0]) >= 10;
         // this.handleOneDirection();
-        console.log("one directon");
         this.handleOneDirection2();
       }
     } else {
       // we are checking positions in up to 4 direction
-      console.log("four");
-
       this.chooseNextTarget();
     }
 
@@ -214,9 +208,7 @@ class Player {
     } else {
       while (true) {
         indexToCheck += goUp ? additionNumber : -additionNumber;
-        console.log(indexToCheck);
         if (this.checkIfOutsideRowOfAxis(indexToCheck)) {
-          console.log("outisde");
           goUp = !goUp;
         } else if (
           this.getPosition(indexToCheck)?.isHit &&
@@ -235,7 +227,6 @@ class Player {
         }
       }
       const position = this.getPosition(indexToCheck)!;
-      console.log(this.nextMoves, indexToCheck, this.getAction(position));
       this.beginAttack(indexToCheck);
       if (this.getAction(position) === this.messages.hit) {
         this.nextMoves.moves[0] = indexToCheck;
@@ -245,11 +236,10 @@ class Player {
       }
     }
   }
-   private chooseNextTarget() {
+  private chooseNextTarget() {
     const randomIndex = Math.floor(Math.random() * this.nextMoves.moves.length);
     const positionIndex = this.nextMoves.moves[randomIndex];
     const position = this.getPosition(positionIndex)!;
-    console.log(randomIndex, positionIndex, position, this.nextMoves, "XDDD");
     this.beginAttack(positionIndex);
     if (this.getAction(position) === this.messages.hit) {
       //determining direction
@@ -295,19 +285,16 @@ class Player {
     if (this.getAction(postion) === this.messages.hit) {
       let indexesToCheck = this.getAdjecentToPosition(positionIndex);
       this.nextMoves.baseHit = positionIndex;
-      console.log(indexesToCheck, "to check");
       indexesToCheck = indexesToCheck.filter((item) => {
         if (!this.getPosition(item)?.isHit) {
           return item;
         }
       });
-      console.log(indexesToCheck, "after");
       indexesToCheck.forEach((item) => {
         if (!this.getPosition(item)?.isHit) {
           this.nextMoves.moves.push(item);
         }
       });
-      console.log(indexesToCheck, "end");
     }
   }
 }

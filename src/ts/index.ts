@@ -47,7 +47,7 @@ startButton?.addEventListener("click", () => {
     audioControl.playClickSound();
     gameFlow.beginBattle();
   } else {
-  audioControl.playLoseMusic()
+    audioControl.playLoseMusic();
 
     // audioControl.playErrorSound();
   }

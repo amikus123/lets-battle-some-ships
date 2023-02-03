@@ -107,7 +107,6 @@ class BoardSetup {
                         else {
                             this.player.tryToPlaceShip(start, end);
                             previousParent === null || previousParent === void 0 ? void 0 : previousParent.append(shipDom);
-                            console.log(this);
                         }
                     }
                 }
@@ -203,7 +202,7 @@ class BoardSetup {
         const firstLetter = id.slice(0, 1);
         const restOfData = id.substring(1);
         if (firstLetter === "S" &&
-            Number(restOfData) !== NaN &&
+            !Number.isNaN(Number(restOfData)) &&
             restOfData !== "") {
             return true;
         }
@@ -245,7 +244,6 @@ class BoardSetup {
         const helperText = document.getElementById("helperText");
         const options = document.getElementById("options");
         const gameDiv = document.getElementById("game-div");
-        // if(this.canStart()){
         humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("setup-board");
         humanBoard === null || humanBoard === void 0 ? void 0 : humanBoard.classList.toggle("game-board");
         botBoard.classList.toggle("hide");
@@ -270,10 +268,6 @@ class BoardSetup {
             (_b = gameDiv.parentElement) === null || _b === void 0 ? void 0 : _b.appendChild(tips);
             (_c = gameDiv.parentElement) === null || _c === void 0 ? void 0 : _c.append(options);
         }
-        // change class or some shit
-        // }else{
-        //   console.log("cant start")
-        // }
     }
 }
 exports.default = BoardSetup;

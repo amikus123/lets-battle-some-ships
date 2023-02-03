@@ -20,7 +20,7 @@ html {
 body {
   line-height: 1.7;
   font-family: joystix;
-  background: #191919;
+  background: rgb(25, 25, 25);
   color: lime;
   position: relative;
 }
@@ -37,7 +37,7 @@ ul {
   width: 100vw;
   bottom: 0;
   right: 0;
-  background-color: #191919;
+  background-color: rgb(25, 25, 25);
   z-index: 10;
 }
 .modal-big pre {
@@ -162,7 +162,7 @@ ul {
   background-color: red;
 }
 #human--board .empty {
-  background-color: #191919;
+  background-color: rgb(25, 25, 25);
 }
 #human--board .ship-part {
   outline: 1px solid white;
@@ -179,7 +179,7 @@ ul {
 }
 #computer--board .empty, #computer--board .ship-afloat {
   cursor: crosshair;
-  background-color: #191919;
+  background-color: rgb(25, 25, 25);
 }
 
 .ship {
@@ -302,6 +302,7 @@ ul {
   width: auto;
   margin: 0 auto;
   outline: none;
+  min-width: 146.66px;
 }
 .setup-option:hover {
   cursor: pointer;

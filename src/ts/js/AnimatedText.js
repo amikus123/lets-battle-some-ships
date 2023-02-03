@@ -28,7 +28,7 @@ class AnimatedText {
         if (this.modal) {
             (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.remove("hide");
         }
-        animateText_1.default(this.displayTarget, text);
+        (0, animateText_1.default)(this.displayTarget, text);
         setTimeout(() => {
             var _a, _b;
             (_a = this.displayTarget) === null || _a === void 0 ? void 0 : _a.classList.add("hide");
@@ -45,7 +45,7 @@ class AnimatedText {
         if (this.modal) {
             (_b = this.modal) === null || _b === void 0 ? void 0 : _b.classList.remove("hide");
         }
-        animateText_1.default(this.displayTarget, text);
+        (0, animateText_1.default)(this.displayTarget, text);
     }
     hide() {
         var _a;
@@ -60,7 +60,6 @@ class AnimatedText {
         const newElement = document.createElement(elementToReplace.tagName.toLowerCase());
         newElement.id = elementToReplace.id;
         const classArray = elementToReplace.classList.value.split(" ");
-        console.log(classArray);
         if (classArray[0] !== "") {
             classArray.forEach((item) => {
                 newElement.classList.add(item);

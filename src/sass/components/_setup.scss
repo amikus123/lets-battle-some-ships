@@ -1,4 +1,4 @@
-@use  "../abstracts" as *;
+@use "../abstracts" as *;
 
 .game-wrap {
   position: relative;
@@ -11,15 +11,14 @@
     margin: 2rem;
   }
 
-  .dev{
+  .dev {
     display: flex;
     justify-content: space-around;
     flex-direction: column;
     align-items: center;
     margin-right: 1rem;
-    @include tabletScreen{
-    flex-direction: row;
-      
+    @include tabletScreen {
+      flex-direction: row;
     }
     .dockyard {
       box-sizing: border-box;
@@ -43,8 +42,6 @@
           padding-right: 1rem;
         }
       }
-
-      
     }
   }
 
@@ -59,22 +56,20 @@
     max-width: 500px;
     margin: 2rem auto 3rem;
     width: fit-content;
-    @include tabletScreen{
-      margin: 5rem auto;        
-      }
+    @include tabletScreen {
+      margin: 5rem auto;
+    }
     // overflow: hidden;
     .tip {
       margin: 0 0 1rem 2rem;
       font-size: 1.5rem;
     }
-    #helperText{
-      
+    #helperText {
     }
-    @include laptopScreen{
+    @include laptopScreen {
       align-items: flex-start;
     }
   }
-
 }
 .options {
   display: flex;
@@ -82,13 +77,12 @@
   margin: 0 auto;
   width: 80%;
   flex-direction: column;
-  *{
-   padding-bottom: 2rem; 
+  * {
+    padding-bottom: 2rem;
   }
-  @include tabletScreen{
+  @include tabletScreen {
     flex-direction: row;
-      
-    }
+  }
 }
 .setup-option {
   background-color: inherit;
@@ -97,14 +91,14 @@
   font-size: 1.8rem;
   transition: all 0.2s ease-in;
   width: auto;
-  margin:0 auto;
+  margin: 0 auto;
   outline: none;
+  min-width: 146.66px;
   &:hover {
     cursor: pointer;
     // color: rgb(255, 255, 0);
   }
- 
 }
-.muted{
-  color: #f83b3a !important;;
+.muted {
+  color: #f83b3a !important;
 }

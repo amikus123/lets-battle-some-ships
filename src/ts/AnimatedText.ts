@@ -60,7 +60,6 @@ export default class AnimatedText {
     );
     newElement.id = elementToReplace.id;
     const classArray = elementToReplace.classList.value.split(" ");
-    console.log(classArray);
     if (classArray[0] !== "") {
       classArray.forEach((item) => {
         newElement.classList.add(item);
